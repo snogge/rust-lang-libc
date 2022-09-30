@@ -1722,14 +1722,18 @@ extern "C" {
         link_name = "statfs64"
     )]
     pub fn statfs(path: *const ::c_char, buf: *mut statfs) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn statfs64(path: *const ::c_char, buf: *mut statfs64) -> ::c_int;
     #[cfg_attr(
         all(target_env = "gnu", target_pointer_width = "32"),
         link_name = "fstatfs64"
     )]
     pub fn fstatfs(fd: ::c_int, buf: *mut statfs) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn fstatfs64(fd: ::c_int, buf: *mut statfs64) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn statvfs64(path: *const ::c_char, buf: *mut statvfs64) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn fstatvfs64(fd: ::c_int, buf: *mut statvfs64) -> ::c_int;
     pub fn memrchr(cx: *const ::c_void, c: ::c_int, n: ::size_t) -> *mut ::c_void;
 
@@ -1771,6 +1775,7 @@ extern "C" {
     pub fn freelocale(loc: ::locale_t);
     pub fn newlocale(mask: ::c_int, locale: *const ::c_char, base: ::locale_t) -> ::locale_t;
     pub fn uselocale(loc: ::locale_t) -> ::locale_t;
+    #[cfg(not(target_env = "musl"))]
     pub fn creat64(path: *const c_char, mode: mode_t) -> ::c_int;
     #[cfg_attr(
         all(
@@ -1780,6 +1785,7 @@ extern "C" {
         ),
         link_name = "__fstat64_time64"
     )]
+    #[cfg(not(target_env = "musl"))]
     pub fn fstat64(fildes: ::c_int, buf: *mut stat64) -> ::c_int;
     #[cfg_attr(
         all(
@@ -1789,13 +1795,16 @@ extern "C" {
         ),
         link_name = "__fstatat64_time64"
     )]
+    #[cfg(not(target_env = "musl"))]
     pub fn fstatat64(
         dirfd: ::c_int,
         pathname: *const c_char,
         buf: *mut stat64,
         flags: ::c_int,
     ) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn ftruncate64(fd: ::c_int, length: off64_t) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn lseek64(fd: ::c_int, offset: off64_t, whence: ::c_int) -> off64_t;
     #[cfg_attr(
         all(
@@ -1805,6 +1814,7 @@ extern "C" {
         ),
         link_name = "__lstat64_time64"
     )]
+    #[cfg(not(target_env = "musl"))]
     pub fn lstat64(path: *const c_char, buf: *mut stat64) -> ::c_int;
     pub fn mmap64(
         addr: *mut ::c_void,
@@ -1814,16 +1824,22 @@ extern "C" {
         fd: ::c_int,
         offset: off64_t,
     ) -> *mut ::c_void;
+    #[cfg(not(target_env = "musl"))]
     pub fn open64(path: *const c_char, oflag: ::c_int, ...) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn openat64(fd: ::c_int, path: *const c_char, oflag: ::c_int, ...) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn pread64(fd: ::c_int, buf: *mut ::c_void, count: ::size_t, offset: off64_t) -> ::ssize_t;
+    #[cfg(not(target_env = "musl"))]
     pub fn pwrite64(
         fd: ::c_int,
         buf: *const ::c_void,
         count: ::size_t,
         offset: off64_t,
     ) -> ::ssize_t;
+    #[cfg(not(target_env = "musl"))]
     pub fn readdir64(dirp: *mut ::DIR) -> *mut ::dirent64;
+    #[cfg(not(target_env = "musl"))]
     pub fn readdir64_r(
         dirp: *mut ::DIR,
         entry: *mut ::dirent64,
@@ -1837,7 +1853,9 @@ extern "C" {
         ),
         link_name = "__stat64_time64"
     )]
+    #[cfg(not(target_env = "musl"))]
     pub fn stat64(path: *const c_char, buf: *mut stat64) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn truncate64(path: *const c_char, length: off64_t) -> ::c_int;
 
     pub fn mknodat(

@@ -4384,16 +4384,23 @@ extern "C" {
     pub fn mprotect(addr: *mut ::c_void, len: ::size_t, prot: ::c_int) -> ::c_int;
     pub fn __errno_location() -> *mut ::c_int;
 
+    #[cfg(not(target_env = "musl"))]
     pub fn fopen64(filename: *const c_char, mode: *const c_char) -> *mut ::FILE;
+    #[cfg(not(target_env = "musl"))]
     pub fn freopen64(
         filename: *const c_char,
         mode: *const c_char,
         file: *mut ::FILE,
     ) -> *mut ::FILE;
+    #[cfg(not(target_env = "musl"))]
     pub fn tmpfile64() -> *mut ::FILE;
+    #[cfg(not(target_env = "musl"))]
     pub fn fgetpos64(stream: *mut ::FILE, ptr: *mut fpos64_t) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn fsetpos64(stream: *mut ::FILE, ptr: *const fpos64_t) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn fseeko64(stream: *mut ::FILE, offset: ::off64_t, whence: ::c_int) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn ftello64(stream: *mut ::FILE) -> ::off64_t;
     #[cfg_attr(
         all(
@@ -4404,6 +4411,7 @@ extern "C" {
         link_name = "fallocate64"
     )]
     pub fn fallocate(fd: ::c_int, mode: ::c_int, offset: ::off_t, len: ::off_t) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn fallocate64(fd: ::c_int, mode: ::c_int, offset: ::off64_t, len: ::off64_t) -> ::c_int;
     #[cfg_attr(
         all(
@@ -4414,6 +4422,7 @@ extern "C" {
         link_name = "posix_fallocate64"
     )]
     pub fn posix_fallocate(fd: ::c_int, offset: ::off_t, len: ::off_t) -> ::c_int;
+    #[cfg(not(target_env = "musl"))]
     pub fn posix_fallocate64(fd: ::c_int, offset: ::off64_t, len: ::off64_t) -> ::c_int;
     pub fn readahead(fd: ::c_int, offset: ::off64_t, count: ::size_t) -> ::ssize_t;
     pub fn getxattr(
@@ -4831,6 +4840,7 @@ extern "C" {
         offset: *mut off_t,
         count: ::size_t,
     ) -> ::ssize_t;
+    #[cfg(not(target_env = "musl"))]
     pub fn sendfile64(
         out_fd: ::c_int,
         in_fd: ::c_int,
