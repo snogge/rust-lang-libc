@@ -3340,9 +3340,16 @@ fn test_linux(target: &str) {
             "Ioctl" if gnu => "unsigned long".to_string(),
             "Ioctl" => "int".to_string(),
 
-            // In MUSL `flock64` is a typedef to `flock`.
+            t if is_union => format!("union {}", t),
+
+            t if t.ends_with("_t") => t.to_string(),
+
+            // In MUSL `xxx64` is a typedef to `xxx`.
             "flock64" if musl => format!("struct {}", ty),
-            // In some gnu targets `stat64` is a typedef to `stat`
+            "dirent64" if musl => format!("struct {}", ty),
+            "rlimit64" if musl => format!("struct {}", ty),
+            "fpos64_t" if musl => format!("struct {}", ty),
+            // In some gnu targets `statX64` is a typedef to `statX`
             "stat64" | "statfs64" | "statvfs64" if gnu => format!("struct {}", ty),
 
             // typedefs don't need any keywords
