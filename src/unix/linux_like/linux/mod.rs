@@ -4075,17 +4075,45 @@ safe_f! {
 cfg_if! {
     if #[cfg(all(not(target_env = "uclibc"), not(target_env = "ohos")))] {
         extern "C" {
+            #[cfg_attr(
+                all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+                link_name = "aio_read64"
+            )]
             pub fn aio_read(aiocbp: *mut aiocb) -> ::c_int;
+            #[cfg_attr(
+                all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+                link_name = "aio_write64"
+            )]
             pub fn aio_write(aiocbp: *mut aiocb) -> ::c_int;
             pub fn aio_fsync(op: ::c_int, aiocbp: *mut aiocb) -> ::c_int;
+            #[cfg_attr(
+                all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+                link_name = "aio_error64"
+            )]
             pub fn aio_error(aiocbp: *const aiocb) -> ::c_int;
+            #[cfg_attr(
+                all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+                link_name = "aio_return64"
+            )]
             pub fn aio_return(aiocbp: *mut aiocb) -> ::ssize_t;
+            #[cfg_attr(
+                all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+                link_name = "__aio_suspend_time64"
+            )]
             pub fn aio_suspend(
                 aiocb_list: *const *const aiocb,
                 nitems: ::c_int,
                 timeout: *const ::timespec,
             ) -> ::c_int;
+            #[cfg_attr(
+                all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+                link_name = "aio_cancel64"
+            )]
             pub fn aio_cancel(fd: ::c_int, aiocbp: *mut aiocb) -> ::c_int;
+            #[cfg_attr(
+                all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+                link_name = "lio_listio64"
+            )]
             pub fn lio_listio(
                 mode: ::c_int,
                 aiocb_list: *const *mut aiocb,
@@ -4099,12 +4127,20 @@ cfg_if! {
 cfg_if! {
     if #[cfg(not(target_env = "uclibc"))] {
         extern "C" {
+            #[cfg_attr(
+                all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+                link_name = "pwritev64"
+            )]
             pub fn pwritev(
                 fd: ::c_int,
                 iov: *const ::iovec,
                 iovcnt: ::c_int,
                 offset: ::off_t,
             ) -> ::ssize_t;
+            #[cfg_attr(
+                all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+                link_name = "preadv64"
+            )]
             pub fn preadv(
                 fd: ::c_int,
                 iov: *const ::iovec,
@@ -4140,6 +4176,10 @@ cfg_if! {
                 riovcnt: ::c_ulong,
                 flags: ::c_ulong,
             ) -> isize;
+            #[cfg_attr(
+                all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+                link_name = "__futimes64"
+            )]
             pub fn futimes(
                 fd: ::c_int,
                 times: *const ::timeval
@@ -4175,6 +4215,10 @@ cfg_if! {
                 msg_len: ::size_t,
                 msg_prio: *mut ::c_uint,
             ) -> ::ssize_t;
+            #[cfg_attr(
+                all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+                link_name = "__mq_timedreceive_time64"
+            )]
             pub fn mq_timedreceive(
                 mqd: ::mqd_t,
                 msg_ptr: *mut ::c_char,
@@ -4188,6 +4232,10 @@ cfg_if! {
                 msg_len: ::size_t,
                 msg_prio: ::c_uint,
             ) -> ::c_int;
+            #[cfg_attr(
+                all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+                link_name = "__mq_timedsend_time64"
+            )]
             pub fn mq_timedsend(
                 mqd: ::mqd_t,
                 msg_ptr: *const ::c_char,
@@ -4238,6 +4286,14 @@ extern "C" {
     pub fn seed48(xseed: *mut ::c_ushort) -> *mut ::c_ushort;
     pub fn lcong48(p: *mut ::c_ushort);
 
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__lutimes64"
+    )]
     pub fn lutimes(file: *const ::c_char, times: *const ::timeval) -> ::c_int;
 
     pub fn setpwent();
@@ -4256,11 +4312,35 @@ extern "C" {
     pub fn shmget(key: ::key_t, size: ::size_t, shmflg: ::c_int) -> ::c_int;
     pub fn shmat(shmid: ::c_int, shmaddr: *const ::c_void, shmflg: ::c_int) -> *mut ::c_void;
     pub fn shmdt(shmaddr: *const ::c_void) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__shmctl64"
+    )]
     pub fn shmctl(shmid: ::c_int, cmd: ::c_int, buf: *mut ::shmid_ds) -> ::c_int;
     pub fn ftok(pathname: *const ::c_char, proj_id: ::c_int) -> ::key_t;
     pub fn semget(key: ::key_t, nsems: ::c_int, semflag: ::c_int) -> ::c_int;
     pub fn semop(semid: ::c_int, sops: *mut ::sembuf, nsops: ::size_t) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__semctl64"
+    )]
     pub fn semctl(semid: ::c_int, semnum: ::c_int, cmd: ::c_int, ...) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__msgctl64"
+    )]
     pub fn msgctl(msqid: ::c_int, cmd: ::c_int, buf: *mut msqid_ds) -> ::c_int;
     pub fn msgget(key: ::key_t, msgflg: ::c_int) -> ::c_int;
     pub fn msgrcv(
@@ -4291,8 +4371,24 @@ extern "C" {
     pub fn fsetpos64(stream: *mut ::FILE, ptr: *const fpos64_t) -> ::c_int;
     pub fn fseeko64(stream: *mut ::FILE, offset: ::off64_t, whence: ::c_int) -> ::c_int;
     pub fn ftello64(stream: *mut ::FILE) -> ::off64_t;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "fallocate64"
+    )]
     pub fn fallocate(fd: ::c_int, mode: ::c_int, offset: ::off_t, len: ::off_t) -> ::c_int;
     pub fn fallocate64(fd: ::c_int, mode: ::c_int, offset: ::off64_t, len: ::off64_t) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "posix_fallocate64"
+    )]
     pub fn posix_fallocate(fd: ::c_int, offset: ::off_t, len: ::off_t) -> ::c_int;
     pub fn posix_fallocate64(fd: ::c_int, offset: ::off64_t, len: ::off64_t) -> ::c_int;
     pub fn readahead(fd: ::c_int, offset: ::off64_t, count: ::size_t) -> ::ssize_t;
@@ -4343,7 +4439,23 @@ extern "C" {
     pub fn fremovexattr(filedes: ::c_int, name: *const c_char) -> ::c_int;
     pub fn signalfd(fd: ::c_int, mask: *const ::sigset_t, flags: ::c_int) -> ::c_int;
     pub fn timerfd_create(clockid: ::clockid_t, flags: ::c_int) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__timerfd_gettime64"
+    )]
     pub fn timerfd_gettime(fd: ::c_int, curr_value: *mut itimerspec) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__timerfd_settime64"
+    )]
     pub fn timerfd_settime(
         fd: ::c_int,
         flags: ::c_int,
@@ -4364,8 +4476,24 @@ extern "C" {
         sigmask: *const ::sigset_t,
     ) -> ::c_int;
     pub fn dup3(oldfd: ::c_int, newfd: ::c_int, flags: ::c_int) -> ::c_int;
+    #[cfg_attr(
+        all(target_os = "linux", target_env = "gnu", target_pointer_width = "32"),
+        link_name = "mkostemp64"
+    )]
     pub fn mkostemp(template: *mut ::c_char, flags: ::c_int) -> ::c_int;
+    #[cfg_attr(
+        all(target_os = "linux", target_env = "gnu", target_pointer_width = "32"),
+        link_name = "mkostemps64"
+    )]
     pub fn mkostemps(template: *mut ::c_char, suffixlen: ::c_int, flags: ::c_int) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__sigtimedwait64"
+    )]
     pub fn sigtimedwait(
         set: *const sigset_t,
         info: *mut siginfo_t,
@@ -4412,12 +4540,28 @@ extern "C" {
         ...
     ) -> *mut ::c_void;
 
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__glob64_time64"
+    )]
     pub fn glob(
         pattern: *const c_char,
         flags: ::c_int,
         errfunc: ::Option<extern "C" fn(epath: *const c_char, errno: ::c_int) -> ::c_int>,
         pglob: *mut ::glob_t,
     ) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__globfree64_time64"
+    )]
     pub fn globfree(pglob: *mut ::glob_t);
 
     pub fn posix_madvise(addr: *mut ::c_void, len: ::size_t, advice: ::c_int) -> ::c_int;
@@ -4443,6 +4587,10 @@ extern "C" {
         addr: *mut ::sockaddr,
         addrlen: *mut ::socklen_t,
     ) -> ::ssize_t;
+    #[cfg_attr(
+        all(target_env = "gnu", target_pointer_width = "32"),
+        link_name = "mkstemps64"
+    )]
     pub fn mkstemps(template: *mut ::c_char, suffixlen: ::c_int) -> ::c_int;
 
     pub fn nl_langinfo(item: ::nl_item) -> *mut ::c_char;
@@ -4479,6 +4627,14 @@ extern "C" {
     pub fn umount(target: *const ::c_char) -> ::c_int;
     pub fn sched_get_priority_max(policy: ::c_int) -> ::c_int;
     pub fn tee(fd_in: ::c_int, fd_out: ::c_int, len: ::size_t, flags: ::c_uint) -> ::ssize_t;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__settimeofday64"
+    )]
     pub fn settimeofday(tv: *const ::timeval, tz: *const ::timezone) -> ::c_int;
     pub fn splice(
         fd_in: ::c_int,
@@ -4489,7 +4645,23 @@ extern "C" {
         flags: ::c_uint,
     ) -> ::ssize_t;
     pub fn eventfd(init: ::c_uint, flags: ::c_int) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__sched_rr_get_interval64"
+    )]
     pub fn sched_rr_get_interval(pid: ::pid_t, tp: *mut ::timespec) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__sem_timedwait64"
+    )]
     pub fn sem_timedwait(sem: *mut sem_t, abstime: *const ::timespec) -> ::c_int;
     pub fn sem_getvalue(sem: *mut sem_t, sval: *mut ::c_int) -> ::c_int;
     pub fn sched_setparam(pid: ::pid_t, param: *const ::sched_param) -> ::c_int;
@@ -4509,8 +4681,24 @@ extern "C" {
         data: *const ::c_void,
     ) -> ::c_int;
     pub fn personality(persona: ::c_ulong) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__prctl_time64"
+    )]
     pub fn prctl(option: ::c_int, ...) -> ::c_int;
     pub fn sched_getparam(pid: ::pid_t, param: *mut ::sched_param) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__ppoll64"
+    )]
     pub fn ppoll(
         fds: *mut ::pollfd,
         nfds: nfds_t,
@@ -4526,6 +4714,14 @@ extern "C" {
         protocol: ::c_int,
     ) -> ::c_int;
 
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__pthread_mutex_timedlock64"
+    )]
     pub fn pthread_mutex_timedlock(
         lock: *mut pthread_mutex_t,
         abstime: *const ::timespec,
@@ -4560,6 +4756,14 @@ extern "C" {
         ...
     ) -> ::c_int;
     pub fn sched_getscheduler(pid: ::pid_t) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__clock_nanosleep_time64"
+    )]
     pub fn clock_nanosleep(
         clk_id: ::clockid_t,
         flags: ::c_int,
@@ -4589,6 +4793,14 @@ extern "C" {
         policy: ::c_int,
         param: *const ::sched_param,
     ) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "sendfile64"
+    )]
     pub fn sendfile(
         out_fd: ::c_int,
         in_fd: ::c_int,
@@ -4813,7 +5025,23 @@ extern "C" {
     ) -> ::c_int;
     pub fn timer_delete(timerid: ::timer_t) -> ::c_int;
     pub fn timer_getoverrun(timerid: ::timer_t) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__timer_gettime64"
+    )]
     pub fn timer_gettime(timerid: ::timer_t, curr_value: *mut ::itimerspec) -> ::c_int;
+    #[cfg_attr(
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
+        link_name = "__timer_settime64"
+    )]
     pub fn timer_settime(
         timerid: ::timer_t,
         flags: ::c_int,
