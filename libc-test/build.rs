@@ -3431,6 +3431,7 @@ fn config_gnu_time64(target: &str, cfg: &mut ctest::TestGenerator) {
                     cfg.define("_TIME_BITS", Some("64"));
                     cfg.define("_FILE_OFFSET_BITS", Some("64"));
                     cfg.cfg("gnu_time64_abi", None);
+                    cfg.cfg("linux_time_bits64", None);
                 } else if time_bits != "32" {
                     panic!("Unsupported RUST_LIBC_TIME_BITS value {}", time_bits)
                 }
@@ -3439,6 +3440,7 @@ fn config_gnu_time64(target: &str, cfg: &mut ctest::TestGenerator) {
                 cfg.define("_TIME_BITS", Some("64"));
                 cfg.define("_FILE_OFFSET_BITS", Some("64"));
                 cfg.cfg("gnu_time64_abi", None);
+                cfg.cfg("linux_time_bits64", None);
             }
         }
     }
@@ -3991,7 +3993,7 @@ fn test_linux(target: &str) {
             }
             // FIXME: Requires >= 5.4 kernel headers
             if name == "PTP_CLOCK_GETCAPS2"
-                || name == "PTP_ENABLE_PPS2" 
+                || name == "PTP_ENABLE_PPS2"
                 || name == "PTP_EXTTS_REQUEST2"
                 || name == "PTP_PEROUT_REQUEST2"
                 || name == "PTP_PIN_GETFUNC2"
