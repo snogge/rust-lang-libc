@@ -97,6 +97,11 @@ pub const __SIZEOF_PTHREAD_RWLOCKATTR_T: usize = 8;
 
 pub const O_LARGEFILE: ::c_int = 0;
 
+extern "C" {
+    #[link_name = "ntp_gettimex"]
+    pub fn ntp_gettime(buf: *mut ntptimeval) -> ::c_int;
+}
+
 cfg_if! {
     if #[cfg(target_arch = "aarch64")] {
         mod aarch64;
