@@ -5816,14 +5816,7 @@ extern "C" {
         ...
     ) -> ::c_int;
     pub fn sched_getscheduler(pid: ::pid_t) -> ::c_int;
-    #[cfg_attr(
-        all(
-            target_env = "gnu",
-            target_pointer_width = "32",
-            not(target_arch = "x86_64")
-        ),
-        link_name = "__clock_nanosleep_time64"
-    )]
+    #[cfg_attr(gnu_time64_abi, link_name = "__clock_nanosleep_time64")]
     pub fn clock_nanosleep(
         clk_id: ::clockid_t,
         flags: ::c_int,

@@ -16,6 +16,7 @@ pub type __fsword_t = i32;
 pub type fsblkcnt64_t = u64;
 pub type fsfilcnt64_t = u64;
 pub type __syscall_ulong_t = ::c_ulong;
+pub type __syscall_slong_t = ::c_long;
 
 cfg_if! {
     if #[cfg(target_arch = "riscv32")] {
@@ -179,6 +180,92 @@ s! {
         __reserved2: ::__syscall_ulong_t,
         __glibc_reserved3: ::__syscall_ulong_t,
         __glibc_reserved4: ::__syscall_ulong_t,
+    }
+
+    pub struct timex {
+        pub modes: ::c_uint,
+
+        #[cfg(not(gnu_time64_abi))]
+        pub offset: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub __unused_pad1: i32,
+        #[cfg(gnu_time64_abi)]
+        pub offset: ::c_longlong,
+        #[cfg(not(gnu_time64_abi))]
+        pub freq: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub freq: ::c_longlong,
+        #[cfg(not(gnu_time64_abi))]
+        pub maxerror: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub maxerror: ::c_longlong,
+        #[cfg(not(gnu_time64_abi))]
+        pub esterror: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub esterror: ::c_longlong,
+        pub status: ::c_int,
+        #[cfg(not(gnu_time64_abi))]
+        pub constant: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub __unused_pad2: i32,
+        #[cfg(gnu_time64_abi)]
+        pub constant: ::c_longlong,
+        #[cfg(not(gnu_time64_abi))]
+        pub precision: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub precision: ::c_longlong,
+        #[cfg(not(gnu_time64_abi))]
+        pub tolerance: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub tolerance: ::c_longlong,
+        pub time: ::timeval,
+        #[cfg(not(gnu_time64_abi))]
+        pub tick: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub tick: ::c_longlong,
+        #[cfg(not(gnu_time64_abi))]
+        pub ppsfreq: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub ppsfreq: ::c_longlong,
+        #[cfg(not(gnu_time64_abi))]
+        pub jitter: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub jitter: ::c_longlong,
+        pub shift: ::c_int,
+        #[cfg(not(gnu_time64_abi))]
+        pub stabil: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub __unused_pad3: i32,
+        #[cfg(gnu_time64_abi)]
+        pub stabil: ::c_longlong,
+        #[cfg(not(gnu_time64_abi))]
+        pub jitcnt: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub jitcnt: ::c_longlong,
+        #[cfg(not(gnu_time64_abi))]
+        pub calcnt: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub calcnt: ::c_longlong,
+        #[cfg(not(gnu_time64_abi))]
+        pub errcnt: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub errcnt: ::c_longlong,
+        #[cfg(not(gnu_time64_abi))]
+        pub stbcnt: ::__syscall_slong_t,
+        #[cfg(gnu_time64_abi)]
+        pub stbcnt: ::c_longlong,
+        pub tai: ::c_int,
+        pub __unused1: i32,
+        pub __unused2: i32,
+        pub __unused3: i32,
+        pub __unused4: i32,
+        pub __unused5: i32,
+        pub __unused6: i32,
+        pub __unused7: i32,
+        pub __unused8: i32,
+        pub __unused9: i32,
+        pub __unused10: i32,
+        pub __unused11: i32,
     }
 }
 
@@ -352,8 +439,6 @@ extern "C" {
         newp: *mut ::c_void,
         newlen: ::size_t,
     ) -> ::c_int;
-    #[cfg_attr(gnu_time64_abi, link_name = "__ntp_gettime64")]
-    pub fn ntp_gettime(buf: *mut ntptimeval) -> ::c_int;
 }
 
 cfg_if! {
