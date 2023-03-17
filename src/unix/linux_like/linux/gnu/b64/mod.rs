@@ -89,6 +89,17 @@ s! {
         __glibc_reserved3: ::__syscall_ulong_t,
         __glibc_reserved4: ::__syscall_ulong_t,
     }
+
+    pub struct ntptimeval {
+        pub time: ::timeval,
+        pub maxerror: ::c_long,
+        pub esterror: ::c_long,
+        pub tai: ::c_long,
+        pub __glibc_reserved1: ::c_long,
+        pub __glibc_reserved2: ::c_long,
+        pub __glibc_reserved3: ::c_long,
+        pub __glibc_reserved4: ::c_long,
+    }
 }
 
 pub const __SIZEOF_PTHREAD_RWLOCKATTR_T: usize = 8;
