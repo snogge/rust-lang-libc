@@ -3271,6 +3271,12 @@ fn test_linux(target: &str) {
     // glibc versions older than 2.29.
     cfg.define("__GLIBC_USE_DEPRECATED_SCANF", None);
 
+    if gnu && &env::var("CARGO_CFG_TARGET_POINTER_WIDTH").unwrap() == "32" && !x32 {
+        cfg.define("_TIME_BITS", Some("64"));
+        cfg.define("_FILE_OFFSET_BITS", Some("64"));
+        cfg.cfg("gnu_time64_abi", None);
+    }
+
     headers! { cfg:
                "ctype.h",
                "dirent.h",
