@@ -3166,6 +3166,11 @@ fn test_linux(target: &str) {
     // glibc versions older than 2.29.
     cfg.define("__GLIBC_USE_DEPRECATED_SCANF", None);
 
+    if gnu && (arm || i686 || mips32 || ppc) && !ppc64 {
+        cfg.define("_TIME_BITS", Some("64"));
+        cfg.define("_FILE_OFFSET_BITS", Some("64"));
+    }
+
     headers! { cfg:
                "ctype.h",
                "dirent.h",
