@@ -4,8 +4,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
   push:
-    branches:
-      - master
 
 permissions:
   contents: read # to fetch code (actions/checkout)
