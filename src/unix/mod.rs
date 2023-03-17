@@ -66,7 +66,12 @@ s! {
 
     pub struct timeval {
         pub tv_sec: time_t,
+        #[cfg(not(all(target_env = "gnu", target_os = "linux", target_pointer_width = "32")))]
         pub tv_usec: suseconds_t,
+        // For 64 bit time on 32 bit linux glibc, suseconds_t is still
+        // a 32 bit type.  Using suseconds_t here will break the tests, use i64 instead
+        #[cfg(all(target_env = "gnu", target_os = "linux", target_pointer_width = "32"))]
+        pub tv_usec: i64
     }
 
     // linux x32 compatibility
