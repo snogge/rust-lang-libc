@@ -11,11 +11,16 @@ pub type msglen_t = u64;
 pub type fsblkcnt_t = u64;
 pub type fsfilcnt_t = u64;
 pub type rlim_t = u64;
-#[cfg(all(target_arch = "x86_64", target_pointer_width = "32"))]
-pub type __syscall_ulong_t = crate::c_ulonglong;
-#[cfg(not(all(target_arch = "x86_64", target_pointer_width = "32")))]
-pub type __syscall_ulong_t = c_ulong;
 
+cfg_if! {
+    if #[cfg(all(target_arch = "x86_64", target_pointer_width = "32"))] {
+        pub type __syscall_ulong_t = c_ulonglong;
+        pub type __syscall_slong_t = c_longlong;
+    } else {
+        pub type __syscall_ulong_t = c_ulong;
+        pub type __syscall_slong_t = c_long;
+    }
+}
 cfg_if! {
     if #[cfg(all(target_arch = "aarch64", target_pointer_width = "32"))] {
         pub type clock_t = i32;
@@ -94,6 +99,46 @@ s! {
         pub sem_nsems: crate::__syscall_ulong_t,
         __glibc_reserved3: crate::__syscall_ulong_t,
         __glibc_reserved4: crate::__syscall_ulong_t,
+    }
+
+    pub struct timex {
+        pub modes: c_uint,
+        #[cfg(all(target_arch = "x86_64", target_pointer_width = "32"))]
+        pub __unused_pad1: i32,
+        pub offset: crate::__syscall_slong_t,
+        pub freq: crate::__syscall_slong_t,
+        pub maxerror: crate::__syscall_slong_t,
+        pub esterror: crate::__syscall_slong_t,
+        pub status: c_int,
+        #[cfg(all(target_arch = "x86_64", target_pointer_width = "32"))]
+        pub __unused_pad2: i32,
+        pub constant: crate::__syscall_slong_t,
+        pub precision: crate::__syscall_slong_t,
+        pub tolerance: crate::__syscall_slong_t,
+        pub time: crate::timeval,
+        pub tick: crate::__syscall_slong_t,
+        pub ppsfreq: crate::__syscall_slong_t,
+        pub jitter: crate::__syscall_slong_t,
+        pub shift: c_int,
+        #[cfg(all(target_arch = "x86_64", target_pointer_width = "32"))]
+        pub __unused_pad3: i32,
+        pub stabil: crate::__syscall_slong_t,
+        pub jitcnt: crate::__syscall_slong_t,
+        pub calcnt: crate::__syscall_slong_t,
+        pub errcnt: crate::__syscall_slong_t,
+        pub stbcnt: crate::__syscall_slong_t,
+        pub tai: c_int,
+        pub __unused1: i32,
+        pub __unused2: i32,
+        pub __unused3: i32,
+        pub __unused4: i32,
+        pub __unused5: i32,
+        pub __unused6: i32,
+        pub __unused7: i32,
+        pub __unused8: i32,
+        pub __unused9: i32,
+        pub __unused10: i32,
+        pub __unused11: i32,
     }
 }
 
