@@ -324,6 +324,8 @@ extern "C" {
         newp: *mut ::c_void,
         newlen: ::size_t,
     ) -> ::c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__ntp_gettime64")]
+    pub fn ntp_gettime(buf: *mut ntptimeval) -> ::c_int;
 }
 
 cfg_if! {
