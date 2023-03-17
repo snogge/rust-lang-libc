@@ -79,7 +79,8 @@ if [ "$QEMU" != "" ]; then
     -net user \
     -nographic \
     -vga none 2>&1 | tee "${CARGO_TARGET_DIR}/out.log"
-  exec grep -E "^(PASSED)|(test result: ok)" "${CARGO_TARGET_DIR}/out.log"
+  grep -E "^(PASSED)|(test result: ok)" "${CARGO_TARGET_DIR}/out.log"
+  exec cat "${CARGO_TARGET_DIR}/out.log"
 fi
 
 if [ "$TARGET" = "s390x-unknown-linux-gnu" ]; then
