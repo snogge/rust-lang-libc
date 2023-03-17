@@ -5,6 +5,7 @@ on:
     branches:
       - auto-libc
       - try
+      - time_bits=64
 
 permissions: {}
 jobs:
