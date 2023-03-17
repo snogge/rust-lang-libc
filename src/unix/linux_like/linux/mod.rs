@@ -6076,17 +6076,24 @@ safe_f! {
 cfg_if! {
     if #[cfg(all(not(target_env = "uclibc"), not(target_env = "ohos")))] {
         extern "C" {
+            #[cfg_attr(gnu_time64_abi, link_name = "aio_read64")]
             pub fn aio_read(aiocbp: *mut aiocb) -> c_int;
+            #[cfg_attr(gnu_time64_abi, link_name = "aio_write64")]
             pub fn aio_write(aiocbp: *mut aiocb) -> c_int;
             pub fn aio_fsync(op: c_int, aiocbp: *mut aiocb) -> c_int;
+            #[cfg_attr(gnu_time64_abi, link_name = "aio_error64")]
             pub fn aio_error(aiocbp: *const aiocb) -> c_int;
+            #[cfg_attr(gnu_time64_abi, link_name = "aio_return64")]
             pub fn aio_return(aiocbp: *mut aiocb) -> ssize_t;
+            #[cfg_attr(gnu_time64_abi, link_name = "__aio_suspend_time64")]
             pub fn aio_suspend(
                 aiocb_list: *const *const aiocb,
                 nitems: c_int,
                 timeout: *const crate::timespec,
             ) -> c_int;
+            #[cfg_attr(gnu_time64_abi, link_name = "aio_cancel64")]
             pub fn aio_cancel(fd: c_int, aiocbp: *mut aiocb) -> c_int;
+            #[cfg_attr(gnu_time64_abi, link_name = "lio_listio64")]
             pub fn lio_listio(
                 mode: c_int,
                 aiocb_list: *const *mut aiocb,
@@ -6100,12 +6107,14 @@ cfg_if! {
 cfg_if! {
     if #[cfg(not(target_env = "uclibc"))] {
         extern "C" {
+            #[cfg_attr(gnu_time64_abi, link_name = "pwritev64")]
             pub fn pwritev(
                 fd: c_int,
                 iov: *const crate::iovec,
                 iovcnt: c_int,
                 offset: off_t,
             ) -> ssize_t;
+            #[cfg_attr(gnu_time64_abi, link_name = "preadv64")]
             pub fn preadv(
                 fd: c_int,
                 iov: *const crate::iovec,
@@ -6138,6 +6147,7 @@ cfg_if! {
                 riovcnt: c_ulong,
                 flags: c_ulong,
             ) -> isize;
+            #[cfg_attr(gnu_time64_abi, link_name = "__futimes64")]
             pub fn futimes(fd: c_int, times: *const crate::timeval) -> c_int;
         }
     }
@@ -6167,6 +6177,7 @@ cfg_if! {
                 msg_len: size_t,
                 msg_prio: *mut c_uint,
             ) -> ssize_t;
+            #[cfg_attr(gnu_time64_abi, link_name = "__mq_timedreceive_time64")]
             pub fn mq_timedreceive(
                 mqd: crate::mqd_t,
                 msg_ptr: *mut c_char,
@@ -6180,6 +6191,7 @@ cfg_if! {
                 msg_len: size_t,
                 msg_prio: c_uint,
             ) -> c_int;
+            #[cfg_attr(gnu_time64_abi, link_name = "__mq_timedsend_time64")]
             pub fn mq_timedsend(
                 mqd: crate::mqd_t,
                 msg_ptr: *const c_char,
@@ -6230,6 +6242,7 @@ extern "C" {
     pub fn seed48(xseed: *mut c_ushort) -> *mut c_ushort;
     pub fn lcong48(p: *mut c_ushort);
 
+    #[cfg_attr(gnu_time64_abi, link_name = "__lutimes64")]
     pub fn lutimes(file: *const c_char, times: *const crate::timeval) -> c_int;
 
     pub fn setpwent();
@@ -6251,11 +6264,14 @@ extern "C" {
     pub fn shmget(key: crate::key_t, size: size_t, shmflg: c_int) -> c_int;
     pub fn shmat(shmid: c_int, shmaddr: *const c_void, shmflg: c_int) -> *mut c_void;
     pub fn shmdt(shmaddr: *const c_void) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__shmctl64")]
     pub fn shmctl(shmid: c_int, cmd: c_int, buf: *mut crate::shmid_ds) -> c_int;
     pub fn ftok(pathname: *const c_char, proj_id: c_int) -> crate::key_t;
     pub fn semget(key: crate::key_t, nsems: c_int, semflag: c_int) -> c_int;
     pub fn semop(semid: c_int, sops: *mut crate::sembuf, nsops: size_t) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__semctl64")]
     pub fn semctl(semid: c_int, semnum: c_int, cmd: c_int, ...) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__msgctl64")]
     pub fn msgctl(msqid: c_int, cmd: c_int, buf: *mut msqid_ds) -> c_int;
     pub fn msgget(key: crate::key_t, msgflg: c_int) -> c_int;
     pub fn msgrcv(
@@ -6270,7 +6286,9 @@ extern "C" {
     pub fn mprotect(addr: *mut c_void, len: size_t, prot: c_int) -> c_int;
     pub fn __errno_location() -> *mut c_int;
 
+    #[cfg_attr(gnu_time64_abi, link_name = "fallocate64")]
     pub fn fallocate(fd: c_int, mode: c_int, offset: off_t, len: off_t) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "posix_fallocate64")]
     pub fn posix_fallocate(fd: c_int, offset: off_t, len: off_t) -> c_int;
     pub fn readahead(fd: c_int, offset: off64_t, count: size_t) -> ssize_t;
     pub fn getxattr(
@@ -6320,7 +6338,9 @@ extern "C" {
     pub fn fremovexattr(filedes: c_int, name: *const c_char) -> c_int;
     pub fn signalfd(fd: c_int, mask: *const crate::sigset_t, flags: c_int) -> c_int;
     pub fn timerfd_create(clockid: crate::clockid_t, flags: c_int) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__timerfd_gettime64")]
     pub fn timerfd_gettime(fd: c_int, curr_value: *mut itimerspec) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__timerfd_settime64")]
     pub fn timerfd_settime(
         fd: c_int,
         flags: c_int,
@@ -6336,8 +6356,11 @@ extern "C" {
         sigmask: *const crate::sigset_t,
     ) -> c_int;
     pub fn dup3(oldfd: c_int, newfd: c_int, flags: c_int) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "mkostemp64")]
     pub fn mkostemp(template: *mut c_char, flags: c_int) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "mkostemps64")]
     pub fn mkostemps(template: *mut c_char, suffixlen: c_int, flags: c_int) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__sigtimedwait64")]
     pub fn sigtimedwait(
         set: *const sigset_t,
         info: *mut siginfo_t,
@@ -6379,12 +6402,14 @@ extern "C" {
         ...
     ) -> *mut c_void;
 
+    #[cfg_attr(gnu_time64_abi, link_name = "__glob64_time64")]
     pub fn glob(
         pattern: *const c_char,
         flags: c_int,
         errfunc: Option<extern "C" fn(epath: *const c_char, errno: c_int) -> c_int>,
         pglob: *mut crate::glob_t,
     ) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__globfree64_time64")]
     pub fn globfree(pglob: *mut crate::glob_t);
 
     pub fn posix_madvise(addr: *mut c_void, len: size_t, advice: c_int) -> c_int;
@@ -6410,6 +6435,7 @@ extern "C" {
         addr: *mut crate::sockaddr,
         addrlen: *mut crate::socklen_t,
     ) -> ssize_t;
+    #[cfg_attr(gnu_time64_abi, link_name = "mkstemps64")]
     pub fn mkstemps(template: *mut c_char, suffixlen: c_int) -> c_int;
 
     pub fn nl_langinfo(item: crate::nl_item) -> *mut c_char;
@@ -6448,6 +6474,7 @@ extern "C" {
     pub fn umount(target: *const c_char) -> c_int;
     pub fn sched_get_priority_max(policy: c_int) -> c_int;
     pub fn tee(fd_in: c_int, fd_out: c_int, len: size_t, flags: c_uint) -> ssize_t;
+    #[cfg_attr(gnu_time64_abi, link_name = "__settimeofday64")]
     pub fn settimeofday(tv: *const crate::timeval, tz: *const crate::timezone) -> c_int;
     pub fn splice(
         fd_in: c_int,
@@ -6461,7 +6488,9 @@ extern "C" {
     pub fn eventfd_read(fd: c_int, value: *mut eventfd_t) -> c_int;
     pub fn eventfd_write(fd: c_int, value: eventfd_t) -> c_int;
 
+    #[cfg_attr(gnu_time64_abi, link_name = "__sched_rr_get_interval64")]
     pub fn sched_rr_get_interval(pid: crate::pid_t, tp: *mut crate::timespec) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__sem_timedwait64")]
     pub fn sem_timedwait(sem: *mut sem_t, abstime: *const crate::timespec) -> c_int;
     pub fn sem_getvalue(sem: *mut sem_t, sval: *mut c_int) -> c_int;
     pub fn sched_setparam(pid: crate::pid_t, param: *const crate::sched_param) -> c_int;
@@ -6477,8 +6506,10 @@ extern "C" {
         data: *const c_void,
     ) -> c_int;
     pub fn personality(persona: c_ulong) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__prctl_time64")]
     pub fn prctl(option: c_int, ...) -> c_int;
     pub fn sched_getparam(pid: crate::pid_t, param: *mut crate::sched_param) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__ppoll64")]
     pub fn ppoll(
         fds: *mut crate::pollfd,
         nfds: nfds_t,
@@ -6491,6 +6522,7 @@ extern "C" {
     ) -> c_int;
     pub fn pthread_mutexattr_setprotocol(attr: *mut pthread_mutexattr_t, protocol: c_int) -> c_int;
 
+    #[cfg_attr(gnu_time64_abi, link_name = "__pthread_mutex_timedlock64")]
     pub fn pthread_mutex_timedlock(
         lock: *mut pthread_mutex_t,
         abstime: *const crate::timespec,
@@ -6525,6 +6557,7 @@ extern "C" {
         ...
     ) -> c_int;
     pub fn sched_getscheduler(pid: crate::pid_t) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__clock_nanosleep_time64")]
     pub fn clock_nanosleep(
         clk_id: crate::clockid_t,
         flags: c_int,
@@ -6576,6 +6609,7 @@ extern "C" {
         policy: c_int,
         param: *const crate::sched_param,
     ) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "sendfile64")]
     pub fn sendfile(out_fd: c_int, in_fd: c_int, offset: *mut off_t, count: size_t) -> ssize_t;
     pub fn sigsuspend(mask: *const crate::sigset_t) -> c_int;
     pub fn getgrgid_r(
@@ -6781,7 +6815,9 @@ extern "C" {
     ) -> c_int;
     pub fn timer_delete(timerid: crate::timer_t) -> c_int;
     pub fn timer_getoverrun(timerid: crate::timer_t) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__timer_gettime64")]
     pub fn timer_gettime(timerid: crate::timer_t, curr_value: *mut crate::itimerspec) -> c_int;
+    #[cfg_attr(gnu_time64_abi, link_name = "__timer_settime64")]
     pub fn timer_settime(
         timerid: crate::timer_t,
         flags: c_int,
@@ -6823,6 +6859,7 @@ extern "C" {
 
     pub fn klogctl(syslog_type: c_int, bufp: *mut c_char, len: c_int) -> c_int;
 
+    #[cfg_attr(gnu_time64_abi, link_name = "__ioctl_time64")]
     pub fn ioctl(fd: c_int, request: Ioctl, ...) -> c_int;
 }
 
