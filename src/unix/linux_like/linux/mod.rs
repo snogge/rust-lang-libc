@@ -187,7 +187,12 @@ s! {
     }
 
     pub struct input_event {
+        #[cfg(not(all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64"))))]
         pub time: ::timeval,
+        #[cfg(all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")))]
+        pub __sec: ::c_ulong,
+        #[cfg(all(target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")))]
+        pub __usec: ::c_ulong,
         pub type_: ::__u16,
         pub code: ::__u16,
         pub value: ::__s32,
