@@ -3388,6 +3388,31 @@ fn test_vxworks(target: &str) {
     cfg.generate(src_hotfix_dir().join("lib.rs"), "main.rs");
 }
 
+fn config_gnu_time64(target: &str, cfg: &mut ctest::TestGenerator) {
+    let gnu = target.contains("gnu");
+    let x32 = target.contains("x32");
+    let riscv = target.contains("riscv32");
+
+    if gnu && &env::var("CARGO_CFG_TARGET_POINTER_WIDTH").unwrap() == "32" && !riscv && !x32 {
+        match env::var("RUST_LIBC_TIME_BITS") {
+            Ok(time_bits) => {
+                if time_bits == "64" || time_bits == "default" {
+                    cfg.define("_TIME_BITS", Some("64"));
+                    cfg.define("_FILE_OFFSET_BITS", Some("64"));
+                    cfg.cfg("gnu_time64_abi", None);
+                } else if time_bits != "32" {
+                    panic!("Unsupported RUST_LIBC_TIME_BITS value {}", time_bits)
+                }
+            }
+            Err(_) => {
+                cfg.define("_TIME_BITS", Some("64"));
+                cfg.define("_FILE_OFFSET_BITS", Some("64"));
+                cfg.cfg("gnu_time64_abi", None);
+            }
+        }
+    }
+}
+
 fn test_linux(target: &str) {
     assert!(target.contains("linux"));
 
@@ -3429,6 +3454,8 @@ fn test_linux(target: &str) {
     // deprecated since glibc >= 2.29. This allows Rust binaries to link against
     // glibc versions older than 2.29.
     cfg.define("__GLIBC_USE_DEPRECATED_SCANF", None);
+
+    config_gnu_time64(target, &mut cfg);
 
     headers! { cfg:
                "ctype.h",
@@ -4538,6 +4565,7 @@ fn test_linux_like_apis(target: &str) {
     if linux || android || emscripten {
         // test strerror_r from the `string.h` header
         let mut cfg = ctest_cfg();
+        config_gnu_time64(target, &mut cfg);
         cfg.skip_type(|_| true).skip_static(|_| true);
 
         headers! { cfg: "string.h" }
@@ -4554,6 +4582,7 @@ fn test_linux_like_apis(target: &str) {
         // test fcntl - see:
         // http://man7.org/linux/man-pages/man2/fcntl.2.html
         let mut cfg = ctest_cfg();
+        config_gnu_time64(target, &mut cfg);
 
         if musl {
             cfg.header("fcntl.h");
@@ -4583,6 +4612,7 @@ fn test_linux_like_apis(target: &str) {
     if linux || android {
         // test termios
         let mut cfg = ctest_cfg();
+        config_gnu_time64(target, &mut cfg);
         cfg.header("asm/termbits.h");
         cfg.header("linux/termios.h");
         cfg.skip_type(|_| true)
@@ -4607,6 +4637,7 @@ fn test_linux_like_apis(target: &str) {
     if linux || android {
         // test IPV6_ constants:
         let mut cfg = ctest_cfg();
+        config_gnu_time64(target, &mut cfg);
         headers! {
             cfg:
             "linux/in6.h"
@@ -4638,6 +4669,7 @@ fn test_linux_like_apis(target: &str) {
         // "resolve.h" defines a `p_type` macro that expands to `__p_type`
         // making the tests for these fails when both are included.
         let mut cfg = ctest_cfg();
+        config_gnu_time64(target, &mut cfg);
         cfg.header("elf.h");
         cfg.skip_fn(|_| true)
             .skip_static(|_| true)
@@ -4657,6 +4689,7 @@ fn test_linux_like_apis(target: &str) {
     if linux || android {
         // Test `ARPHRD_CAN`.
         let mut cfg = ctest_cfg();
+        config_gnu_time64(target, &mut cfg);
         cfg.header("linux/if_arp.h");
         cfg.skip_fn(|_| true)
             .skip_static(|_| true)
