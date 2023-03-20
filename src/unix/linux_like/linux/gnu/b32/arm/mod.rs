@@ -1,4 +1,4 @@
-use crate::{c_int, c_long, c_short, c_uint, c_ulong, c_ushort, c_void, off64_t, off_t, size_t};
+use crate::{c_int, c_long, c_short, c_ulong, c_ushort, c_void, off64_t, off_t, size_t};
 
 pub type c_char = u8;
 pub type wchar_t = u32;
@@ -115,10 +115,13 @@ s! {
         pub shm_perm: crate::ipc_perm,
         pub shm_segsz: size_t,
         pub shm_atime: crate::time_t,
+        #[cfg(not(gnu_time64_abi))]
         __unused1: c_ulong,
         pub shm_dtime: crate::time_t,
+        #[cfg(not(gnu_time64_abi))]
         __unused2: c_ulong,
         pub shm_ctime: crate::time_t,
+        #[cfg(not(gnu_time64_abi))]
         __unused3: c_ulong,
         pub shm_cpid: crate::pid_t,
         pub shm_lpid: crate::pid_t,
