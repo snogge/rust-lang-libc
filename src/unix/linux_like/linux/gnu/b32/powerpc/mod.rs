@@ -110,23 +110,6 @@ s! {
         __f_spare: [c_int; 6],
     }
 
-    pub struct shmid_ds {
-        pub shm_perm: crate::ipc_perm,
-        __glibc_reserved1: c_uint,
-        pub shm_atime: crate::time_t,
-        __glibc_reserved2: c_uint,
-        pub shm_dtime: crate::time_t,
-        __glibc_reserved3: c_uint,
-        pub shm_ctime: crate::time_t,
-        __glibc_reserved4: c_uint,
-        pub shm_segsz: size_t,
-        pub shm_cpid: crate::pid_t,
-        pub shm_lpid: crate::pid_t,
-        pub shm_nattch: crate::shmatt_t,
-        __glibc_reserved5: c_ulong,
-        __glibc_reserved6: c_ulong,
-    }
-
     pub struct msqid_ds {
         pub msg_perm: crate::ipc_perm,
         __glibc_reserved1: c_uint,
@@ -836,3 +819,13 @@ pub const SYS_process_mrelease: c_long = 448;
 pub const SYS_futex_waitv: c_long = 449;
 pub const SYS_set_mempolicy_home_node: c_long = 450;
 pub const SYS_mseal: c_long = 462;
+
+cfg_if! {
+    if #[cfg(gnu_time64_abi)] {
+        mod time64;
+        pub use self::time64::*;
+    } else {
+        mod time32;
+        pub use self::time32::*;
+    }
+}
