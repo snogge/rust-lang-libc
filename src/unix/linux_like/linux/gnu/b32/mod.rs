@@ -286,8 +286,16 @@ cfg_if! {
 
         pub const PTRACE_DETACH: ::c_uint = 17;
 
-        pub const F_SETLK: ::c_int = 6;
-        pub const F_SETLKW: ::c_int = 7;
+        #[cfg(target_arch = "mips")]
+        pub const F_SETLK64: ::c_int = 34;
+        #[cfg(not(target_arch = "mips"))]
+        pub const F_SETLK64: ::c_int = 13;
+        #[cfg(target_arch = "mips")]
+        pub const F_SETLKW64: ::c_int = 35;
+        #[cfg(not(target_arch = "mips"))]
+        pub const F_SETLKW64: ::c_int = 14;
+        pub const F_SETLK: ::c_int = F_SETLK64;
+        pub const F_SETLKW: ::c_int = F_SETLKW64;
 
         pub const F_RDLCK: ::c_int = 0;
         pub const F_WRLCK: ::c_int = 1;
