@@ -125,17 +125,17 @@ s! {
 
     pub struct semid_ds {
         pub sem_perm: ipc_perm,
-        #[cfg(target_arch = "powerpc")]
-        __reserved: ::__syscall_ulong_t,
+        // #[cfg(target_arch = "powerpc")]
+        // __reserved: ::__syscall_ulong_t,
         pub sem_otime: ::time_t,
-        #[cfg(not(any(target_arch = "mips", target_arch = "powerpc")))]
+        #[cfg(not(any(target_arch = "mips", target_arch = "powerpc", target_arch = "arm", target_arch = "x86")))]
         __reserved: ::__syscall_ulong_t,
-        #[cfg(target_arch = "powerpc")]
-        __reserved2: ::__syscall_ulong_t,
+        // #[cfg(target_arch = "powerpc")]
+        // __reserved2: ::__syscall_ulong_t,
         pub sem_ctime: ::time_t,
-        #[cfg(not(any(target_arch = "mips", target_arch = "powerpc")))]
-        __reserved2: ::__syscall_ulong_t,
         pub sem_nsems: ::__syscall_ulong_t,
+        #[cfg(not(any(target_arch = "mips", target_arch = "powerpc", target_arch = "arm", target_arch = "x86")))]
+        __reserved2: ::__syscall_ulong_t,
         __glibc_reserved3: ::__syscall_ulong_t,
         __glibc_reserved4: ::__syscall_ulong_t,
     }
