@@ -304,7 +304,8 @@ pub const MCL_FUTURE: ::c_int = 0x0002;
 pub const POLLWRNORM: ::c_short = 0x100;
 pub const POLLWRBAND: ::c_short = 0x200;
 
-pub const F_GETLK: ::c_int = 5;
+pub const F_GETLK64: ::c_int = 12;
+pub const F_GETLK: ::c_int = F_GETLK64;
 pub const F_GETOWN: ::c_int = 9;
 pub const F_SETOWN: ::c_int = 8;
 
