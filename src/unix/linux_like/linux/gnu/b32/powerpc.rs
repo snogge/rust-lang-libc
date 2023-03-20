@@ -62,18 +62,18 @@ s! {
         pub st_uid: ::uid_t,
         pub st_gid: ::gid_t,
         pub st_rdev: ::dev_t,
-        __pad2: ::c_ushort,
         pub st_size: ::off64_t,
         pub st_blksize: ::blksize_t,
         pub st_blocks: ::blkcnt64_t,
         pub st_atime: ::time_t,
-        pub st_atime_nsec: ::c_long,
+         __pad1: i32,
+       pub st_atime_nsec: ::c_long,
         pub st_mtime: ::time_t,
+        __pad2: i32,
         pub st_mtime_nsec: ::c_long,
         pub st_ctime: ::time_t,
+        __pad3: i32,
         pub st_ctime_nsec: ::c_long,
-        __glibc_reserved4: ::c_ulong,
-        __glibc_reserved5: ::c_ulong,
     }
 
     pub struct statfs64 {
