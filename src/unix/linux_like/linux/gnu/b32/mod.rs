@@ -43,51 +43,34 @@ cfg_if! {
 
 s! {
     pub struct stat {
-        #[cfg(not(target_arch = "mips"))]
         pub st_dev: ::dev_t,
-        #[cfg(target_arch = "mips")]
-        pub st_dev: ::c_ulong,
-
-        #[cfg(not(target_arch = "mips"))]
-        __pad1: ::c_short,
-        #[cfg(target_arch = "mips")]
-        st_pad1: [::c_long; 3],
         pub st_ino: ::ino_t,
         pub st_mode: ::mode_t,
         pub st_nlink: ::nlink_t,
         pub st_uid: ::uid_t,
         pub st_gid: ::gid_t,
-        #[cfg(not(target_arch = "mips"))]
         pub st_rdev: ::dev_t,
-        #[cfg(target_arch = "mips")]
-        pub st_rdev: ::c_ulong,
-        #[cfg(not(target_arch = "mips"))]
-        __pad2: ::c_short,
-        #[cfg(target_arch = "mips")]
-        st_pad2: [::c_long; 2],
         pub st_size: ::off_t,
-        #[cfg(target_arch = "mips")]
-        st_pad3: ::c_long,
-        #[cfg(not(target_arch = "mips"))]
         pub st_blksize: ::blksize_t,
-        #[cfg(not(target_arch = "mips"))]
         pub st_blocks: ::blkcnt_t,
         pub st_atime: ::time_t,
+        #[cfg(all(any(target_arch = "mips", target_arch = "powerpc"), target_pointer_width = "32"))]
+        __pad1: i32,
         pub st_atime_nsec: ::c_long,
+        #[cfg(not(all(any(target_arch = "mips", target_arch = "powerpc"), target_pointer_width = "32")))]
+        __pad1: i32,
         pub st_mtime: ::time_t,
+        #[cfg(all(any(target_arch = "mips", target_arch = "powerpc"), target_pointer_width = "32"))]
+        __pad2: i32,
         pub st_mtime_nsec: ::c_long,
+        #[cfg(not(all(any(target_arch = "mips", target_arch = "powerpc"), target_pointer_width = "32")))]
+        __pad2: i32,
         pub st_ctime: ::time_t,
+        #[cfg(all(any(target_arch = "mips", target_arch = "powerpc"), target_pointer_width = "32"))]
+        __pad3: i32,
         pub st_ctime_nsec: ::c_long,
-        #[cfg(not(target_arch = "mips"))]
-        __unused4: ::c_long,
-        #[cfg(not(target_arch = "mips"))]
-        __unused5: ::c_long,
-        #[cfg(target_arch = "mips")]
-        pub st_blksize: ::blksize_t,
-        #[cfg(target_arch = "mips")]
-        pub st_blocks: ::blkcnt_t,
-        #[cfg(target_arch = "mips")]
-        st_pad5: [::c_long; 14],
+        #[cfg(not(all(any(target_arch = "mips", target_arch = "powerpc"), target_pointer_width = "32")))]
+        __pad3: i32,
     }
 
     pub struct statvfs {
