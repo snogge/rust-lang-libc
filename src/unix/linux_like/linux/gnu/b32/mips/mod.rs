@@ -122,9 +122,7 @@ s! {
         pub l_whence: ::c_short,
         pub l_start: ::off_t,
         pub l_len: ::off_t,
-        pub l_sysid: ::c_long,
         pub l_pid: ::pid_t,
-        pad: [::c_long; 4],
     }
 }
 
