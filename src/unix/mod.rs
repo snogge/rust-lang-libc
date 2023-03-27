@@ -74,10 +74,17 @@ s! {
     // See https://sourceware.org/bugzilla/show_bug.cgi?id=16437
     pub struct timespec {
         pub tv_sec: time_t,
+
+        #[cfg(all(target_env = "gnu", any(target_arch = "powerpc", target_arch = "mips"), target_pointer_width = "32"))]
+        __pad: i32,
+
         #[cfg(all(target_arch = "x86_64", target_pointer_width = "32"))]
         pub tv_nsec: i64,
         #[cfg(not(all(target_arch = "x86_64", target_pointer_width = "32")))]
         pub tv_nsec: ::c_long,
+
+        #[cfg(all(target_env = "gnu", any(target_arch = "x86", target_arch = "arm"), target_pointer_width = "32"))]
+        __pad: i32,
     }
 
     pub struct rlimit {
