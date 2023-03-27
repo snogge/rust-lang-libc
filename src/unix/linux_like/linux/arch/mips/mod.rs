@@ -295,9 +295,12 @@ cfg_if! {
 }
 
 cfg_if! {
-    if #[cfg(any(target_arch = "mips", target_arch = "mips32r6"),
-         any(target_env = "gnu",
-             target_env = "uclibc"))] {
+    if #[cfg(all(any(target_arch = "mips", target_arch = "mips32r6"), target_env = "gnu"))] {
+        pub const RLIM_INFINITY: ::rlim_t = !0;
+    } else if #[cfg(all(
+        any(target_arch = "mips", target_arch = "mips32r6"),
+        target_env = "uclibc"
+    ))] {
         pub const RLIM_INFINITY: ::rlim_t = 0x7fffffff;
     }
 }
