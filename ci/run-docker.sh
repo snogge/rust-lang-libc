@@ -24,11 +24,13 @@ if [ "${1}" = "aarch64-linux-android" ] ; then
   docker system df
 fi
 
+imgname=libc-$1
+
 run() {
     echo "Building docker container for target ${1}"
 
     # use -f so we can use ci/ as build context
-    docker build -t libc -f "ci/docker/${1}/Dockerfile" ci/
+    docker build -t $imgname -f "ci/docker/${1}/Dockerfile" ci/
     mkdir -p target
     if [ -w /dev/kvm ]; then
         kvm="--volume /dev/kvm:/dev/kvm"
@@ -50,15 +52,17 @@ run() {
       $kvm \
       --init \
       --workdir /checkout \
-      libc \
+      $imgname \
       sh -c "HOME=/tmp PATH=\$PATH:/rust/bin exec ci/run.sh ${1}"
 }
 
 build_switch() {
     echo "Building docker container for target switch"
 
+	imgname=libc-switch
+	
     # use -f so we can use ci/ as build context
-    docker build -t libc -f "ci/docker/switch/Dockerfile" ci/
+    docker build -t $imgname -f "ci/docker/switch/Dockerfile" ci/
     mkdir -p target
     if [ -w /dev/kvm ]; then
         kvm="--volume /dev/kvm:/dev/kvm"
@@ -82,7 +86,7 @@ build_switch() {
       $kvm \
       --init \
       --workdir /checkout \
-      libc \
+      $imgname \
       sh -c "HOME=/tmp RUSTUP_HOME=/tmp PATH=\$PATH:/rust/bin rustup default nightly \
         && rustup component add rust-src --target ci/switch.json \
         && cargo build -Z build-std=core,alloc --target ci/switch.json"
