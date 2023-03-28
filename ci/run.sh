@@ -110,7 +110,7 @@ if [ "$TARGET" = "s390x-unknown-linux-gnu" ]; then
     sleep 1
   done
 else
-  cargo test --no-default-features --manifest-path libc-test/Cargo.toml \
+  cargo test -vvv --no-default-features --manifest-path libc-test/Cargo.toml \
     --target "${TARGET}" ${LIBC_CI_ZBUILD_STD+"-Zbuild-std"}
 
   cargo test --manifest-path libc-test/Cargo.toml --target "${TARGET}" ${LIBC_CI_ZBUILD_STD+"-Zbuild-std"}
