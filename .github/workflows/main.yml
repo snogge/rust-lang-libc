@@ -21,6 +21,12 @@ jobs:
         ]
     steps:
       - uses: actions/checkout@v3
+      - name: Install rustup
+        run: |
+          sudo apt-get install curl shellcheck
+          curl https://sh.rustup.rs -sSf >./ci/rustup-init.sh
+          chmod a+x ./ci/rustup-init.sh
+          ./ci/rustup-init.sh -y -v
       - name: Setup Rust toolchain
         run: TARGET=${{ matrix.target }} sh ./ci/install-rust.sh
       - name: Execute run-docker.sh
