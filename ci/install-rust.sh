@@ -18,25 +18,26 @@ else
     *) toolchain=nightly;;
   esac
 fi
+RUSTUP=$HOME/.cargo/bin/rustup
 if [ "$OS" = "windows" ]; then
   : "${TARGET?The TARGET environment variable must be set.}"
-  rustup set profile minimal
-  rustup update --force $toolchain-"$TARGET"
-  rustup default $toolchain-"$TARGET"
+  ${RUSTUP} set profile minimal
+  ${RUSTUP} update --force $toolchain-"$TARGET"
+  ${RUSTUP} default $toolchain-"$TARGET"
 else
-  rustup set profile minimal
-  rustup update --force $toolchain
-  rustup default $toolchain
+  ${RUSTUP} set profile minimal
+  ${RUSTUP} update --force $toolchain
+  ${RUSTUP} default $toolchain
 fi
 
 if [ -n "$TARGET" ]; then
   echo "Install target"
-  rustup target add "$TARGET"
+  ${RUSTUP} target add "$TARGET"
 fi
 
 if [ -n "$INSTALL_RUST_SRC" ]; then
   echo "Install rust-src"
-  rustup component add rust-src
+  ${RUSTUP} component add rust-src
 fi
 
 if [ "$OS" = "windows" ]; then
@@ -65,8 +66,8 @@ command -v cargo
 command -v rustup
 rustc -Vv
 cargo -V
-rustup -Vv
-rustup show
+${RUSTUP} -Vv
+${RUSTUP} show
 
 echo "Generate lockfile"
 N=5
