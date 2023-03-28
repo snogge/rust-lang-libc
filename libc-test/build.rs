@@ -3145,6 +3145,8 @@ fn test_linux(target: &str) {
     cfg.define("__GLIBC_USE_DEPRECATED_SCANF", None);
 
     if gnu && (arm || i686 || mips32 || ppc) && !ppc64 {
+        //|| target.contains("m68k")
+        //|| target.contains("riscv32")
         cfg.define("_TIME_BITS", Some("64"));
         cfg.define("_FILE_OFFSET_BITS", Some("64"));
     }
