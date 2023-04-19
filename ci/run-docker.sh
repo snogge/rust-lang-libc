@@ -24,7 +24,7 @@ if [ "${1}" = "aarch64-linux-android" ] ; then
   docker system df
 fi
 
-imgname=libc-$1
+imgname=libc
 
 run() {
     echo "Building docker container for target ${1}"
