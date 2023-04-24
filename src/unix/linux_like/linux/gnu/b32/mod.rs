@@ -40,6 +40,11 @@ cfg_if! {
         pub type blksize_t = i32;
     }
 }
+cfg_if! {
+    if #[cfg(target_arch = "arm")] {
+        pub type stat64 = stat;
+    }
+}
 
 s! {
     pub struct stat {
