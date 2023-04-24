@@ -769,7 +769,11 @@ extern "C" {
         link_name = "fstat@FBSD_1.0"
     )]
     #[cfg_attr(
-        all(target_os = "linux", target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
         link_name = "__fstat64_time64"
     )]
     pub fn fstat(fildes: ::c_int, buf: *mut stat) -> ::c_int;
@@ -786,7 +790,11 @@ extern "C" {
         link_name = "stat@FBSD_1.0"
     )]
     #[cfg_attr(
-        all(target_os = "linux", target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
         link_name = "__stat64_time64"
     )]
     pub fn stat(path: *const c_char, buf: *mut stat) -> ::c_int;
@@ -1127,7 +1135,11 @@ extern "C" {
         link_name = "lstat@FBSD_1.0"
     )]
     #[cfg_attr(
-        all(target_os = "linux", target_env = "gnu", target_pointer_width = "32", not(target_arch = "x86_64")),
+        all(
+            target_env = "gnu",
+            target_pointer_width = "32",
+            not(target_arch = "x86_64")
+        ),
         link_name = "__lstat64_time64"
     )]
     pub fn lstat(path: *const c_char, buf: *mut stat) -> ::c_int;
