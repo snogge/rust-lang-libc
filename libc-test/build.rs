@@ -3345,7 +3345,7 @@ fn test_linux(target: &str) {
             // In MUSL `flock64` is a typedef to `flock`.
             "flock64" if musl => format!("struct {}", ty),
             // In some gnu targets `stat64` is a typedef to `stat`
-            "stat64" | "statfs64" if gnu => format!("struct {}", ty),
+            "stat64" | "statfs64" | "statvfs64" if gnu => format!("struct {}", ty),
 
             // put `struct` in front of all structs:.
             t if is_struct => format!("struct {}", t),
