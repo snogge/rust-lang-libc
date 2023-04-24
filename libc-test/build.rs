@@ -3343,7 +3343,7 @@ fn test_linux(target: &str) {
             // In MUSL `flock64` is a typedef to `flock`.
             "flock64" if musl => format!("struct {}", ty),
             // In some gnu targets `stat64` is a typedef to `stat`
-            "stat64" | "statfs64" if gnu => format!("struct {}", ty),
+            "stat64" | "statfs64" | "statvfs64" if gnu => format!("struct {}", ty),
 
             // typedefs don't need any keywords
             t if t.ends_with("_t") => t.to_string(),
