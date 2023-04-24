@@ -1,6 +1,7 @@
 pub type c_char = i8;
 pub type wchar_t = i32;
 
+pub type statfs64 = statfs;
 s! {
     pub struct stat64 {
         pub st_dev: ::dev_t,
@@ -37,21 +38,6 @@ s! {
 
         pub f_namelen: ::c_long,
         f_spare: [::c_long; 6],
-    }
-
-    pub struct statfs64 {
-        pub f_type: ::c_long,
-        pub f_bsize: ::c_long,
-        pub f_frsize: ::c_long,
-        pub f_blocks: u64,
-        pub f_bfree: u64,
-        pub f_files: u64,
-        pub f_ffree: u64,
-        pub f_bavail: u64,
-        pub f_fsid: ::fsid_t,
-        pub f_namelen: ::c_long,
-        pub f_flags: ::c_long,
-        pub f_spare: [::c_long; 5],
     }
 
     pub struct statvfs64 {
