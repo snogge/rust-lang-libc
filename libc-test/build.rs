@@ -3339,7 +3339,7 @@ fn test_linux(target: &str) {
             "Ioctl" => "int".to_string(),
 
             // In some gnu targets `stat64` is a typedef to `stat`
-            "stat64" | "statfs64" if gnu => format!("struct {}", ty),
+            "stat64" | "statfs64" | "statvfs64" if gnu => format!("struct {}", ty),
             // LFS64 types have been removed in musl 1.2.4+
             "off64_t" if musl => "off_t".to_string(),
 
