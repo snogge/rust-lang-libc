@@ -3340,20 +3340,13 @@ fn test_linux(target: &str) {
             "Ioctl" if gnu => "unsigned long".to_string(),
             "Ioctl" => "int".to_string(),
 
-            t if is_union => format!("union {}", t),
-
-            t if t.ends_with("_t") => t.to_string(),
-
-            // In MUSL `xxx64` is a typedef to `xxx`.
-            "flock64" if musl => format!("struct {}", ty),
-            "dirent64" if musl => format!("struct {}", ty),
-            "rlimit64" if musl => format!("struct {}", ty),
-            "fpos64_t" if musl => format!("struct {}", ty),
             // In some gnu targets `statX64` is a typedef to `statX`
             "stat64" | "statfs64" | "statvfs64" if gnu => format!("struct {}", ty),
 
             // typedefs don't need any keywords
             t if t.ends_with("_t") => t.to_string(),
+            // put `union` in front of all unions:
+            t if is_union => format!("union {}", t),
             // put `struct` in front of all structs:.
             t if is_struct => format!("struct {}", t),
             // put `union` in front of all unions:
@@ -3415,7 +3408,11 @@ fn test_linux(target: &str) {
             "priority_t" if musl => true,
             "name_t" if musl => true,
 
-            _ => false,
+            t => if musl {
+                t.ends_with("64") || t.ends_with("64_t")
+            } else {
+                false
+            }
         }
     });
 
