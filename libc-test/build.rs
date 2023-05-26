@@ -3334,7 +3334,8 @@ fn test_linux(target: &str) {
             "Ioctl" => "int".to_string(),
 
             // In some gnu targets `stat64` is a typedef to `stat`
-            "statfs64" if gnu => format!("struct {}", ty),
+            // LFS64 types have been removed in musl 1.2.4+
+            "off64_t" if musl => "off_t".to_string(),
 
             // typedefs don't need any keywords
             t if t.ends_with("_t") => t.to_string(),
@@ -3400,6 +3401,7 @@ fn test_linux(target: &str) {
             "name_t" if musl => true,
 
             t => if musl {
+                // LFS64 types have been removed in musl 1.2.4+
                 t.ends_with("64") || t.ends_with("64_t")
             } else {
                 false
@@ -3413,6 +3415,10 @@ fn test_linux(target: &str) {
         }
         // FIXME: musl CI has old headers
         if musl && ty.starts_with("uinput_") {
+            return true;
+        }
+        // LFS64 types have been removed in musl 1.2.4+
+        if musl && (ty.ends_with("64") || ty.ends_with("64_t")) {
             return true;
         }
         // FIXME: sparc64 CI has old headers
@@ -3530,6 +3536,10 @@ fn test_linux(target: &str) {
             if name.starts_with("MEMBARRIER_CMD_REGISTER")
                 || name.starts_with("MEMBARRIER_CMD_PRIVATE")
             {
+                return true;
+            }
+            // LFS64 types have been removed in musl 1.2.4+
+            if name.starts_with("RLIM64") {
                 return true;
             }
         }
