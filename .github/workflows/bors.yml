@@ -1,10 +1,6 @@
 name: CI (bors)
 
-on:
-  push:
-    branches:
-      - auto-libc
-      - try
+on: push
 
 permissions: {}
 jobs:
@@ -15,6 +11,7 @@ jobs:
 
     name: Docker Linux Tier1
     runs-on: ubuntu-22.04
+    needs: [check_cfg, style_check]
     strategy:
       fail-fast: true
       matrix:
@@ -39,6 +36,7 @@ jobs:
 
     name: macOS
     runs-on: macos-12
+    needs: build_channels_linux
     strategy:
       fail-fast: true
       matrix:
@@ -62,6 +60,7 @@ jobs:
 
     name: Windows
     runs-on: windows-2022
+    needs: build_channels_linux
     env:
       OS: windows
     strategy:
@@ -118,7 +117,7 @@ jobs:
       contents: read # to fetch code (actions/checkout)
 
     name: Docker Linux Tier2
-    needs: [docker_linux_tier1, style_check]
+    needs: style_check
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: true
@@ -181,7 +180,7 @@ jobs:
 
     if: ${{ false }} # This is currently broken
     name: Docker Linux Build-Std Targets
-    needs: [docker_linux_tier1, style_check]
+    needs: docker_linux_tier1
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: true
@@ -207,7 +206,7 @@ jobs:
       contents: read # to fetch code (actions/checkout)
 
     name: Docker Switch
-    needs: [docker_linux_tier1, style_check]
+    needs: docker_linux_tier1
     runs-on: ubuntu-22.04
     steps:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
@@ -225,19 +224,19 @@ jobs:
       contents: read # to fetch code (actions/checkout)
 
     name: Build Channels Linux
-    needs: docker_linux_tier2
+    needs: [check_cfg, style_check]
     runs-on: ubuntu-22.04
     env:
       OS: linux
     strategy:
-      fail-fast: true
+      fail-fast: false
       max-parallel: 5
       matrix:
         toolchain: [
           stable,
           beta,
           nightly,
-          1.13.0,
+          # 1.13.0,
           1.19.0,
           1.24.0,
           1.25.0,
@@ -263,11 +262,10 @@ jobs:
     # ld: in /.../x86_64-apple-darwin/lib/libstd-a4729905.rlib(rust.metadata.bin),
     # archive member 'rust.metadata.bin' with length 2958149 is not mach-o or llvm bitcode file '/.../x86_64-apple-darwin/lib/libstd-a4729905.rlib'
     # Possibly related: https://github.com/actions/runner-images/issues/6350
-    runs-on: macos-11
     env:
       OS: macos
     strategy:
-      fail-fast: true
+      fail-fast: false
       max-parallel: 4
       matrix:
         toolchain: [
@@ -280,6 +278,17 @@ jobs:
           1.25.0,
           1.30.0,
         ]
+        target:
+          - { toolchain: stable, os: macos-12 }
+          - { toolchain: beta, os: macos-12 }
+          - { toolchain: nightly, os: macos-12 }
+          # Use macOS 11 for older toolchains as newer Xcode donesn't work well.
+          # - { toolchain: 1.13.0, os: macos-11 }
+          - { toolchain: 1.19.0, os: macos-11 }
+          - { toolchain: 1.24.0, os: macos-11 }
+          - { toolchain: 1.25.0, os: macos-11 }
+          - { toolchain: 1.30.0, os: macos-11 }
+    runs-on: ${{ matrix.target.os }}
     steps:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
         with:
@@ -296,6 +305,7 @@ jobs:
 
     name: Build Channels Windows
     runs-on: windows-2022
+    needs: windows
     env:
       OS: windows
     strategy:
