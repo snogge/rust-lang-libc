@@ -59,21 +59,6 @@ s! {
         pub f_spare: [::c_long; 4],
     }
 
-    pub struct statfs64 {
-        pub f_type: ::c_long,
-        pub f_bsize: ::c_long,
-        pub f_blocks: ::fsblkcnt64_t,
-        pub f_bfree: ::fsblkcnt64_t,
-        pub f_bavail: ::fsblkcnt64_t,
-        pub f_files: ::fsfilcnt64_t,
-        pub f_ffree: ::fsfilcnt64_t,
-        pub f_fsid: ::fsid_t,
-        pub f_namelen: ::c_long,
-        pub f_frsize: ::c_long,
-        pub f_flags: ::c_long,
-        pub f_spare: [::c_long; 4],
-    }
-
     pub struct statvfs {
         pub f_bsize: ::c_ulong,
         pub f_frsize: ::c_ulong,
