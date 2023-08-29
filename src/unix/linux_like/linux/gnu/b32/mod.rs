@@ -45,6 +45,11 @@ cfg_if! {
         pub type stat64 = stat;
     }
 }
+cfg_if! {
+    if #[cfg(target_arch = "riscv32")] {
+        pub type statvfs64 = statvfs;
+    }
+}
 
 s! {
     pub struct stat {
