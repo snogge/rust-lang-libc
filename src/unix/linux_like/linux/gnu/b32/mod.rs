@@ -41,7 +41,7 @@ cfg_if! {
     }
 }
 cfg_if! {
-    if #[cfg(target_arch = "arm")] {
+    if #[cfg(any(target_arch = "arm", target_arch="riscv32"))] {
         pub type stat64 = stat;
     }
 }
