@@ -3338,8 +3338,6 @@ fn test_linux(target: &str) {
 
             // typedefs don't need any keywords
             t if t.ends_with("_t") => t.to_string(),
-            // put `union` in front of all unions:
-            t if is_union => format!("union {}", t),
             // put `struct` in front of all structs:.
             t if is_struct => format!("struct {}", t),
             // put `union` in front of all unions:
