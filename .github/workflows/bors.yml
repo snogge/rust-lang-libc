@@ -11,7 +11,7 @@ jobs:
 
     name: Docker Linux Tier1
     runs-on: ubuntu-22.04
-    needs: [check_cfg, style_check]
+    needs: check_cfg
     strategy:
       fail-fast: true
       matrix:
@@ -117,7 +117,7 @@ jobs:
       contents: read # to fetch code (actions/checkout)
 
     name: Docker Linux Tier2
-    needs: style_check
+    needs: check_cfg
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: true
@@ -224,7 +224,7 @@ jobs:
       contents: read # to fetch code (actions/checkout)
 
     name: Build Channels Linux
-    needs: [check_cfg, style_check]
+    needs: check_cfg
     runs-on: ubuntu-22.04
     env:
       OS: linux
