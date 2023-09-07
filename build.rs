@@ -60,6 +60,11 @@ fn main() {
         Some(_) | None => (),
     }
 
+    // Some ABIs need to redirect time related symbols to their time64 equivalents.
+    if is_gnu_time64_abi() {
+        println!("cargo:rustc-cfg=gnu_time64_abi");
+    }
+
     // On CI: deny all warnings
     if libc_ci {
         set_cfg("libc_deny_warnings");
@@ -202,4 +207,33 @@ fn set_cfg(cfg: &str) {
         panic!("trying to set cfg {}, but it is not in ALLOWED_CFGS", cfg);
     }
     println!("cargo:rustc-cfg={}", cfg);
+}
+
+fn is_gnu_time64_abi() -> bool {
+    match env::var("CARGO_CFG_TARGET_ENV") {
+        Ok(target_env) => {
+            if target_env != "gnu" {
+                return false;
+            }
+        }
+        Err(_) => panic!("CARGO_CFG_TARGET_ENV not set"),
+    }
+    match env::var("CARGO_CFG_TARGET_OS") {
+        Ok(target_os) => {
+            if target_os != "linux" {
+                return false;
+            }
+        }
+        Err(_) => panic!("CARGO_CFG_TARGET_OS not set"),
+    }
+    match env::var("CARGO_CFG_TARGET_POINTER_WIDTH") {
+        Ok(bits) => {
+            if bits == "64" {
+                return false;
+            }
+            bits
+        }
+        Err(_) => panic!("CARGO_CFG_TARGET_POINTER_WIDTH not set"),
+    };
+    return true;
 }
