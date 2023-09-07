@@ -3625,29 +3625,23 @@ fn config_gnu_bits(target: &str, cfg: &mut ctest::TestGenerator) {
         && !target.contains("riscv32")
         && pointer_width == "32"
     {
-        match env::var("RUST_LIBC_UNSTABLE_GNU_TIME_BITS") {
-            Ok(val) if val == "64" => {
-                cfg.define("_FILE_OFFSET_BITS", Some("64"));
-                cfg.define("_TIME_BITS", Some("64"));
-                cfg.cfg("gnu_file_offset_bits64", None);
-                cfg.cfg("linux_time_bits64", None);
-                cfg.cfg("gnu_time_bits64", None);
-            }
-            Ok(val) if val != "32" => {
-                panic!("RUST_LIBC_UNSTABLE_GNU_TIME_BITS may only be set to '32' or '64'")
-            }
-            _ => {
-                match env::var("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS") {
-                    Ok(val) if val == "64" => {
-                        cfg.define("_FILE_OFFSET_BITS", Some("64"));
-                        cfg.cfg("gnu_file_offset_bits64", None);
-                    }
-                    Ok(val) if val != "32" => {
-                        panic!("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS may only be set to '32' or '64'")
-                    }
-                    _ => {}
-                }
-            }
+        let filebits = env::var("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS").unwrap_or("32");
+        let timebits = env::var("RUST_LIBC_UNSTABLE_GNU_TIME_BITS").unwrap_or("32");
+
+        if !["32", "64"].contains(&filebits) || !["32", "64"].contains(&timebits) {
+            panic!("Invalid value for RUST_LIBC_UNSTABLE_GNU_TIME_BITS or RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS, must be 32, 64 or unset");
+        }
+        if filebits == "32" && timebits == "64" {
+            panic!("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS must be 64 or unset if RUST_LIBC_UNSTABLE_GNU_TIME_BITS is 64");
+        }
+        if timebits == "64" {
+            cfg.define("_TIME_BITS", Some("64"));
+            set_cfg("linux_time_bits64");
+            set_cfg("gnu_time_bits64");
+        }
+        if filebits == "64" {
+            cfg.define("_FILE_OFFSET_BITS", Some("64"));
+            set_cfg("gnu_file_offset_bits64");
         }
     }
 }
