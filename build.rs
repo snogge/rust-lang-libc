@@ -236,5 +236,35 @@ fn is_gnu_time64_abi() -> bool {
         }
         Err(_) => panic!("CARGO_CFG_TARGET_POINTER_WIDTH not set"),
     };
+    // At this point, we _know_ it is *-*-linux-gnu* with 32 bit
+    // pointers. Some 64 bit arch still have 32 bit pointers though.
+    match env::var("TARGET") {
+        Ok(target) => {
+            // x86_64-unknown-linux-gnux32 and similar
+            if target.contains("x86_64") && target.contains("x32") {
+                return false;
+            }
+        }
+        Err(_) => panic!("TARGET not set"),
+    }
+    // let _arch = match env::var("CARGO_CFG_TARGET_ARCH") {
+    //     Ok(arch) => match &arch[..] {
+    //         "aarch64" | "loongarch64" | "mips64" | "mips64r6" | "powerpc64" | "riscv64"
+    //         | "s390x" | "sparc64" | "x86_64"
+    //             if ptrbits == "32" =>
+    //         {
+    //             panic!(
+    //                 "Unexpected 32 bit pointer arch {} target {}",
+    //                 arch,
+    //                 &env::var("TARGET").unwrap()
+    //             );
+    //         }
+    //         // "x86_64" => {
+    //         //     return false;
+    //         // }
+    //         _ => arch,
+    //     },
+    //     Err(_) => panic!("CARGO_CFG_TARGET_ARCH not set"),
+    // };
     return true;
 }
