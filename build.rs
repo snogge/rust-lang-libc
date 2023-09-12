@@ -13,6 +13,7 @@ const ALLOWED_CFGS: &'static [&'static str] = &[
     "freebsd13",
     "freebsd14",
     "freebsd15",
+    "gnu_time64_abi",
     "libc_const_extern_fn",
     "libc_const_extern_fn_unstable",
     "libc_deny_warnings",
@@ -62,7 +63,7 @@ fn main() {
 
     // Some ABIs need to redirect time related symbols to their time64 equivalents.
     if is_gnu_time64_abi() {
-        println!("cargo:rustc-cfg=gnu_time64_abi");
+        set_cfg("gnu_time64_abi");
     }
 
     // On CI: deny all warnings
