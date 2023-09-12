@@ -236,5 +236,16 @@ fn is_gnu_time64_abi() -> bool {
         }
         Err(_) => panic!("CARGO_CFG_TARGET_POINTER_WIDTH not set"),
     };
+    // At this point, we _know_ it is *-*-linux-gnu* with 32 bit
+    // pointers. Some 64 bit arch still have 32 bit pointers though.
+    match env::var("TARGET") {
+        Ok(target) => {
+            // x86_64-unknown-linux-gnux32 and similar
+            if target.contains("x86_64") && target.contains("x32") {
+                return false;
+            }
+        }
+        Err(_) => panic!("TARGET not set"),
+    }
     return true;
 }
