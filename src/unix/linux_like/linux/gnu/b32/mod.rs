@@ -17,6 +17,7 @@ pub type __fsword_t = i32;
 pub type fsblkcnt64_t = u64;
 pub type fsfilcnt64_t = u64;
 pub type __syscall_ulong_t = ::c_ulong;
+pub type __syscall_slong_t = ::c_long;
 
 cfg_if! {
     if #[cfg(target_arch = "riscv32")] {
@@ -162,42 +163,84 @@ s! {
         __glibc_reserved3: ::__syscall_ulong_t,
         __glibc_reserved4: ::__syscall_ulong_t,
     }
+}
 
-    pub struct timex {
-        pub modes: ::c_uint,
-        pub __unused_pad1: i32,
-        pub offset: ::c_longlong,
-        pub freq: ::c_longlong,
-        pub maxerror: ::c_longlong,
-        pub esterror: ::c_longlong,
-        pub status: ::c_int,
-        pub __unused_pad2: i32,
-        pub constant: ::c_longlong,
-        pub precision: ::c_longlong,
-        pub tolerance: ::c_longlong,
-        pub time: ::timeval,
-        pub tick: ::c_longlong,
-        pub ppsfreq: ::c_longlong,
-        pub jitter: ::c_longlong,
-        pub shift: ::c_int,
-        pub __unused_pad3: i32,
-        pub stabil: ::c_longlong,
-        pub jitcnt: ::c_longlong,
-        pub calcnt: ::c_longlong,
-        pub errcnt: ::c_longlong,
-        pub stbcnt: ::c_longlong,
-        pub tai: ::c_int,
-        pub __unused1: i32,
-        pub __unused2: i32,
-        pub __unused3: i32,
-        pub __unused4: i32,
-        pub __unused5: i32,
-        pub __unused6: i32,
-        pub __unused7: i32,
-        pub __unused8: i32,
-        pub __unused9: i32,
-        pub __unused10: i32,
-        pub __unused11: i32,
+cfg_if! {
+    if #[cfg(gnu_time64_abi)] {
+        s! {
+            pub struct timex {
+                pub modes: ::c_uint,
+                pub __unused_pad1: i32,
+                pub offset: ::c_longlong,
+                pub freq: ::c_longlong,
+                pub maxerror: ::c_longlong,
+                pub esterror: ::c_longlong,
+                pub status: ::c_int,
+                pub __unused_pad2: i32,
+                pub constant: ::c_longlong,
+                pub precision: ::c_longlong,
+                pub tolerance: ::c_longlong,
+                pub time: ::timeval,
+                pub tick: ::c_longlong,
+                pub ppsfreq: ::c_longlong,
+                pub jitter: ::c_longlong,
+                pub shift: ::c_int,
+                pub __unused_pad3: i32,
+                pub stabil: ::c_longlong,
+                pub jitcnt: ::c_longlong,
+                pub calcnt: ::c_longlong,
+                pub errcnt: ::c_longlong,
+                pub stbcnt: ::c_longlong,
+                pub tai: ::c_int,
+                pub __unused1: i32,
+                pub __unused2: i32,
+                pub __unused3: i32,
+                pub __unused4: i32,
+                pub __unused5: i32,
+                pub __unused6: i32,
+                pub __unused7: i32,
+                pub __unused8: i32,
+                pub __unused9: i32,
+                pub __unused10: i32,
+                pub __unused11: i32,
+            }
+        }
+    } else {
+        s! {
+            pub struct timex {
+                pub modes: ::c_uint,
+                pub offset: ::__syscall_slong_t,
+                pub freq: ::__syscall_slong_t,
+                pub maxerror: ::__syscall_slong_t,
+                pub esterror: ::__syscall_slong_t,
+                pub status: ::c_int,
+                pub constant: ::__syscall_slong_t,
+                pub precision: ::__syscall_slong_t,
+                pub tolerance: ::__syscall_slong_t,
+                pub time: ::timeval,
+                pub tick: ::__syscall_slong_t,
+                pub ppsfreq: ::__syscall_slong_t,
+                pub jitter: ::__syscall_slong_t,
+                pub shift: ::c_int,
+                pub stabil: ::__syscall_slong_t,
+                pub jitcnt: ::__syscall_slong_t,
+                pub calcnt: ::__syscall_slong_t,
+                pub errcnt: ::__syscall_slong_t,
+                pub stbcnt: ::__syscall_slong_t,
+                pub tai: ::c_int,
+                pub __unused1: i32,
+                pub __unused2: i32,
+                pub __unused3: i32,
+                pub __unused4: i32,
+                pub __unused5: i32,
+                pub __unused6: i32,
+                pub __unused7: i32,
+                pub __unused8: i32,
+                pub __unused9: i32,
+                pub __unused10: i32,
+                pub __unused11: i32,
+            }
+        }
     }
 }
 
