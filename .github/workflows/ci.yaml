@@ -98,7 +98,7 @@ jobs:
 
   test_tier2:
     name: Test tier2
-    needs: [test_tier1, style_check]
+    needs: [test_tier1]
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: true
