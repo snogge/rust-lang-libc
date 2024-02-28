@@ -266,5 +266,5 @@ fn is_gnu_time64_abi() -> bool {
     //     },
     //     Err(_) => panic!("CARGO_CFG_TARGET_ARCH not set"),
     // };
-    return true;
+    return false;
 }
