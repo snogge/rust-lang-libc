@@ -44,7 +44,9 @@ jobs:
 
     name: macOS
     runs-on: macos-14
-    needs: [build_channels_linux, docker_linux_build_std]
+    needs: [build_channels_linux,
+    # docker_linux_build_std,
+    ]
     strategy:
       fail-fast: true
       matrix:
@@ -64,7 +66,9 @@ jobs:
 
     name: Windows
     runs-on: windows-2022
-    needs: [build_channels_linux, docker_linux_build_std]
+    needs: [build_channels_linux,
+    #docker_linux_build_std,
+    ]
     env:
       OS: windows
     strategy:
@@ -221,7 +225,9 @@ jobs:
 
     name: Build Channels Windows
     runs-on: windows-2022
-    needs: [build_channels_linux, docker_linux_build_std]
+    needs: [build_channels_linux,
+    #docker_linux_build_std,
+    ]
     env:
       OS: windows
     strategy:
