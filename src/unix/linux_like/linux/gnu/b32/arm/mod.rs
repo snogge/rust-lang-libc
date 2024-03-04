@@ -59,13 +59,19 @@ s! {
         pub shm_perm: ::ipc_perm,
         pub shm_segsz: ::size_t,
         pub shm_atime: ::time_t,
+        #![cfg(not(gnu_time64_abi))]
+        __unused1: ::c_ulong,
         pub shm_dtime: ::time_t,
+        #![cfg(not(gnu_time64_abi))]
+        __unused2: ::c_ulong,
         pub shm_ctime: ::time_t,
+        #![cfg(not(gnu_time64_abi))]
+        __unused3: ::c_ulong,
         pub shm_cpid: ::pid_t,
         pub shm_lpid: ::pid_t,
         pub shm_nattch: ::shmatt_t,
-        __glibc_reserved5: ::c_ulong,
-        __glibc_reserved6: ::c_ulong,
+        __unused4: ::c_ulong,
+        __unused5: ::c_ulong
     }
 
     pub struct msqid_ds {
