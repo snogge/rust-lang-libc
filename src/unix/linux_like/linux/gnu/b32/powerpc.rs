@@ -1,6 +1,8 @@
 pub type c_char = u8;
 pub type wchar_t = i32;
 
+pub type statfs64 = statfs;
+
 s! {
     pub struct sigaction {
         pub sa_sigaction: ::sighandler_t,
@@ -8,6 +10,38 @@ s! {
         pub sa_flags: ::c_int,
         pub sa_restorer: ::Option<extern fn()>,
     }
+
+    pub struct stat {
+        pub st_dev: ::dev_t,
+        pub st_ino: ::ino_t,
+        pub st_mode: ::mode_t,
+        pub st_nlink: ::nlink_t,
+        pub st_uid: ::uid_t,
+        pub st_gid: ::gid_t,
+        pub st_rdev: ::dev_t,
+        pub st_size: ::off_t,
+        pub st_blksize: ::blksize_t,
+        pub st_blocks: ::blkcnt_t,
+        pub st_atime: ::time_t,
+        #[cfg(gnu_time64_abi)]
+        __pad1: i32,
+        pub st_atime_nsec: ::c_long,
+        #[cfg(not(gnu_time64_abi))]
+        __pad1: i32,
+        pub st_mtime: ::time_t,
+        #[cfg(gnu_time64_abi)]
+        __pad2: i32,
+        pub st_mtime_nsec: ::c_long,
+        #[cfg(not(gnu_time64_abi))]
+        __pad2: i32,
+        pub st_ctime: ::time_t,
+        #[cfg(gnu_time64_abi)]
+        __pad3: i32,
+        pub st_ctime_nsec: ::c_long,
+        #[cfg(not(gnu_time64_abi))]
+        __pad3: i32,
+    }
+
 
     pub struct statfs {
         pub f_type: ::__fsword_t,
@@ -63,33 +97,18 @@ s! {
         pub st_uid: ::uid_t,
         pub st_gid: ::gid_t,
         pub st_rdev: ::dev_t,
-        __pad2: ::c_ushort,
         pub st_size: ::off64_t,
         pub st_blksize: ::blksize_t,
         pub st_blocks: ::blkcnt64_t,
         pub st_atime: ::time_t,
-        pub st_atime_nsec: ::c_long,
+         __pad1: i32,
+       pub st_atime_nsec: ::c_long,
         pub st_mtime: ::time_t,
+        __pad2: i32,
         pub st_mtime_nsec: ::c_long,
         pub st_ctime: ::time_t,
+        __pad3: i32,
         pub st_ctime_nsec: ::c_long,
-        __glibc_reserved4: ::c_ulong,
-        __glibc_reserved5: ::c_ulong,
-    }
-
-    pub struct statfs64 {
-        pub f_type: ::__fsword_t,
-        pub f_bsize: ::__fsword_t,
-        pub f_blocks: u64,
-        pub f_bfree: u64,
-        pub f_bavail: u64,
-        pub f_files: u64,
-        pub f_ffree: u64,
-        pub f_fsid: ::fsid_t,
-        pub f_namelen: ::__fsword_t,
-        pub f_frsize: ::__fsword_t,
-        pub f_flags: ::__fsword_t,
-        pub f_spare: [::__fsword_t; 4],
     }
 
     pub struct statvfs64 {

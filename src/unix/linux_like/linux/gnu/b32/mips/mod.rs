@@ -1,28 +1,88 @@
 pub type c_char = i8;
 pub type wchar_t = i32;
 
+pub type statfs64 = statfs;
 s! {
-    pub struct stat64 {
+    pub struct stat {
+        #[cfg(gnu_time64_abi)]
+        pub st_dev: ::dev_t,
+        #[cfg(not(gnu_time64_abi))]
         pub st_dev: ::c_ulong,
+        #[cfg(not(gnu_time64_abi))]
         st_pad1: [::c_long; 3],
+
+        pub st_ino: ::ino_t,
+        pub st_mode: ::mode_t,
+        pub st_nlink: ::nlink_t,
+        pub st_uid: ::uid_t,
+        pub st_gid: ::gid_t,
+        #[cfg(gnu_time64_abi)]
+        pub st_rdev: ::dev_t,
+        #[cfg(not(gnu_time64_abi))]
+        pub st_rdev: ::c_ulong,
+
+        #[cfg(not(gnu_time64_abi))]
+        st_pad2: [::c_long; 2],
+
+
+        pub st_size: ::off_t,
+
+        #[cfg(not(gnu_time64_abi))]
+        st_pad3: ::c_long,
+
+        #[cfg(gnu_time64_abi)]
+        pub st_blksize: ::blksize_t,
+        #[cfg(gnu_time64_abi)]
+        pub st_blocks: ::blkcnt_t,
+
+        pub st_atime: ::time_t,
+        #[cfg(gnu_time64_abi)]
+        __pad1: i32,
+        pub st_atime_nsec: ::c_long,
+        #[cfg(not(gnu_time64_abi))]
+        __pad1: i32,
+        pub st_mtime: ::time_t,
+        #[cfg(gnu_time64_abi)]
+        __pad2: i32,
+        pub st_mtime_nsec: ::c_long,
+        #[cfg(not(gnu_time64_abi))]
+        __pad2: i32,
+        pub st_ctime: ::time_t,
+        #[cfg(gnu_time64_abi)]
+        __pad3: i32,
+        pub st_ctime_nsec: ::c_long,
+        #[cfg(not(gnu_time64_abi))]
+        __pad3: i32,
+
+
+        #[cfg(not(gnu_time64_abi))]
+        pub st_blksize: ::blksize_t,
+        #[cfg(not(gnu_time64_abi))]
+        pub st_blocks: ::blkcnt_t,
+        #[cfg(not(gnu_time64_abi))]
+        st_pad5: [::c_long; 14],
+    }
+
+    pub struct stat64 {
+        pub st_dev: ::dev_t,
         pub st_ino: ::ino64_t,
         pub st_mode: ::mode_t,
         pub st_nlink: ::nlink_t,
         pub st_uid: ::uid_t,
         pub st_gid: ::gid_t,
-        pub st_rdev: ::c_ulong,
-        st_pad2: [::c_long; 2],
+        pub st_rdev: ::dev_t,
         pub st_size: ::off64_t,
+        pub st_blksize: ::blksize_t,
+        pub st_blocks: ::blkcnt64_t,
         pub st_atime: ::time_t,
+        __pad1: i32,
         pub st_atime_nsec: ::c_long,
         pub st_mtime: ::time_t,
+        __pad2: i32,
         pub st_mtime_nsec: ::c_long,
         pub st_ctime: ::time_t,
+        __pad3: i32,
         pub st_ctime_nsec: ::c_long,
-        pub st_blksize: ::blksize_t,
-        st_pad3: ::c_long,
-        pub st_blocks: ::blkcnt64_t,
-        st_pad5: [::c_long; 14],
     }
 
     pub struct statfs {
@@ -39,21 +99,6 @@ s! {
         pub f_namelen: ::c_long,
         pub f_flags: ::c_long,
         f_spare: [::c_long; 5],
-    }
-
-    pub struct statfs64 {
-        pub f_type: ::c_long,
-        pub f_bsize: ::c_long,
-        pub f_frsize: ::c_long,
-        pub f_blocks: u64,
-        pub f_bfree: u64,
-        pub f_files: u64,
-        pub f_ffree: u64,
-        pub f_bavail: u64,
-        pub f_fsid: ::fsid_t,
-        pub f_namelen: ::c_long,
-        pub f_flags: ::c_long,
-        pub f_spare: [::c_long; 5],
     }
 
     pub struct statvfs64 {
