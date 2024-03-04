@@ -52,56 +52,15 @@ cfg_if! {
         pub type blksize_t = i32;
     }
 }
+cfg_if! {
+    if #[cfg(any(target_arch = "arm", target_arch="riscv32", target_arch="sparc"))] {
+        pub type stat64 = stat;
+        pub type statfs64 = statfs;
+        pub type statvfs64 = statvfs;
+    }
+}
 
 s! {
-    pub struct stat {
-        #[cfg(not(any(target_arch = "mips", target_arch = "mips32r6")))]
-        pub st_dev: ::dev_t,
-        #[cfg(any(target_arch = "mips", target_arch = "mips32r6"))]
-        pub st_dev: ::c_ulong,
-
-        #[cfg(not(any(target_arch = "mips", target_arch = "mips32r6")))]
-        __pad1: ::c_short,
-        #[cfg(any(target_arch = "mips", target_arch = "mips32r6"))]
-        st_pad1: [::c_long; 3],
-        pub st_ino: ::ino_t,
-        pub st_mode: ::mode_t,
-        pub st_nlink: ::nlink_t,
-        pub st_uid: ::uid_t,
-        pub st_gid: ::gid_t,
-        #[cfg(not(any(target_arch = "mips", target_arch = "mips32r6")))]
-        pub st_rdev: ::dev_t,
-        #[cfg(any(target_arch = "mips", target_arch = "mips32r6"))]
-        pub st_rdev: ::c_ulong,
-        #[cfg(not(any(target_arch = "mips", target_arch = "mips32r6")))]
-        __pad2: ::c_short,
-        #[cfg(any(target_arch = "mips", target_arch = "mips32r6"))]
-        st_pad2: [::c_long; 2],
-        pub st_size: ::off_t,
-        #[cfg(any(target_arch = "mips", target_arch = "mips32r6"))]
-        st_pad3: ::c_long,
-        #[cfg(not(any(target_arch = "mips", target_arch = "mips32r6")))]
-        pub st_blksize: ::blksize_t,
-        #[cfg(not(any(target_arch = "mips", target_arch = "mips32r6")))]
-        pub st_blocks: ::blkcnt_t,
-        pub st_atime: ::time_t,
-        pub st_atime_nsec: ::c_long,
-        pub st_mtime: ::time_t,
-        pub st_mtime_nsec: ::c_long,
-        pub st_ctime: ::time_t,
-        pub st_ctime_nsec: ::c_long,
-        #[cfg(not(any(target_arch = "mips", target_arch = "mips32r6")))]
-        __unused4: ::c_long,
-        #[cfg(not(any(target_arch = "mips", target_arch = "mips32r6")))]
-        __unused5: ::c_long,
-        #[cfg(any(target_arch = "mips", target_arch = "mips32r6"))]
-        pub st_blksize: ::blksize_t,
-        #[cfg(any(target_arch = "mips", target_arch = "mips32r6"))]
-        pub st_blocks: ::blkcnt_t,
-        #[cfg(any(target_arch = "mips", target_arch = "mips32r6"))]
-        st_pad5: [::c_long; 14],
-    }
-
     pub struct statvfs {
         pub f_bsize: ::c_ulong,
         pub f_frsize: ::c_ulong,
@@ -443,5 +402,18 @@ cfg_if! {
         pub use self::csky::*;
     } else {
         // Unknown target_arch
+    }
+}
+
+cfg_if! {
+    if #[cfg(not(any(
+        target_arch = "mips",
+        target_arch = "mips32r6",
+        target_arch = "powerpc",
+        target_arch = "riscv32",
+        target_arch = "sparc",
+    )))] {
+        mod generic;
+        pub use self::generic::*;
     }
 }
