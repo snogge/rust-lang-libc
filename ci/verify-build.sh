@@ -40,6 +40,28 @@ test_target() {
     no_dist="$2"
 
     RUSTFLAGS="${RUSTFLAGS:-}"
+    if [ "${RUST_LIBC_TIME_BITS:-}" = "" ]; then
+        while true; do
+            case "$target" in
+                arm-unknown-linux-gnueabi);;
+                arm-unknown-linux-gnueabihf);;
+                armv7-unknown-linux-gnueabihf);;
+                i586-unknown-linux-gnu);;
+                i686-unknown-linux-gnu);;
+                powerpc-unknown-linux-gnu);;
+                armv5te-unknown-linux-gnueabi);;
+                mips-unknown-linux-gnu);;
+                mipsel-unknown-linux-gnu);;
+                powerpc-unknown-linux-gnuspe);;
+                riscv32gc-unknown-linux-gnu);;
+                sparc-unknown-linux-gnu);;
+                *) break;
+            esac
+            RUST_LIBC_TIME_BITS=32 test_target "$target" "$no_dist"
+            RUST_LIBC_TIME_BITS=64 test_target "$target" "$no_dist"
+            break # also build without RUST_LIBC_TIME_BITS set
+        done
+    fi
 
     # The basic command that is run each time
     cmd="cargo +$rust build --target $target"
