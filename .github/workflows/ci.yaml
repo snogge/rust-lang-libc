@@ -52,6 +52,15 @@ jobs:
           - target: i686-unknown-linux-gnu
             docker: true
             os: ubuntu-24.04
+            bits: default
+          - target: i686-unknown-linux-gnu
+            docker: true
+            os: ubuntu-24.04
+            bits: 32
+          - target: i686-unknown-linux-gnu
+            docker: true
+            os: ubuntu-24.04
+            bits: 64
           - target: x86_64-unknown-linux-gnu
             docker: true
             os: ubuntu-24.04
@@ -74,6 +83,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       TARGET: ${{ matrix.target }}
+      RUST_LIBC_TIME_BITS: ${{ matrix.bits }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchain
@@ -122,8 +132,19 @@ jobs:
           # FIXME: It seems some items in `src/unix/mod.rs`
           # aren't defined on redox actually.
           # - x86_64-unknown-redox
+        bits: [default]
+        include:
+          - target: arm-unknown-linux-gnueabihf
+            bits: 32
+          - target: arm-unknown-linux-gnueabihf
+            bits: 64
+          - target: powerpc-unknown-linux-gnu
+            bits: 32
+          - target: powerpc-unknown-linux-gnu
+            bits: 64
     env:
       TARGET: ${{ matrix.target }}
+      RUST_LIBC_TIME_BITS: ${{ matrix.bits }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchain
