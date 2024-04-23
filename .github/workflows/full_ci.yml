@@ -21,6 +21,11 @@ jobs:
           i686-unknown-linux-gnu,
           x86_64-unknown-linux-gnu,
         ]
+        RUST_LIBC_TIME_BITS: [
+          default,
+          32,
+          64
+        ]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchain
@@ -141,6 +146,11 @@ jobs:
           # aren't defined on redox actually.
           # x86_64-unknown-redox,
         ]
+        RUST_LIBC_TIME_BITS: [
+          default,
+          32,
+          64
+        ]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchain
@@ -164,6 +174,11 @@ jobs:
       matrix:
         target: [
           armv7-unknown-linux-uclibceabihf
+        ]
+        RUST_LIBC_TIME_BITS: [
+          default,
+          32,
+          64
         ]
     steps:
       - uses: actions/checkout@v4
@@ -205,6 +220,11 @@ jobs:
           beta,
           nightly,
           1.71.0,
+        ]
+        RUST_LIBC_TIME_BITS: [
+          default,
+          32,
+          64
         ]
     steps:
       - uses: actions/checkout@v4
