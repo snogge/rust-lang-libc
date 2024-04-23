@@ -211,6 +211,18 @@ fn set_cfg(cfg: &str) {
 }
 
 fn is_gnu_time64_abi() -> bool {
+    match env::var("RUST_LIBC_TIME_BITS") {
+        Ok(time_bits) => {
+            if time_bits == "64" {
+                return true;
+            }
+            if time_bits == "32" {
+                return false;
+            }
+            panic!("Invalid value for RUST_LIBC_TIME_BITS");
+        }
+        Err(_) => {}
+    }
     match env::var("CARGO_CFG_TARGET_ENV") {
         Ok(target_env) => {
             if target_env != "gnu" {
