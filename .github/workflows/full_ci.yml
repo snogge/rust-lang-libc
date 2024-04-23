@@ -21,12 +21,17 @@ jobs:
           i686-unknown-linux-gnu,
           x86_64-unknown-linux-gnu,
         ]
+        bits: [
+          default,
+          32,
+          64
+        ]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchain
         run: TARGET=${{ matrix.target }} sh ./ci/install-rust.sh
       - name: Execute run-docker.sh
-        run: LIBC_CI=1 sh ./ci/run-docker.sh ${{ matrix.target }}
+        run: LIBC_CI=1 RUST_LIBC_TIME_BITS=${{ matrix.bits }} sh ./ci/run-docker.sh ${{ matrix.target }}
 
   macos:
     permissions:
@@ -141,12 +146,17 @@ jobs:
           # aren't defined on redox actually.
           # x86_64-unknown-redox,
         ]
+        bits: [
+          default,
+          32,
+          64
+        ]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchain
         run: TARGET=${{ matrix.target }} sh ./ci/install-rust.sh
       - name: Execute run-docker.sh
-        run: LIBC_CI=1 sh ./ci/run-docker.sh ${{ matrix.target }}
+        run: LIBC_CI=1 RUST_LIBC_TIME_BITS=${{ matrix.bits }} sh ./ci/run-docker.sh ${{ matrix.target }}
 
   # These targets are tier 3 or otherwise need to have CI build std via -Zbuild-std.
   # Because of this, only the nightly compiler can be used on these targets.
@@ -165,12 +175,17 @@ jobs:
         target: [
           armv7-unknown-linux-uclibceabihf
         ]
+        bits: [
+          default,
+          32,
+          64
+        ]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchain
         run: TOOLCHAIN=nightly INSTALL_RUST_SRC=1 sh ./ci/install-rust.sh
       - name: Execute run-docker.sh
-        run: LIBC_CI=1 TOOLCHAIN=nightly LIBC_CI_ZBUILD_STD=1 sh ./ci/run-docker.sh ${{ matrix.target }}
+        run: LIBC_CI=1 RUST_LIBC_TIME_BITS=${{ matrix.bits }} TOOLCHAIN=nightly LIBC_CI_ZBUILD_STD=1 sh ./ci/run-docker.sh ${{ matrix.target }}
 
   # devkitpro's pacman needs to be connected from Docker.
   docker_switch:
@@ -206,12 +221,17 @@ jobs:
           nightly,
           1.71.0,
         ]
+        bits: [
+          default,
+          32,
+          64
+        ]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchain
         run: TOOLCHAIN=${{ matrix.toolchain }} sh ./ci/install-rust.sh
       - name: Execute build.sh
-        run: LIBC_CI=1 TOOLCHAIN=${{ matrix.toolchain }} sh ./ci/build.sh
+        run: LIBC_CI=1 RUST_LIBC_TIME_BITS=${{ matrix.bits }} TOOLCHAIN=${{ matrix.toolchain }} sh ./ci/build.sh
 
   build_channels_macos:
     permissions:
