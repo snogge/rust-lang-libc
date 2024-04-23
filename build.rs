@@ -232,7 +232,6 @@ fn is_gnu_time64_abi() -> bool {
             if bits == "64" {
                 return false;
             }
-            bits
         }
         Err(_) => panic!("CARGO_CFG_TARGET_POINTER_WIDTH not set"),
     }
