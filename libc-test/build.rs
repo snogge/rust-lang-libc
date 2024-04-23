@@ -3272,9 +3272,16 @@ fn test_linux(target: &str) {
     cfg.define("__GLIBC_USE_DEPRECATED_SCANF", None);
 
     if gnu && &env::var("CARGO_CFG_TARGET_POINTER_WIDTH").unwrap() == "32" && !x32 {
-        cfg.define("_TIME_BITS", Some("64"));
-        cfg.define("_FILE_OFFSET_BITS", Some("64"));
-        cfg.cfg("gnu_time64_abi", None);
+        match env::var("RUST_LIBC_TIME_BITS") {
+            Ok(time_bits) => {
+                if time_bits == "64" || time_bits == "default" {
+                    cfg.define("_TIME_BITS", Some("64"));
+                    cfg.define("_FILE_OFFSET_BITS", Some("64"));
+                    cfg.cfg("gnu_time64_abi", None);
+                }
+            }
+            Err(_) => {}
+        }
     }
 
     headers! { cfg:
