@@ -2,11 +2,11 @@ pub type c_char = i8;
 pub type wchar_t = i32;
 pub type greg_t = i32;
 
-cfg_if! {
-    if #[cfg(gnu_time64_abi)] {
-        pub type statfs64 = statfs;
-    }
-}
+// cfg_if! {
+//     if #[cfg(gnu_time64_abi)] {
+//         pub type statfs64 = statfs;
+//     }
+// }
 
 s! {
     pub struct sigaction {
