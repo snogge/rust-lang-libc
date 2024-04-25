@@ -1,12 +1,6 @@
 pub type c_char = u8;
 pub type wchar_t = i32;
 
-cfg_if! {
-    if #[cfg(gnu_time64_abi)] {
-        pub type statfs64 = statfs;
-    }
-}
-
 s! {
     pub struct sigaction {
         pub sa_sigaction: ::sighandler_t,

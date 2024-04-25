@@ -1,12 +1,6 @@
 pub type c_char = i8;
 pub type wchar_t = i32;
 
-cfg_if! {
-    if #[cfg(gnu_time64_abi)] {
-        pub type statfs64 = statfs;
-    }
-}
-
 s! {
 
     pub struct stat {

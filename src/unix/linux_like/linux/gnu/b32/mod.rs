@@ -59,7 +59,7 @@ cfg_if! {
 cfg_if! {
     if #[cfg(all(gnu_time64_abi,
                  any(target_arch = "arm", target_arch="riscv32", target_arch="sparc")))] {
-       //pub type statfs64 = statfs;
+        pub type statfs64 = stat;
         pub type statvfs64 = statvfs;
     }
 }
