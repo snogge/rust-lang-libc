@@ -324,10 +324,10 @@ s! {
     pub struct input_event {
         #[cfg(not(gnu_time64_abi))]
         pub time: ::timeval,
-        #[cfg(gnu_time64_abi)]
-        pub __sec: ::c_ulong,
-        #[cfg(gnu_time64_abi)]
-        pub __usec: ::c_ulong,
+        #[cfg(all(gnu_time64_abi, not(target_arch = "x86")))]
+        __sec: ::c_ulong,
+        #[cfg(all(gnu_time64_abi, not(target_arch = "x86")))]
+        __usec: ::c_ulong,
         pub type_: ::__u16,
         pub code: ::__u16,
         pub value: ::__s32,
