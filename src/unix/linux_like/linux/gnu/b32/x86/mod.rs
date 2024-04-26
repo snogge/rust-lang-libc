@@ -156,11 +156,15 @@ s! {
         pub st_blocks: ::blkcnt64_t,
         pub st_atime: ::time_t,
         pub st_atime_nsec: ::c_long,
+        #[cfg(gnu_time64_abi)]
+        __pad3: i32,
         pub st_mtime: ::time_t,
         pub st_mtime_nsec: ::c_long,
+        #[cfg(gnu_time64_abi)]
         __pad4: i32,
         pub st_ctime: ::time_t,
         pub st_ctime_nsec: ::c_long,
+        #[cfg(gnu_time64_abi)]
         __pad5: i32,
         #[cfg(not(gnu_time64_abi))]
         pub st_ino: ::__ino64_t,
