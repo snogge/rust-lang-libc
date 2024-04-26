@@ -156,7 +156,6 @@ s! {
         pub st_blocks: ::blkcnt64_t,
         pub st_atime: ::time_t,
         pub st_atime_nsec: ::c_long,
-        __pad3: i32,
         pub st_mtime: ::time_t,
         pub st_mtime_nsec: ::c_long,
         __pad4: i32,
