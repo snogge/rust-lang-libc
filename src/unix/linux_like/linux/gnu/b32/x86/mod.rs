@@ -149,18 +149,22 @@ s! {
         pub st_uid: ::uid_t,
         pub st_gid: ::gid_t,
         pub st_rdev: ::dev_t,
+        #[cfg(not(gnu_time64_abi))]
+        __pad2: ::c_int,
         pub st_size: ::off64_t,
         pub st_blksize: ::blksize_t,
         pub st_blocks: ::blkcnt64_t,
         pub st_atime: ::time_t,
         pub st_atime_nsec: ::c_long,
-        __pad2: i32,
+        __pad3: i32,
         pub st_mtime: ::time_t,
         pub st_mtime_nsec: ::c_long,
-        __pad3: i32,
+        __pad4: i32,
         pub st_ctime: ::time_t,
         pub st_ctime_nsec: ::c_long,
-        __pad4: i32,
+        __pad5: i32,
+        #[cfg(not(gnu_time64_abi))]
+        pub st_ino: ::__ino64_t,
     }
 
     pub struct statvfs64 {

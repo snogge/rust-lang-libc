@@ -17,6 +17,7 @@ pub type fsblkcnt64_t = u64;
 pub type fsfilcnt64_t = u64;
 pub type __syscall_ulong_t = ::c_ulong;
 pub type __syscall_slong_t = ::c_long;
+pub type __ino64_t = u64;
 
 cfg_if! {
     if #[cfg(target_arch = "riscv32")] {
