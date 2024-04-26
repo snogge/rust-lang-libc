@@ -165,10 +165,6 @@ s! {
         __pad5: i32,
         #[cfg(not(gnu_time64_abi))]
         pub st_ino: ::__ino64_t,
-        #[cfg(gnu_time64_abi)]
-        __glibc_reserved4: ::c_ulong,
-        #[cfg(gnu_time64_abi)]
-        __glibc_reserved5: ::c_ulong,
     }
 
     pub struct statvfs64 {
