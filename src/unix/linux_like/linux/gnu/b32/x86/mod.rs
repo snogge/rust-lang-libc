@@ -150,7 +150,7 @@ s! {
         pub st_gid: ::gid_t,
         pub st_rdev: ::dev_t,
         #[cfg(not(gnu_time64_abi))]
-        __pad2: ::c_int,
+        __pad2: ::c_uint,
         pub st_size: ::off64_t,
         pub st_blksize: ::blksize_t,
         pub st_blocks: ::blkcnt64_t,
@@ -165,6 +165,10 @@ s! {
         __pad5: i32,
         #[cfg(not(gnu_time64_abi))]
         pub st_ino: ::__ino64_t,
+        #[cfg(gnu_time64_abi)]
+        __glibc_reserved4: ::c_ulong,
+        #[cfg(gnu_time64_abi)]
+        __glibc_reserved5: ::c_ulong,
     }
 
     pub struct statvfs64 {
