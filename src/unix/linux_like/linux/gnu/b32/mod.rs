@@ -64,7 +64,6 @@ cfg_if! {
         pub type statvfs64 = statvfs;
     }
 }
-
 s! {
     pub struct statvfs {
         pub f_bsize: ::c_ulong,
