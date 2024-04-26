@@ -188,7 +188,7 @@ s! {
         #[cfg(not(gnu_time64_abi))]
         pub offset: ::__syscall_slong_t,
         #[cfg(gnu_time64_abi)]
-        pub __unused_pad1: i32,
+        __unused_pad1: i32,
         #[cfg(gnu_time64_abi)]
         pub offset: ::c_longlong,
         #[cfg(not(gnu_time64_abi))]
@@ -207,7 +207,7 @@ s! {
         #[cfg(not(gnu_time64_abi))]
         pub constant: ::__syscall_slong_t,
         #[cfg(gnu_time64_abi)]
-        pub __unused_pad2: i32,
+        __unused_pad2: i32,
         #[cfg(gnu_time64_abi)]
         pub constant: ::c_longlong,
         #[cfg(not(gnu_time64_abi))]
@@ -235,7 +235,7 @@ s! {
         #[cfg(not(gnu_time64_abi))]
         pub stabil: ::__syscall_slong_t,
         #[cfg(gnu_time64_abi)]
-        pub __unused_pad3: i32,
+        __unused_pad3: i32,
         #[cfg(gnu_time64_abi)]
         pub stabil: ::c_longlong,
         #[cfg(not(gnu_time64_abi))]
@@ -255,17 +255,17 @@ s! {
         #[cfg(gnu_time64_abi)]
         pub stbcnt: ::c_longlong,
         pub tai: ::c_int,
-        pub __unused1: i32,
-        pub __unused2: i32,
-        pub __unused3: i32,
-        pub __unused4: i32,
-        pub __unused5: i32,
-        pub __unused6: i32,
-        pub __unused7: i32,
-        pub __unused8: i32,
-        pub __unused9: i32,
-        pub __unused10: i32,
-        pub __unused11: i32,
+        __unused1: i32,
+        __unused2: i32,
+        __unused3: i32,
+        __unused4: i32,
+        __unused5: i32,
+        __unused6: i32,
+        __unused7: i32,
+        __unused8: i32,
+        __unused9: i32,
+        __unused10: i32,
+        __unused11: i32,
     }
 }
 
