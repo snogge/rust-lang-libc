@@ -138,6 +138,11 @@ s! {
 
     pub struct stat64 {
         pub st_dev: ::dev_t,
+        #[cfg(not(gnu_time64_abi))]
+        __pad1: ::c_uint,
+        #[cfg(not(gnu_time64_abi))]
+        __st_ino ::ino_t,
+        #[cfg(gnu_time64_abi)]
         pub st_ino: ::ino_t,
         pub st_mode: ::mode_t,
         pub st_nlink: ::nlink_t,
@@ -149,13 +154,13 @@ s! {
         pub st_blocks: ::blkcnt64_t,
         pub st_atime: ::time_t,
         pub st_atime_nsec: ::c_long,
-        __pad1: i32,
+        __pad2: i32,
         pub st_mtime: ::time_t,
         pub st_mtime_nsec: ::c_long,
-        __pad2: i32,
+        __pad3: i32,
         pub st_ctime: ::time_t,
         pub st_ctime_nsec: ::c_long,
-        __pad3: i32,
+        __pad4: i32,
     }
 
     pub struct statvfs64 {
