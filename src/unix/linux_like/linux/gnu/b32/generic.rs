@@ -3,14 +3,17 @@ s! {
         pub st_dev: ::dev_t,
         #[cfg(not(gnu_time64_abi))]
         _pad1: i32,
+        #[cfg(not(gnu_time64_abi))]
         pub st_ino: ::ino_t,
+        #[cfg(gnu_time64_abi)]
+        __st_ino: ::ino_t,
         pub st_mode: ::mode_t,
         pub st_nlink: ::nlink_t,
         pub st_uid: ::uid_t,
         pub st_gid: ::gid_t,
         pub st_rdev: ::dev_t,
         #[cfg(not(gnu_time64_abi))]
-        __pad2: i32,
+        __pad2: u32,
         pub st_size: ::off_t,
         pub st_blksize: ::blksize_t,
         pub st_blocks: ::blkcnt_t,
@@ -26,5 +29,11 @@ s! {
         pub st_ctime_nsec: ::c_long,
         #[cfg(gnu_time64_abi)]
         __pad5: i32,
+        #[cfg(gnu_time64_abi)]
+        pub st_ino: ::ino_t,
+        #[cfg(not(gnu_time64_abi))]
+        __glibc_reserved4: ::c_ulong,
+        #[cfg(not(gnu_time64_abi))]
+        __glibc_reserved5: ::c_ulong,
     }
 }
