@@ -141,7 +141,7 @@ s! {
         #[cfg(not(gnu_time64_abi))]
         __pad1: ::c_uint,
         #[cfg(not(gnu_time64_abi))]
-        __st_ino ::ino_t,
+        __st_ino: ::ino_t,
         #[cfg(gnu_time64_abi)]
         pub st_ino: ::ino_t,
         pub st_mode: ::mode_t,
