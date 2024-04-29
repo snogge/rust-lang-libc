@@ -82,36 +82,6 @@ s! {
         __reserved: [c_long; 2],
     }
 
-    pub struct statfs64 {
-        pub f_type: crate::__fsword_t,
-        pub f_bsize: crate::__fsword_t,
-        pub f_blocks: u64,
-        pub f_bfree: u64,
-        pub f_bavail: u64,
-        pub f_files: u64,
-        pub f_ffree: u64,
-        pub f_fsid: crate::fsid_t,
-        pub f_namelen: crate::__fsword_t,
-        pub f_frsize: crate::__fsword_t,
-        pub f_flags: crate::__fsword_t,
-        pub f_spare: [crate::__fsword_t; 4],
-    }
-
-    pub struct statvfs64 {
-        pub f_bsize: c_ulong,
-        pub f_frsize: c_ulong,
-        pub f_blocks: u64,
-        pub f_bfree: u64,
-        pub f_bavail: u64,
-        pub f_files: u64,
-        pub f_ffree: u64,
-        pub f_favail: u64,
-        pub f_fsid: c_ulong,
-        pub f_flag: c_ulong,
-        pub f_namemax: c_ulong,
-        __f_spare: [c_int; 6],
-    }
-
     pub struct timex {
         pub modes: c_uint,
         pub offset: c_long,
@@ -857,3 +827,13 @@ pub const SYS_memfd_secret: c_long = 447;
 pub const SYS_process_mrelease: c_long = 448;
 pub const SYS_futex_waitv: c_long = 449;
 pub const SYS_set_mempolicy_home_node: c_long = 450;
+
+cfg_if! {
+    if #[cfg(gnu_time64_abi)] {
+        mod time64;
+        pub use self::time64::*;
+    } else {
+        mod time32;
+        pub use self::time32::*;
+    }
+}

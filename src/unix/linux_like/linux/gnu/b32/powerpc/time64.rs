@@ -1,5 +1,6 @@
 use crate::prelude::*;
-use crate::{pid_t, time_t};
+use crate::{pid_t, stat, time_t};
+pub type stat64 = stat;
 
 s! {
     pub struct shmid_ds {

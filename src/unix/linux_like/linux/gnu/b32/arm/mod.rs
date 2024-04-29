@@ -59,28 +59,6 @@ s! {
         __unused2: c_ulong,
     }
 
-    pub struct stat64 {
-        pub st_dev: crate::dev_t,
-        __pad1: c_uint,
-        __st_ino: crate::ino_t,
-        pub st_mode: crate::mode_t,
-        pub st_nlink: crate::nlink_t,
-        pub st_uid: crate::uid_t,
-        pub st_gid: crate::gid_t,
-        pub st_rdev: crate::dev_t,
-        __pad2: c_uint,
-        pub st_size: off64_t,
-        pub st_blksize: crate::blksize_t,
-        pub st_blocks: crate::blkcnt64_t,
-        pub st_atime: crate::time_t,
-        pub st_atime_nsec: c_long,
-        pub st_mtime: crate::time_t,
-        pub st_mtime_nsec: c_long,
-        pub st_ctime: crate::time_t,
-        pub st_ctime_nsec: c_long,
-        pub st_ino: crate::ino64_t,
-    }
-
     pub struct statfs64 {
         pub f_type: crate::__fsword_t,
         pub f_bsize: crate::__fsword_t,
@@ -926,3 +904,13 @@ pub const SYS_process_mrelease: c_long = 448;
 pub const SYS_futex_waitv: c_long = 449;
 pub const SYS_set_mempolicy_home_node: c_long = 450;
 pub const SYS_mseal: c_long = 462;
+
+cfg_if! {
+    if #[cfg(gnu_time64_abi)] {
+        mod time64;
+        pub use self::time64::*;
+    } else {
+        mod time32;
+        pub use self::time32::*;
+    }
+}
