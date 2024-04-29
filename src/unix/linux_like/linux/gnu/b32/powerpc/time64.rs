@@ -1,4 +1,5 @@
-use crate::{c_ulong, pid_t, time_t};
+use crate::{c_ulong, pid_t, stat, time_t};
+pub type stat64 = stat;
 
 s! {
     pub struct shmid_ds {

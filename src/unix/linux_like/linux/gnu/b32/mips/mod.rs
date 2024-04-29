@@ -4,29 +4,6 @@ pub type c_char = i8;
 pub type wchar_t = i32;
 
 s! {
-    pub struct stat64 {
-        pub st_dev: c_ulong,
-        st_pad1: [c_long; 3],
-        pub st_ino: crate::ino64_t,
-        pub st_mode: crate::mode_t,
-        pub st_nlink: crate::nlink_t,
-        pub st_uid: crate::uid_t,
-        pub st_gid: crate::gid_t,
-        pub st_rdev: c_ulong,
-        st_pad2: [c_long; 2],
-        pub st_size: off64_t,
-        pub st_atime: crate::time_t,
-        pub st_atime_nsec: c_long,
-        pub st_mtime: crate::time_t,
-        pub st_mtime_nsec: c_long,
-        pub st_ctime: crate::time_t,
-        pub st_ctime_nsec: c_long,
-        pub st_blksize: crate::blksize_t,
-        st_pad3: c_long,
-        pub st_blocks: crate::blkcnt64_t,
-        st_pad5: [c_long; 14],
-    }
-
     pub struct statfs {
         pub f_type: c_long,
         pub f_bsize: c_long,
@@ -815,3 +792,13 @@ pub const B3500000: crate::speed_t = 0o010016;
 pub const B4000000: crate::speed_t = 0o010017;
 
 pub const EHWPOISON: c_int = 168;
+
+cfg_if! {
+    if #[cfg(gnu_time64_abi)] {
+        mod time64;
+        pub use self::time64::*;
+    } else {
+        mod time32;
+        pub use self::time32::*;
+    }
+}
