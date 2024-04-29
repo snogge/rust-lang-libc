@@ -1,8 +1,40 @@
 //! 32-bit specific definitions for linux-like values when gnu_time64_abi is set
 
 use crate::prelude::*;
+use crate::{dev_t, time_t};
 
 s! {
+    pub struct stat {
+        pub st_dev: dev_t,
+        pub st_ino: crate::ino_t,
+        pub st_mode: crate::mode_t,
+        pub st_nlink: crate::nlink_t,
+        pub st_uid: crate::uid_t,
+        pub st_gid: crate::gid_t,
+        pub st_rdev: dev_t,
+        pub st_size: crate::off_t,
+        pub st_blksize: crate::blksize_t,
+        pub st_blocks: crate::blkcnt_t,
+        pub st_atime: time_t,
+        #[cfg(target_arch = "powerpc")]
+        __pad1: i32,
+        pub st_atime_nsec: c_long,
+        #[cfg(not(target_arch = "powerpc"))] //x86 and arm and ?
+        __pad1: i32,
+        pub st_mtime: time_t,
+        #[cfg(target_arch = "powerpc")]
+        __pad2: i32,
+        pub st_mtime_nsec: c_long,
+        #[cfg(not(target_arch = "powerpc"))]
+        __pad2: i32,
+        pub st_ctime: time_t,
+        #[cfg(target_arch = "powerpc")]
+        __pad3: i32,
+        pub st_ctime_nsec: c_long,
+        #[cfg(not(target_arch = "powerpc"))]
+        __pad3: i32,
+    }
+
     pub struct timex {
         pub modes: c_uint,
 
