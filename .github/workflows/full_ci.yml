@@ -26,6 +26,11 @@ jobs:
           32,
           64
         ]
+        exclude:
+          - target: x86_64-unknown-linux-gnu
+            bits: 32
+          - target: x86_64-unknown-linux-gnu
+            bits: 64
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchain
