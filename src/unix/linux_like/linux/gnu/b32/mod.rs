@@ -135,6 +135,7 @@ s! {
         pub _f: [::c_char; 8],
     }
 
+    #[allow(dead_code)]
     pub struct semid_ds {
         pub sem_perm: ipc_perm,
         #[cfg(target_arch = "powerpc")]

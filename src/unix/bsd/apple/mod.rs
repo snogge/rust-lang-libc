@@ -1095,6 +1095,7 @@ s! {
     }
 
     #[repr(align(8))]
+    #[allow(dead_code)]
     pub struct tcp_connection_info {
         pub tcpi_state: u8,
         pub tcpi_snd_wscale: u8,
@@ -1234,6 +1235,7 @@ s_no_extra_traits! {
         __opaque: [u8; __PTHREAD_COND_SIZE__],
     }
 
+    #[allow(dead_code)]
     pub struct sockaddr_storage {
         pub ss_len: u8,
         pub ss_family: ::sa_family_t,

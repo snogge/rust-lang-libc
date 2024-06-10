@@ -41,6 +41,7 @@ s_no_extra_traits! {
         uc_sigmask64: ::sigset64_t,
     }
 
+    #[allow(dead_code)]
     pub struct ucontext_t {
         pub uc_flags: ::c_ulong,
         pub uc_link: *mut ucontext_t,

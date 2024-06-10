@@ -135,6 +135,7 @@ s_no_extra_traits! {
         __reserved: [::c_char; 36],
     }
 
+    #[allow(dead_code)]
     pub struct sigset64_t {
         __bits: [::c_ulong; 1]
     }

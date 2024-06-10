@@ -164,6 +164,7 @@ s! {
         pub ifa_data: *mut ::c_void
     }
 
+    #[allow(dead_code)]
     pub struct in6_rtmsg {
         rtmsg_dst: ::in6_addr,
         rtmsg_src: ::in6_addr,
@@ -225,6 +226,7 @@ s_no_extra_traits! {
         pub sun_path: [::c_char; 108]
     }
 
+    #[allow(dead_code)]
     pub struct sockaddr_storage {
         pub ss_family: sa_family_t,
         #[cfg(target_pointer_width = "32")]
@@ -243,6 +245,7 @@ s_no_extra_traits! {
         pub domainname: [::c_char; 65]
     }
 
+    #[allow(dead_code)]
     pub struct sigevent {
         pub sigev_value: ::sigval,
         pub sigev_signo: ::c_int,

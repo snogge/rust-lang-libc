@@ -39,6 +39,7 @@ macro_rules! expand_align {
 
             #[allow(missing_debug_implementations)]
             #[repr(align(16))]
+            #[allow(dead_code)]
             pub struct max_align_t {
                 priv_: [f64; 4]
             }

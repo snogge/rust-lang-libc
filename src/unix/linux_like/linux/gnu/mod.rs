@@ -433,6 +433,7 @@ s! {
         pub options: ::__u32,
     }
 
+    #[allow(dead_code)]
     pub struct iocb {
         pub aio_data: ::__u64,
         #[cfg(target_endian = "little")]

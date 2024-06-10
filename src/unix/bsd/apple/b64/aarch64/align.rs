@@ -2,6 +2,7 @@ pub type mcontext_t = *mut __darwin_mcontext64;
 
 s_no_extra_traits! {
     #[allow(missing_debug_implementations)]
+    #[allow(dead_code)]
     pub struct max_align_t {
         priv_: f64
     }

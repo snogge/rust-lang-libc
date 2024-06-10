@@ -158,6 +158,7 @@ s! {
         __f_reserved: [u32; 6],
     }
 
+    #[allow(dead_code)]
     pub struct signalfd_siginfo {
         pub ssi_signo: u32,
         pub ssi_errno: i32,
@@ -547,6 +548,7 @@ s! {
 }
 
 s_no_extra_traits! {
+    #[allow(dead_code)]
     pub struct sockaddr_nl {
         pub nl_family: ::sa_family_t,
         nl_pad: ::c_ushort,
@@ -578,6 +580,7 @@ s_no_extra_traits! {
         _align: [usize; 0],
     }
 
+    #[allow(dead_code)]
     pub struct lastlog {
         ll_time: ::time_t,
         ll_line: [::c_char; UT_LINESIZE],

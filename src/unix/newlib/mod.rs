@@ -213,6 +213,7 @@ s! {
         pub domainname: [::c_char; 65]
     }
 
+    #[allow(dead_code)]
     pub struct cpu_set_t { // Unverified
         bits: [u32; 32],
     }

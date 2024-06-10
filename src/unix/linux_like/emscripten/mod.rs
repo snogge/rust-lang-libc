@@ -115,6 +115,7 @@ s! {
         pub dqb_valid: u32,
     }
 
+    #[allow(dead_code)]
     pub struct signalfd_siginfo {
         pub ssi_signo: u32,
         pub ssi_errno: i32,
@@ -171,6 +172,7 @@ s! {
         pub sem_flg: ::c_short,
     }
 
+    #[allow(dead_code)]
     pub struct aiocb {
         pub aio_fildes: ::c_int,
         pub aio_lio_opcode: ::c_int,
@@ -195,6 +197,7 @@ s! {
         pub sa_restorer: ::Option<extern fn()>,
     }
 
+    #[allow(dead_code)]
     pub struct ipc_perm {
         pub __ipc_perm_key: ::key_t,
         pub uid: ::uid_t,
@@ -300,6 +303,7 @@ s! {
         __pad2: ::c_ulong,
     }
 
+    #[allow(dead_code)]
     pub struct msqid_ds {
         pub msg_perm: ::ipc_perm,
         pub msg_stime: ::time_t,
@@ -376,6 +380,7 @@ s_no_extra_traits! {
         pub __reserved: [::c_char; 256],
     }
 
+    #[allow(dead_code)]
     pub struct mq_attr {
         pub mq_flags: ::c_long,
         pub mq_maxmsg: ::c_long,

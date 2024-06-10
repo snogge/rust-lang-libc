@@ -79,6 +79,7 @@ s! {
         pub gs: ::c_ulong,
     }
 
+    #[allow(dead_code)]
     pub struct user {
         pub regs: user_regs_struct,
         pub u_fpvalid: ::c_int,
@@ -104,6 +105,7 @@ s! {
     // GitHub repo: ifduyue/musl/
     // commit: b4b1e10364c8737a632be61582e05a8d3acf5690
     // file: arch/x86_64/bits/signal.h#L80-L84
+    #[allow(dead_code)]
     pub struct mcontext_t {
         pub gregs: [greg_t; 23],
         __private: [u64; 9],
@@ -123,6 +125,7 @@ s! {
 }
 
 s_no_extra_traits! {
+    #[allow(dead_code)]
     pub struct user_fpregs_struct {
         pub cwd: ::c_ushort,
         pub swd: ::c_ushort,
@@ -137,6 +140,7 @@ s_no_extra_traits! {
         padding: [::c_uint; 24],
     }
 
+    #[allow(dead_code)]
     pub struct ucontext_t {
         pub uc_flags: ::c_ulong,
         pub uc_link: *mut ucontext_t,

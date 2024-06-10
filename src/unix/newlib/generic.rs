@@ -1,6 +1,7 @@
 //! Common types used by most newlib platforms
 
 s! {
+    #[allow(dead_code)]
     pub struct sigset_t {
         __val: [::c_ulong; 16],
     }

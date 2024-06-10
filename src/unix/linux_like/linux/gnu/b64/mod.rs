@@ -65,6 +65,7 @@ s! {
         __glibc_reserved5: u64,
     }
 
+    #[allow(dead_code)]
     pub struct semid_ds {
         pub sem_perm: ipc_perm,
         pub sem_otime: ::time_t,

@@ -91,6 +91,7 @@ s! {
         pub xss: ::c_long,
     }
 
+    #[allow(dead_code)]
     pub struct user {
         pub regs: user_regs_struct,
         pub u_fpvalid: ::c_int,
@@ -240,6 +241,7 @@ s! {
 }
 
 s_no_extra_traits! {
+    #[allow(dead_code)]
     pub struct user_fpxregs_struct {
         pub cwd: ::c_ushort,
         pub swd: ::c_ushort,

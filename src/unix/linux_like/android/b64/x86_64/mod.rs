@@ -79,6 +79,7 @@ s! {
         pub gs: ::c_ulong,
     }
 
+    #[allow(dead_code)]
     pub struct user {
         pub regs: user_regs_struct,
         pub u_fpvalid: ::c_int,
@@ -156,12 +157,14 @@ s_no_extra_traits! {
         __private: [u32; 24],
     }
 
+    #[allow(dead_code)]
     pub struct mcontext_t {
         pub gregs: [greg_t; 23],
         pub fpregs: *mut _libc_fpstate,
         __private: [u64; 8],
     }
 
+    #[allow(dead_code)]
     pub struct ucontext_t {
         pub uc_flags: ::c_ulong,
         pub uc_link: *mut ucontext_t,
@@ -171,6 +174,7 @@ s_no_extra_traits! {
         __fpregs_mem: _libc_fpstate,
     }
 
+    #[allow(dead_code)]
     pub struct user_fpregs_struct {
         pub cwd: ::c_ushort,
         pub swd: ::c_ushort,

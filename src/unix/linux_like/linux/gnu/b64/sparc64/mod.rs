@@ -61,6 +61,7 @@ s! {
         pub l_pid: ::pid_t,
     }
 
+    #[allow(dead_code)]
     pub struct flock64 {
         pub l_type: ::c_short,
         pub l_whence: ::c_short,

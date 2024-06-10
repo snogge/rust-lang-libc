@@ -129,6 +129,7 @@ s! {
         pub dqb_valid: u32,
     }
 
+    #[allow(dead_code)]
     pub struct signalfd_siginfo {
         pub ssi_signo: u32,
         pub ssi_errno: i32,
@@ -1054,6 +1055,7 @@ cfg_if! {
     }
 }
 s_no_extra_traits! {
+    #[allow(dead_code)]
     pub struct sockaddr_nl {
         pub nl_family: ::sa_family_t,
         nl_pad: ::c_ushort,

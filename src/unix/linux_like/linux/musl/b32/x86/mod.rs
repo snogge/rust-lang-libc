@@ -112,6 +112,7 @@ s! {
         pub f_spare: [::c_ulong; 4],
     }
 
+    #[allow(dead_code)]
     pub struct mcontext_t {
         __private: [u32; 22]
     }
@@ -157,6 +158,7 @@ s! {
 }
 
 s_no_extra_traits! {
+    #[allow(dead_code)]
     pub struct user_fpxregs_struct {
         pub cwd: ::c_ushort,
         pub swd: ::c_ushort,
@@ -173,6 +175,7 @@ s_no_extra_traits! {
         padding: [::c_long; 56],
     }
 
+    #[allow(dead_code)]
     pub struct ucontext_t {
         pub uc_flags: ::c_ulong,
         pub uc_link: *mut ucontext_t,
