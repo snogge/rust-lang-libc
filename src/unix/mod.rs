@@ -62,16 +62,19 @@ s! {
 
     pub struct timeval {
         pub tv_sec: time_t,
+        #[cfg(not(target_env = "gnu"))]
         pub tv_usec: suseconds_t,
+        #[cfg(target_env = "gnu")]
+        pub tv_usec: ::c_long,
     }
 
     // linux x32 compatibility
     // See https://sourceware.org/bugzilla/show_bug.cgi?id=16437
     pub struct timespec {
         pub tv_sec: time_t,
-        #[cfg(all(target_arch = "x86_64", target_pointer_width = "32"))]
+        #[cfg(all(not(target_env = "gnu"), target_arch = "x86_64", target_pointer_width = "32"))]
         pub tv_nsec: i64,
-        #[cfg(not(all(target_arch = "x86_64", target_pointer_width = "32")))]
+        #[cfg(any(target_env = "gnu", not(all(target_arch = "x86_64", target_pointer_width = "32"))))]
         pub tv_nsec: ::c_long,
     }
 
