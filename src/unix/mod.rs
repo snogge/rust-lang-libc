@@ -62,10 +62,7 @@ s! {
 
     pub struct timeval {
         pub tv_sec: time_t,
-        #[cfg(not(target_env = "gnu"))]
         pub tv_usec: suseconds_t,
-        #[cfg(target_env = "gnu")]
-        pub tv_usec: ::c_long,
     }
 
     // linux x32 compatibility
