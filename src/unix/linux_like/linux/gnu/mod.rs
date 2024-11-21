@@ -1547,6 +1547,7 @@ extern "C" {
 
     pub fn mq_notify(mqdes: ::mqd_t, sevp: *const ::sigevent) -> ::c_int;
 
+    #[cfg_attr(gnu_time64_abi, link_name = "__epoll_pwait2_time64")]
     pub fn epoll_pwait2(
         epfd: ::c_int,
         events: *mut ::epoll_event,
