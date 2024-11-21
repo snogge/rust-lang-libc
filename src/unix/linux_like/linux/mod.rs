@@ -74,9 +74,24 @@ pub type iconv_t = *mut c_void;
 pub type sctp_assoc_t = __s32;
 
 pub type eventfd_t = u64;
-missing! {
-    #[cfg_attr(feature = "extra_traits", derive(Debug))]
-    pub enum fpos64_t {} // FIXME: fill this out with a struct
+
+cfg_if! {
+    if #[cfg(gnu_time64_abi)] {
+        #[allow(missing_copy_implementations)]
+        #[repr(C)]
+        #[derive(Debug)]
+        pub struct fpos64_t {
+            __pos: off64_t,
+            // this is actually a struct __mbstate_t
+            __count: i32,
+            __wch: u32,
+        }
+        pub type fpos_t = fpos64_t;
+    } else {
+        #[allow(missing_copy_implementations)]
+        #[cfg_attr(feature = "extra_traits", derive(Debug))]
+        pub enum fpos64_t {} // FIXME: fill this out with a struct
+    }
 }
 
 e! {
