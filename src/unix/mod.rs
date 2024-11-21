@@ -550,11 +550,17 @@ cfg_if! {
     }
 }
 
+cfg_if! {
+    if #[cfg(not(gnu_time64_abi))] {
+        #[allow(missing_copy_implementations)]
+        #[cfg_attr(feature = "extra_traits", derive(Debug))]
+        pub enum fpos_t {} // FIXME: fill this out with a struct
+    }
+}
+
 missing! {
     #[cfg_attr(feature = "extra_traits", derive(Debug))]
     pub enum FILE {}
-    #[cfg_attr(feature = "extra_traits", derive(Debug))]
-    pub enum fpos_t {} // FIXME(unix): fill this out with a struct
 }
 
 extern "C" {
