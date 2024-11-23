@@ -150,6 +150,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchain
         run: ./ci/install-rust.sh
+      - name: show env
+        run: echo ${{ matrix.target }} ${{ matrix.bits }} && env
       - name: Execute run-docker.sh
         run: ./ci/run-docker.sh ${{ matrix.target }}
 
