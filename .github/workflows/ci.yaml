@@ -98,7 +98,6 @@ jobs:
 
   test_tier2:
     name: Test tier2
-    needs: [test_tier1]
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: true
@@ -156,6 +155,7 @@ jobs:
   solaris:
     name: Solaris
     runs-on: ubuntu-latest
+    needs: [test_tier1, test_tier2]
     strategy:
       fail-fast: true
       matrix:
