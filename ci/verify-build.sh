@@ -63,6 +63,8 @@ test_target() {
         done
     fi
 
+    export RUST_LIBC_TIME_BITS
+
     # The basic command that is run each time
     cmd="cargo +$rust build --target $target"
 
