@@ -35,6 +35,9 @@ jobs:
         include:
           - toolchain: beta
             os: ubuntu-24.04
+        exclude:
+          - toolchain: nightly
+            os: ubuntu-24.04
     runs-on: ${{ matrix.os }}
     env:
       TOOLCHAIN: ${{ matrix.toolchain }}
