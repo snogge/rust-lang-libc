@@ -3432,6 +3432,9 @@ fn test_linux(target: &str) {
     if env::var("RUST_LIBC_UNSTABLE_LINUX_TIME_BITS64").unwrap() {
         cfg.define("__USE_TIME_BITS64", None);
     }
+    if env::var("RUST_LIBC_UNSTABLE_GLIBC_FILE_OFFSET_BITS64").unwrap() {
+        cfg.define("__FILE_OFFSET_BITS", Some("64"));
+    }
 
     headers! { cfg:
                "ctype.h",
