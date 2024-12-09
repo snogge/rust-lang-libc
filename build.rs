@@ -13,6 +13,8 @@ const ALLOWED_CFGS: &'static [&'static str] = &[
     "freebsd13",
     "freebsd14",
     "freebsd15",
+    // Corresponds to `_FILE_OFFSET_BITS=64` in glibc
+    "gnu_file_offset_bits64",
     // FIXME(ctest): this config shouldn't be needed but ctest can't parse `const extern fn`
     "libc_const_extern_fn",
     "libc_deny_warnings",
@@ -45,6 +47,7 @@ fn main() {
     let libc_ci = env::var("LIBC_CI").is_ok();
     let libc_check_cfg = env::var("LIBC_CHECK_CFG").is_ok() || rustc_minor_ver >= 80;
     let linux_time_bits64 = env::var("RUST_LIBC_UNSTABLE_LINUX_TIME_BITS64").is_ok();
+    let gnu_file_offset_bits64 = env::var("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS64").is_ok();
 
     // The ABI of libc used by std is backward compatible with FreeBSD 12.
     // The ABI of libc from crates.io is backward compatible with FreeBSD 12.
@@ -83,6 +86,9 @@ fn main() {
 
     if linux_time_bits64 {
         set_cfg("linux_time_bits64");
+    }
+    if gnu_file_offset_bits64 {
+        set_cfg("gnu_file_offset_bits64");
     }
 
     // On CI: deny all warnings
