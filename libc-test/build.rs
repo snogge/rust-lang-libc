@@ -3429,6 +3429,9 @@ fn test_linux(target: &str) {
     // deprecated since glibc >= 2.29. This allows Rust binaries to link against
     // glibc versions older than 2.29.
     cfg.define("__GLIBC_USE_DEPRECATED_SCANF", None);
+    if env::var("RUST_LIBC_UNSTABLE_LINUX_TIME_BITS64").unwrap() {
+        cfg.define("__USE_TIME_BITS64", None);
+    }
 
     headers! { cfg:
                "ctype.h",
