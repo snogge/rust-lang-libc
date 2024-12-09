@@ -67,6 +67,10 @@ jobs:
           - target: i686-unknown-linux-gnu
             docker: true
             os: ubuntu-24.04
+          - target: i686-unknown-linux-gnu
+            docker: true
+            os: ubuntu-24.04
+            run-prefix: RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS64=1
           - target: x86_64-unknown-linux-gnu
             docker: true
             os: ubuntu-24.04
@@ -100,10 +104,10 @@ jobs:
 
       - name: Run natively
         if: "!matrix.docker"
-        run: ./ci/run.sh ${{ matrix.target }}
+        run: ${{ matrix.run-prefix }} ./ci/run.sh ${{ matrix.target }}
       - name: Run in Docker
         if: "matrix.docker"
-        run: ./ci/run-docker.sh ${{ matrix.target }}
+        run: ${{ matrix.run-prefix }} ./ci/run-docker.sh ${{ matrix.target }}
 
       - name: Create CI artifacts
         if: always()
