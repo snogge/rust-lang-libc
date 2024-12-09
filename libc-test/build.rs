@@ -3429,6 +3429,11 @@ fn test_linux(target: &str) {
     // deprecated since glibc >= 2.29. This allows Rust binaries to link against
     // glibc versions older than 2.29.
     cfg.define("__GLIBC_USE_DEPRECATED_SCANF", None);
+    if env::var("RUST_LIBC_UNSTABLE_GLIBC_FILE_OFFSET_BITS64").is_ok() {
+        cfg.define("__FILE_OFFSET_BITS", Some("64"));
+        cfg.cfg("linux_time_bits64", None);
+        cfg.cfg("glibc_file_offset_bits64", None);
+    }
 
     headers! { cfg:
                "ctype.h",
@@ -3930,7 +3935,7 @@ fn test_linux(target: &str) {
             }
             // FIXME: Requires >= 5.4 kernel headers
             if name == "PTP_CLOCK_GETCAPS2"
-                || name == "PTP_ENABLE_PPS2" 
+                || name == "PTP_ENABLE_PPS2"
                 || name == "PTP_EXTTS_REQUEST2"
                 || name == "PTP_PEROUT_REQUEST2"
                 || name == "PTP_PIN_GETFUNC2"

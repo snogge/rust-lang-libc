@@ -127,3 +127,8 @@ run_cmd() {
 }
 
 run_cmd
+case "$target" in
+    arm*-gnu*|i*86*-gnu|powerpc-*-gnu*|*gnux32|mips*-gnu|sparc-*-gnu|thumb-*gnu*)
+        RUST_LIBC_UNSTABLE_GLIBC_FILE_OFFSET_BITS64=1 run_cmd
+        ;;
+esac
