@@ -1,4 +1,4 @@
-use crate::{c_int, c_long, c_short, c_uint, c_ulong, c_ushort, c_void, off64_t, off_t, size_t};
+use crate::{c_int, c_long, c_short, c_ulong, c_void, off64_t, off_t, size_t};
 
 pub type c_char = u8;
 pub type wchar_t = i32;
@@ -91,13 +91,13 @@ s! {
     pub struct msqid_ds {
         pub msg_perm: crate::ipc_perm,
         #[cfg(not(gnu_time64_abi))]
-        __glibc_reserved1: c_uint,
+        __glibc_reserved1: crate::c_uint,
         pub msg_stime: crate::time_t,
         #[cfg(not(gnu_time64_abi))]
-        __glibc_reserved2: c_uint,
+        __glibc_reserved2: crate::c_uint,
         pub msg_rtime: crate::time_t,
         #[cfg(not(gnu_time64_abi))]
-        __glibc_reserved3: c_uint,
+        __glibc_reserved3: crate::c_uint,
         pub msg_ctime: crate::time_t,
         __msg_cbytes: c_ulong,
         pub msg_qnum: crate::msgqnum_t,

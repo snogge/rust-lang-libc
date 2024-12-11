@@ -1,3 +1,5 @@
+use crate::{c_long, c_uint, time_t};
+
 s! {
     pub struct stat64 {
         pub st_dev: crate::dev_t,
@@ -12,11 +14,11 @@ s! {
         pub st_size: crate::off64_t,
         pub st_blksize: crate::blksize_t,
         pub st_blocks: crate::blkcnt64_t,
-        pub st_atime: crate::time_t,
+        pub st_atime: time_t,
         pub st_atime_nsec: c_long,
-        pub st_mtime: crate::time_t,
+        pub st_mtime: time_t,
         pub st_mtime_nsec: c_long,
-        pub st_ctime: crate::time_t,
+        pub st_ctime: time_t,
         pub st_ctime_nsec: c_long,
         pub st_ino: crate::ino64_t,
     }

@@ -83,7 +83,7 @@ cfg_if! {
         #[repr(C)]
         #[derive(Debug)]
         pub struct fpos64_t {
-            __pos: ::off64_t,
+            __pos: off64_t,
             // this is actually a struct __mbstate_t
             __count: i32,
             __wch: u32,

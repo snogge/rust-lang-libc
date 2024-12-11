@@ -1,3 +1,5 @@
+use crate::{c_long, c_uint};
+
 s! {
     pub struct stat64 {
         pub st_dev: crate::dev_t,
