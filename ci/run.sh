@@ -93,33 +93,37 @@ case "$target" in
     *) cmd="$cmd --workspace"
 esac
 
-if [ "$target" = "s390x-unknown-linux-gnu" ]; then
-    # FIXME: s390x-unknown-linux-gnu often fails to test due to timeout,
-    # so we retry this N times.
-    N=5
-    n=0
-    passed=0
-    until [ $n -ge $N ]; do
-        if [ "$passed" = "0" ]; then
-            if $cmd --no-default-features; then
-                passed=$((passed+1))
-                continue
+run_cmd() {
+    if [ "$target" = "s390x-unknown-linux-gnu" ]; then
+        # FIXME: s390x-unknown-linux-gnu often fails to test due to timeout,
+        # so we retry this N times.
+        N=5
+        n=0
+        passed=0
+        until [ $n -ge $N ]; do
+            if [ "$passed" = "0" ]; then
+                if $cmd --no-default-features; then
+                    passed=$((passed+1))
+                    continue
+                fi
+            elif [ "$passed" = "1" ]; then
+                if $cmd; then
+                    passed=$((passed+1))
+                    continue
+                fi
+            elif [ "$passed" = "2" ]; then
+                if $cmd --features extra_traits; then
+                    break
+                fi
             fi
-        elif [ "$passed" = "1" ]; then
-            if $cmd; then
-                passed=$((passed+1))
-                continue
-            fi
-        elif [ "$passed" = "2" ]; then
-            if $cmd --features extra_traits; then
-                break
-            fi
-        fi
-        n=$((n+1))
-        sleep 1
-    done
-else
-    $cmd --no-default-features
-    $cmd
-    $cmd --features extra_traits
-fi
+            n=$((n+1))
+            sleep 1
+        done
+    else
+        $cmd --no-default-features
+        $cmd
+        $cmd --features extra_traits
+    fi
+}
+
+run_cmd
