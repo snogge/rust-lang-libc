@@ -9,6 +9,8 @@ mirrors_url="https://ci-mirrors.rust-lang.org/libc"
 
 target="$1"
 
+env | sed -n /RUST_LIBC/p
+
 export RUST_BACKTRACE="${RUST_BACKTRACE:-1}"
 
 # If we're going to run tests inside of a qemu image, then we don't need any of

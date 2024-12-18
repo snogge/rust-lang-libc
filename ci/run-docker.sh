@@ -6,7 +6,9 @@
 # Small script to run tests for a target (or all targets) inside all the
 # respective docker images.
 
+
 set -eux
+env | sed -n /RUST_LIBC/p
 
 target="$1"
 
