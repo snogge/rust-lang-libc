@@ -36,9 +36,6 @@ jobs:
         include:
           - toolchain: beta
             os: ubuntu-24.04
-        exclude:
-          - toolchain: nightly
-            os: ubuntu-24.04
     runs-on: ${{ matrix.os }}
     timeout-minutes: 25
     env:
