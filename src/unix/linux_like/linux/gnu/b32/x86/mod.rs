@@ -159,8 +159,6 @@ cfg_if! {
                 pub st_ino: crate::ino64_t,
             }
         }
-    } else {
-        pub type stat64 = crate::stat;
     }
 }
 
