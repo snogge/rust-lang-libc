@@ -57,6 +57,9 @@ cfg_if! {
         pub type Elf32_Rela = __c_anonymous_elf32_rela;
         pub type Elf64_Rela = __c_anonymous_elf64_rela;
     }
+}
+
+cfg_if! {
     if #[cfg(gnu_file_offset_bits64)] {
         pub type dirent64 = dirent;
     }
