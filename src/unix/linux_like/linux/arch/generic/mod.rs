@@ -119,7 +119,7 @@ cfg_if! {
             target_arch = "csky",
             target_arch = "loongarch64"
         ),
-        not(any(target_env = "musl", target_env = "ohos"))
+        not(target_env = "ohos")
     ))] {
         pub const SO_TIMESTAMP_NEW: c_int = 63;
         pub const SO_TIMESTAMPNS_NEW: c_int = 64;
