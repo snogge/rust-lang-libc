@@ -135,9 +135,7 @@ s! {
 }
 
 cfg_if! {
-    if #[cfg(gnu_file_offset_bits64)] {
-        pub type stat64 = crate::stat;
-    } else {
+    if #[cfg(not(gnu_file_offset_bits64))] {
         s! {
             pub struct stat64 {
                 pub st_dev: crate::dev_t,
@@ -161,6 +159,8 @@ cfg_if! {
                 pub st_ino: crate::ino64_t,
             }
         }
+    } else {
+        pub type stat64 = crate::stat;
     }
 }
 
