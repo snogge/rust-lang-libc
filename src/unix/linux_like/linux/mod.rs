@@ -57,6 +57,9 @@ cfg_if! {
         pub type Elf32_Rela = __c_anonymous_elf32_rela;
         pub type Elf64_Rela = __c_anonymous_elf64_rela;
     }
+    if #[cfg(gnu_file_offset_bits64)] {
+        pub type dirent64 = dirent;
+    }
 }
 
 // linux/can.h
@@ -1385,7 +1388,6 @@ cfg_if! {
             pub d_type: c_uchar,
             pub d_name: [c_char; 256],
         }
-        pub type dirent64 = dirent;
     }
 }
 
