@@ -17,6 +17,12 @@ pub type fsfilcnt64_t = u64;
 pub type __syscall_ulong_t = c_ulong;
 
 cfg_if! {
+    if #[cfg(gnu_file_offset_bits64)] {
+        pub type stat64 = crate::stat;
+    }
+}
+
+cfg_if! {
     if #[cfg(target_arch = "riscv32")] {
         pub type time_t = i64;
         pub type suseconds_t = i64;
