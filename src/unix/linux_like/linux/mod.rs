@@ -1386,20 +1386,43 @@ cfg_if! {
     }
 }
 
+cfg_if! {
+    if #[cfg(not(gnu_file_offset_bits64))] {
+        s_no_extra_traits! {
+            pub struct dirent {
+                pub d_ino: crate::ino_t,
+                pub d_off: off_t,
+                pub d_reclen: c_ushort,
+                pub d_type: c_uchar,
+                pub d_name: [c_char; 256],
+            }
+
+            pub struct dirent64 {
+                pub d_ino: crate::ino64_t,
+                pub d_off: off64_t,
+                pub d_reclen: c_ushort,
+                pub d_type: c_uchar,
+                pub d_name: [c_char; 256],
+            }
+        }
+    } else {
+        pub struct dirent {
+            pub d_ino: crate::ino64_t,
+            pub d_off: off64_t,
+            pub d_reclen: c_ushort,
+            pub d_type: c_uchar,
+            pub d_name: [c_char; 256],
+        }
+        pub type dirent64 = dirent;
+    }
+}
+
 s_no_extra_traits! {
     pub struct sockaddr_nl {
         pub nl_family: crate::sa_family_t,
         nl_pad: c_ushort,
         pub nl_pid: u32,
         pub nl_groups: u32,
-    }
-
-    pub struct dirent {
-        pub d_ino: crate::ino_t,
-        pub d_off: off_t,
-        pub d_reclen: c_ushort,
-        pub d_type: c_uchar,
-        pub d_name: [c_char; 256],
     }
 
     pub struct sockaddr_alg {
@@ -1497,14 +1520,6 @@ s_no_extra_traits! {
         pub flags: c_int,
         pub tx_type: c_int,
         pub rx_filter: c_int,
-    }
-
-    pub struct dirent64 {
-        pub d_ino: crate::ino64_t,
-        pub d_off: off64_t,
-        pub d_reclen: c_ushort,
-        pub d_type: c_uchar,
-        pub d_name: [c_char; 256],
     }
 
     pub struct sched_attr {
