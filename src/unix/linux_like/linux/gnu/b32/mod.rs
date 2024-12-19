@@ -101,11 +101,20 @@ s! {
         pub st_ctime: crate::time_t,
         pub st_ctime_nsec: c_long,
 
-        #[cfg(not(all(gnu_file_offset_bits64, any(target_arch = "mips", target_arch = "mips32r6"))))]
+        #[cfg(not(all(
+            gnu_file_offset_bits64,
+            any(target_arch = "mips", target_arch = "mips32r6")
+        )))]
         __unused4: c_long,
-        #[cfg(not(all(gnu_file_offset_bits64, any(target_arch = "mips", target_arch = "mips32r6"))))]
+        #[cfg(not(all(
+            gnu_file_offset_bits64,
+            any(target_arch = "mips", target_arch = "mips32r6")
+        )))]
         __unused5: c_long,
-        #[cfg(all(gnu_file_offset_bits64, not(any(target_arch = "mips", target_arch = "mips32r6"))))]
+        #[cfg(all(
+            gnu_file_offset_bits64,
+            not(any(target_arch = "mips", target_arch = "mips32r6"))
+        ))]
         pub st_ino: crate::ino64_t,
 
         #[cfg(any(target_arch = "mips", target_arch = "mips32r6"))]
