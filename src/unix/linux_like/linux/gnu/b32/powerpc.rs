@@ -3,6 +3,34 @@ use crate::{off64_t, off_t};
 
 pub type wchar_t = i32;
 
+cfg_if! {
+    if #[cfg(not(gnu_file_offset_bits64))] {
+        s! {
+            pub struct stat64 {
+                pub st_dev: crate::dev_t,
+                pub st_ino: crate::ino64_t,
+                pub st_mode: crate::mode_t,
+                pub st_nlink: crate::nlink_t,
+                pub st_uid: crate::uid_t,
+                pub st_gid: crate::gid_t,
+                pub st_rdev: crate::dev_t,
+                __pad2: c_ushort,
+                pub st_size: off64_t,
+                pub st_blksize: crate::blksize_t,
+                pub st_blocks: crate::blkcnt64_t,
+                pub st_atime: crate::time_t,
+                pub st_atime_nsec: c_long,
+                pub st_mtime: crate::time_t,
+                pub st_mtime_nsec: c_long,
+                pub st_ctime: crate::time_t,
+                pub st_ctime_nsec: c_long,
+                __glibc_reserved4: c_ulong,
+                __glibc_reserved5: c_ulong,
+            }
+        }
+    }
+}
+
 s! {
     pub struct sigaction {
         pub sa_sigaction: crate::sighandler_t,
@@ -55,28 +83,6 @@ s! {
         __pad1: u32,
         __glibc_reserved1: u64,
         __glibc_reserved2: u64,
-    }
-
-    pub struct stat64 {
-        pub st_dev: crate::dev_t,
-        pub st_ino: crate::ino64_t,
-        pub st_mode: crate::mode_t,
-        pub st_nlink: crate::nlink_t,
-        pub st_uid: crate::uid_t,
-        pub st_gid: crate::gid_t,
-        pub st_rdev: crate::dev_t,
-        __pad2: c_ushort,
-        pub st_size: off64_t,
-        pub st_blksize: crate::blksize_t,
-        pub st_blocks: crate::blkcnt64_t,
-        pub st_atime: crate::time_t,
-        pub st_atime_nsec: c_long,
-        pub st_mtime: crate::time_t,
-        pub st_mtime_nsec: c_long,
-        pub st_ctime: crate::time_t,
-        pub st_ctime_nsec: c_long,
-        __glibc_reserved4: c_ulong,
-        __glibc_reserved5: c_ulong,
     }
 
     pub struct statfs64 {
