@@ -3656,6 +3656,8 @@ fn test_linux(target: &str) {
 
             // LFS64 types have been removed in musl 1.2.4+
             "off64_t" if musl => "off_t".to_string(),
+            // The *64 types are sometimes typedefs in gnu libc
+            "stat64" if gnu => format!("struct {}", ty),
 
             // typedefs don't need any keywords
             t if t.ends_with("_t") => t.to_string(),
