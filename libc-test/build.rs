@@ -3390,10 +3390,10 @@ fn test_vxworks(target: &str) {
     cfg.generate(src_hotfix_dir().join("lib.rs"), "main.rs");
 }
 
-fn config_gnu_bits(target: &str, cfg: &mut ctest::TestGenerator) {
+fn config_gnu_bits(target: &str, _cfg: &mut ctest::TestGenerator) {
     if target.contains("gnu") && env::var("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS64").is_ok() {
-        cfg.define("_FILE_OFFSET_BITS", Some("64"));
-        cfg.cfg("gnu_file_offset_bits64", None);
+        // cfg.define("_FILE_OFFSET_BITS", Some("64"));
+        // cfg.cfg("gnu_file_offset_bits64", None);
     }
 }
 
