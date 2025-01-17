@@ -94,6 +94,7 @@ jobs:
     timeout-minutes: 25
     env:
       TARGET: ${{ matrix.target }}
+      PREFIX: ${{ matrix.run-prefix }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchain
@@ -111,7 +112,7 @@ jobs:
 
       - name: Create CI artifacts
         if: always()
-        run: ./ci/create-artifacts.py
+        run: ./ci/create-artifacts.py ${PREFIX:+${PREFIX%%=*}}
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARCHIVE_NAME }}-${{ matrix.target }}

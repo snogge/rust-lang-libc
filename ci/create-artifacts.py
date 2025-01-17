@@ -7,18 +7,19 @@ This is useful for seeing what exactly `ctest` is running.
 import os
 import subprocess as sp
 import sys
-
 from datetime import datetime, timezone
-from glob import glob
+from glob import glob, iglob
 from pathlib import Path
 
 
 def main():
+    """The main function"""
     # Find the most recently touched file named "main.c" in the target
     # directory. This will be libc-tests's `OUT_DIR`
-    marker_files = [Path(p) for p in glob("target/**/main.c", recursive=True)]
-    marker_files.sort(key=lambda path: path.stat().st_mtime)
-    build_dir = marker_files[0].parent
+    build_dir = min(
+        (Path(p) for p in iglob("target/**/main.c", recursive=True)),
+        key=lambda path: path.stat().st_mtime,
+    ).parent
     print(f"Located build directory '{build_dir}'")
 
     # Collect all relevant Rust and C files
@@ -28,22 +29,31 @@ def main():
 
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H%MZ")
     archive_name = f"archive-{now}"
+    if len(sys.argv) > 1:
+        archive_name += f"-{sys.argv[1]}"
     archive_path = f"{archive_name}.tar.gz"
 
-    sp.run(["tar", "czvf", archive_path, "-C", build_dir, "-T-"], input=file_list)
+    sp.run(
+        ["tar", "czvf", archive_path, "-C", build_dir, "-T-"],
+        input=file_list,
+        check=False,
+    )
 
     # If we are in GHA, set these env vars for future use
     gh_env = os.getenv("GITHUB_ENV")
     if gh_env is not None:
-        print("Updating CI environment")
-        with open(gh_env, "w+") as f:
-            f.write(f"ARCHIVE_NAME={archive_name}\n")
-            f.write(f"ARCHIVE_PATH={archive_path}\n")
+        print(f"""Updating CI environment with
+ARCHIVE_NAME={archive_name}
+ARCHIVE_PATH={archive_path}""")
+
+        with open(gh_env, "w+", encoding="utf-8") as ghenv:
+            ghenv.write(f"ARCHIVE_NAME={archive_name}\n")
+            ghenv.write(f"ARCHIVE_PATH={archive_path}\n")
 
 
 if __name__ == "__main__":
     print(' '.join(sys.argv))
-    # FIXME(ci): remove after the bump to windoes-2025 GHA images
+    # FIXME(ci): remove after the bump to windows-2025 GHA images
     # Python <= 3.9 does not support the very helpful `root_dir` argument,
     # and that is the version used by the Windows GHA images. Rather than
     # using setup-python or doing something in the CI script, just find
