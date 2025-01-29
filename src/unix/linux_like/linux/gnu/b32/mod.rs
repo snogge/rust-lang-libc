@@ -19,6 +19,7 @@ pub type __syscall_ulong_t = c_ulong;
 cfg_if! {
     if #[cfg(gnu_file_offset_bits64)] {
         pub type stat64 = crate::stat;
+        pub type statfs64 = crate::statfs;
     }
 }
 
