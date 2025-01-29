@@ -132,21 +132,6 @@ s! {
         __unused2: c_ulong,
     }
 
-    pub struct statfs64 {
-        pub f_type: crate::__fsword_t,
-        pub f_bsize: crate::__fsword_t,
-        pub f_blocks: u64,
-        pub f_bfree: u64,
-        pub f_bavail: u64,
-        pub f_files: u64,
-        pub f_ffree: u64,
-        pub f_fsid: crate::fsid_t,
-        pub f_namelen: crate::__fsword_t,
-        pub f_frsize: crate::__fsword_t,
-        pub f_flags: crate::__fsword_t,
-        pub f_spare: [crate::__fsword_t; 4],
-    }
-
     pub struct statvfs64 {
         pub f_bsize: c_ulong,
         pub f_frsize: c_ulong,
@@ -374,6 +359,21 @@ cfg_if! {
                 pub st_ctime: crate::time_t,
                 pub st_ctime_nsec: c_long,
                 pub st_ino: crate::ino64_t,
+            }
+
+            pub struct statfs64 {
+                pub f_type: crate::__fsword_t,
+                pub f_bsize: crate::__fsword_t,
+                pub f_blocks: u64,
+                pub f_bfree: u64,
+                pub f_bavail: u64,
+                pub f_files: u64,
+                pub f_ffree: u64,
+                pub f_fsid: crate::fsid_t,
+                pub f_namelen: crate::__fsword_t,
+                pub f_frsize: crate::__fsword_t,
+                pub f_flags: crate::__fsword_t,
+                pub f_spare: [crate::__fsword_t; 4],
             }
         }
     }

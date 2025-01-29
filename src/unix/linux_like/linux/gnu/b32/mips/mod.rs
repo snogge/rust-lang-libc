@@ -28,6 +28,21 @@ cfg_if! {
                 pub st_blocks: crate::blkcnt64_t,
                 st_pad5: [c_long; 14],
             }
+
+            pub struct statfs64 {
+                pub f_type: c_long,
+                pub f_bsize: c_long,
+                pub f_frsize: c_long,
+                pub f_blocks: u64,
+                pub f_bfree: u64,
+                pub f_files: u64,
+                pub f_ffree: u64,
+                pub f_bavail: u64,
+                pub f_fsid: crate::fsid_t,
+                pub f_namelen: c_long,
+                pub f_flags: c_long,
+                pub f_spare: [c_long; 5],
+            }
         }
     }
 }
@@ -80,21 +95,6 @@ s! {
         pub f_namelen: c_long,
         pub f_flags: c_long,
         f_spare: [c_long; 5],
-    }
-
-    pub struct statfs64 {
-        pub f_type: c_long,
-        pub f_bsize: c_long,
-        pub f_frsize: c_long,
-        pub f_blocks: u64,
-        pub f_bfree: u64,
-        pub f_files: u64,
-        pub f_ffree: u64,
-        pub f_bavail: u64,
-        pub f_fsid: crate::fsid_t,
-        pub f_namelen: c_long,
-        pub f_flags: c_long,
-        pub f_spare: [c_long; 5],
     }
 
     pub struct statvfs64 {
