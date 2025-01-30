@@ -1429,7 +1429,6 @@ extern "C" {
 
     pub fn mq_notify(mqdes: crate::mqd_t, sevp: *const crate::sigevent) -> c_int;
 
-    #[cfg_attr(gnu_time64_abi, link_name = "__epoll_pwait2_time64")]
     pub fn epoll_pwait2(
         epfd: c_int,
         events: *mut crate::epoll_event,
