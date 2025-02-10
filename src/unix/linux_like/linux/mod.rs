@@ -1387,7 +1387,7 @@ cfg_if! {
 }
 
 cfg_if! {
-    if #[cfg(not(gnu_file_offset_bits64))] {
+    if #[cfg(not(gnu_time64_abi))] {
         s_no_extra_traits! {
             pub struct dirent {
                 pub d_ino: crate::ino_t,
