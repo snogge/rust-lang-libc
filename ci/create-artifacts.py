@@ -28,6 +28,8 @@ def main():
 
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H%MZ")
     archive_name = f"archive-{now}"
+    if len(sys.argv) > 1:
+        archive_name += f"-{sys.argv[1]}"
     archive_path = f"{archive_name}.tar.gz"
 
     sp.run(["tar", "czvf", archive_path, "-C", build_dir, "-T-"], input=file_list)
