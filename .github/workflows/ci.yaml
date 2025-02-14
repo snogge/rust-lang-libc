@@ -158,9 +158,15 @@ jobs:
           # FIXME: It seems some items in `src/unix/mod.rs`
           # aren't defined on redox actually.
           # - x86_64-unknown-redox
+        include:
+          - target: arm-unknown-linux-gnueabihf
+            run-prefix: RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS64=1
+          - target: powerpc-unknown-linux-gnu
+            run-prefix: RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS64=1
     timeout-minutes: 25
     env:
       TARGET: ${{ matrix.target }}
+      PREFIX: ${{ matrix.run-prefix }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchain
@@ -170,11 +176,11 @@ jobs:
           key: ${{ matrix.target }}
 
       - name: Execute run-docker.sh
-        run: ./ci/run-docker.sh ${{ matrix.target }}
+        run: ${{ matrix.run-prefix }} ./ci/run-docker.sh ${{ matrix.target }}
 
       - name: Create CI artifacts
         if: always()
-        run: ./ci/create-artifacts.py
+        run: ./ci/create-artifacts.py ${PREFIX:+${PREFIX%%=*}}
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARCHIVE_NAME }}-${{ matrix.target }}
