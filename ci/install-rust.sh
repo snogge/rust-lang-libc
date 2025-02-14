@@ -23,10 +23,6 @@ if [ "$os" = "windows" ] && [ -n "${TARGET:-}" ]; then
     rustup set profile minimal
 fi
 
-if [ "${TARGET:-}" = mips-unknown-linux-gnu ]; then
-    toolchain="nightly-2023-07-04-$TARGET"
-fi
-
 rustup set profile minimal
 rustup update --force "$toolchain"
 rustup default "$toolchain"

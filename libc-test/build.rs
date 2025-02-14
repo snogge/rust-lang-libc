@@ -3421,8 +3421,6 @@ fn test_linux(target: &str) {
     let arm = target.contains("arm");
     let aarch64 = target.contains("aarch64");
     let i686 = target.contains("i686");
-    // let mips = target.contains("mips");
-    // let mips32 = target.contains("mips32");
     let ppc = target.contains("powerpc");
     let ppc64 = target.contains("powerpc64");
     let s390x = target.contains("s390x");
