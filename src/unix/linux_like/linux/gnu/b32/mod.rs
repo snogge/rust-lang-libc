@@ -85,6 +85,7 @@ cfg_if! {
                 pub st_size: off_t,
 
                 pub st_blksize: crate::blksize_t,
+                pub st_blocks: crate::blkcnt_t,
 
                 pub st_atime: crate::time_t,
                 pub st_atime_nsec: c_long,
