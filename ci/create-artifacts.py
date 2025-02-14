@@ -7,19 +7,18 @@ This is useful for seeing what exactly `ctest` is running.
 import os
 import subprocess as sp
 import sys
+
 from datetime import datetime, timezone
-from glob import glob, iglob
+from glob import glob
 from pathlib import Path
 
 
 def main():
-    """The main function"""
     # Find the most recently touched file named "main.c" in the target
     # directory. This will be libc-tests's `OUT_DIR`
-    build_dir = min(
-        (Path(p) for p in iglob("target/**/main.c", recursive=True)),
-        key=lambda path: path.stat().st_mtime,
-    ).parent
+    marker_files = [Path(p) for p in glob("target/**/main.c", recursive=True)]
+    marker_files.sort(key=lambda path: path.stat().st_mtime)
+    build_dir = marker_files[0].parent
     print(f"Located build directory '{build_dir}'")
 
     # Collect all relevant Rust and C files
@@ -33,22 +32,15 @@ def main():
         archive_name += f"-{sys.argv[1]}"
     archive_path = f"{archive_name}.tar.gz"
 
-    sp.run(
-        ["tar", "czvf", archive_path, "-C", build_dir, "-T-"],
-        input=file_list,
-        check=False,
-    )
+    sp.run(["tar", "czvf", archive_path, "-C", build_dir, "-T-"], input=file_list)
 
     # If we are in GHA, set these env vars for future use
     gh_env = os.getenv("GITHUB_ENV")
     if gh_env is not None:
-        print(f"""Updating CI environment with
-ARCHIVE_NAME={archive_name}
-ARCHIVE_PATH={archive_path}""")
-
-        with open(gh_env, "w+", encoding="utf-8") as ghenv:
-            ghenv.write(f"ARCHIVE_NAME={archive_name}\n")
-            ghenv.write(f"ARCHIVE_PATH={archive_path}\n")
+        print("Updating CI environment")
+        with open(gh_env, "w+") as f:
+            f.write(f"ARCHIVE_NAME={archive_name}\n")
+            f.write(f"ARCHIVE_PATH={archive_path}\n")
 
 
 if __name__ == "__main__":
