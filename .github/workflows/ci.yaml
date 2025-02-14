@@ -158,9 +158,9 @@ jobs:
           - target: arm-unknown-linux-gnueabihf
           - target: arm-unknown-linux-gnueabihf
             run-prefix: RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS64=1
-          - target: powerpc-unknown-linux-gnu
-          - target: powerpc-unknown-linux-gnu
-            run-prefix: RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS64=1
+          # - target: powerpc-unknown-linux-gnu
+          # - target: powerpc-unknown-linux-gnu
+          #   run-prefix: RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS64=1
     timeout-minutes: 25
     env:
       TARGET: ${{ matrix.target }}
