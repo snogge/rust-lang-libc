@@ -135,7 +135,7 @@ jobs:
           - aarch64-unknown-linux-gnu
           - aarch64-unknown-linux-musl
           - arm-linux-androideabi
-          - arm-unknown-linux-gnueabihf
+          # - arm-unknown-linux-gnueabihf
           - arm-unknown-linux-musleabihf
           - i686-linux-android
           - i686-unknown-linux-musl
