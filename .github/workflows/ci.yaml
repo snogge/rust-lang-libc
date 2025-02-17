@@ -160,9 +160,11 @@ jobs:
           # - x86_64-unknown-redox
         include:
           - target: arm-unknown-linux-gnueabihf
-            run-prefix: NOPREFIX=0
+            run-prefix: ""
           - target: arm-unknown-linux-gnueabihf
             run-prefix: RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS64=1
+          - target: arm-unknown-linux-gnueabihf
+            run-prefix: RUST_LIBC_UNSTABLE_GNU_TIME_BITS64=1
           # - target: powerpc-unknown-linux-gnu
           # - target: powerpc-unknown-linux-gnu
           #   run-prefix: RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS64=1
