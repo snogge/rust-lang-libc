@@ -62,11 +62,12 @@ cfg_if! {
             pub struct stat {
                 pub st_dev: crate::dev_t,
 
+                #[cfg(not(target_arch = "powerpc"))]
                 __pad1: c_ushort,
 
-                #[cfg(not(gnu_file_offset_bits64))]
+                #[cfg(any(not(gnu_file_offset_bits64), target_arch = "powerpc"))]
                 pub st_ino: crate::ino_t,
-                #[cfg(gnu_file_offset_bits64)]
+                #[cfg(all(gnu_file_offset_bits64, not(target_arch = "powerpc")))]
                 __st_ino: __ino_t,
 
                 pub st_mode: crate::mode_t,
@@ -90,11 +91,11 @@ cfg_if! {
                 pub st_ctime: crate::time_t,
                 pub st_ctime_nsec: c_long,
 
-                #[cfg(not(gnu_file_offset_bits64))]
+                #[cfg(any(not(gnu_file_offset_bits64), target_arch = "powerpc"))]
                 __glibc_reserved4: c_ulong,
-                #[cfg(not(gnu_file_offset_bits64))]
+                #[cfg(any(not(gnu_file_offset_bits64), target_arch = "powerpc"))]
                 __glibc_reserved5: c_ulong,
-                #[cfg(gnu_file_offset_bits64)]
+                #[cfg(all(gnu_file_offset_bits64, not(target_arch = "powerpc")))]
                 pub st_ino: crate::ino_t,
             }
         }
