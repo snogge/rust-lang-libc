@@ -1757,7 +1757,7 @@ safe_f! {
     pub {const} fn KERNEL_VERSION(a: u32, b: u32, c: u32) -> u32 {
         ((a << 16) + (b << 8))
             + match c {
-                0..=255 => c,
+                0 .. 256 => c,
                 _ => 255,
             }
     }
