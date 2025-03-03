@@ -551,34 +551,42 @@ s_no_extra_traits! {
         pub ut_host: [c_char; __UT_HOSTSIZE],
         pub ut_exit: __exit_status,
 
-        #[cfg(any(
-            target_arch = "aarch64",
-            target_arch = "s390x",
-            target_arch = "loongarch64",
-            all(target_pointer_width = "32", not(target_arch = "x86_64"))
-        ))]
-        pub ut_session: c_long,
-        #[cfg(any(
-            target_arch = "aarch64",
-            target_arch = "s390x",
-            target_arch = "loongarch64",
-            all(target_pointer_width = "32", not(target_arch = "x86_64"))
-        ))]
-        pub ut_tv: crate::timeval,
+        // #[cfg(any(
+        //     target_arch = "aarch64",
+        //     target_arch = "s390x",
+        //     target_arch = "loongarch64",
+        //     target_arch = "mips",
+        //     target_arch = "mips32r6",
+        //     all(target_pointer_width = "32", not(target_arch = "x86_64"))
+        // ))]
+        // pub ut_session: c_long,
+        // #[cfg(any(
+        //     target_arch = "aarch64",
+        //     target_arch = "s390x",
+        //     target_arch = "loongarch64",
+        //     target_arch = "mips",
+        //     target_arch = "mips32r6",
+        //     all(target_pointer_width = "32", not(target_arch = "x86_64"))
+        // ))]
+        // pub ut_tv: crate::timeval,
 
-        #[cfg(not(any(
-            target_arch = "aarch64",
-            target_arch = "s390x",
-            target_arch = "loongarch64",
-            all(target_pointer_width = "32", not(target_arch = "x86_64"))
-        )))]
+        // #[cfg(not(any(
+        //     target_arch = "aarch64",
+        //     target_arch = "s390x",
+        //     target_arch = "loongarch64",
+        //     target_arch = "mips",
+        //     target_arch = "mips32r6",
+        //     all(target_pointer_width = "32", not(target_arch = "x86_64"))
+        // )))]
         pub ut_session: i32,
-        #[cfg(not(any(
-            target_arch = "aarch64",
-            target_arch = "s390x",
-            target_arch = "loongarch64",
-            all(target_pointer_width = "32", not(target_arch = "x86_64"))
-        )))]
+        // #[cfg(not(any(
+        //     target_arch = "aarch64",
+        //     target_arch = "s390x",
+        //     target_arch = "loongarch64",
+        //     target_arch = "mips",
+        //     target_arch = "mips32r6",
+        //     all(target_pointer_width = "32", not(target_arch = "x86_64"))
+        // )))]
         pub ut_tv: __timeval,
 
         pub ut_addr_v6: [i32; 4],
