@@ -3432,6 +3432,7 @@ fn test_linux(target: &str) {
     let arm = target.contains("arm");
     let aarch64 = target.contains("aarch64");
     let i686 = target.contains("i686");
+    let mips = target.contains("mips");
     let ppc = target.contains("powerpc");
     let ppc64 = target.contains("powerpc64");
     let s390x = target.contains("s390x");
@@ -4054,7 +4055,7 @@ fn test_linux(target: &str) {
             "SYS_clone3" if sparc64 => true,
 
             // FIXME(linux): Not defined on ARM, gnueabihf, musl, PowerPC, riscv64, s390x, and sparc64.
-            "SYS_memfd_secret" if arm | gnueabihf | musl | ppc | riscv64 | s390x | sparc64 => true,
+            "SYS_memfd_secret" if arm | gnueabihf | mips | musl | ppc | riscv64 | s390x | sparc64 => true,
 
             // FIXME(linux): Added in Linux 5.16
             // https://github.com/torvalds/linux/commit/039c0ec9bb77446d7ada7f55f90af9299b28ca49
