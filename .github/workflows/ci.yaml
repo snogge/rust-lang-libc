@@ -30,6 +30,7 @@ jobs:
   verify_build:
     name: Verify build
     strategy:
+      fail-fast: false
       matrix:
         toolchain: [stable, nightly, 1.63.0]
         os: [ubuntu-24.04, macos-14, windows-2022]
@@ -62,6 +63,7 @@ jobs:
   test_tier1:
     name: Test tier1
     strategy:
+      fail-fast: false
       matrix:
         include:
           - target: i686-unknown-linux-gnu
@@ -131,10 +133,10 @@ jobs:
 
   test_tier2:
     name: Test tier2
-    needs: [test_tier1, style_check]
+    needs: [style_check]
     runs-on: ubuntu-24.04
     strategy:
-      fail-fast: true
+      fail-fast: false
       max-parallel: 12
       matrix:
         target:
