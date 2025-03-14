@@ -18,12 +18,6 @@ cfg_if! {
     }
 }
 
-cfg_if! {
-    if #[cfg(gnu_file_offset_bits64)] {
-        pub type fpos_t = fpos64_t;
-    }
-}
-
 s! {
     pub struct __exit_status {
         pub e_termination: c_short,
@@ -394,27 +388,6 @@ s! {
         __size: [c_char; 16],
         #[cfg(target_pointer_width = "64")]
         __size: [c_char; 32],
-    }
-
-    pub struct mbstate_t {
-        __count: c_int,
-        __wchb: [c_char; 4],
-    }
-
-    pub struct fpos64_t {
-        __pos: off64_t,
-        __state: crate::mbstate_t,
-    }
-}
-
-cfg_if! {
-    if #[cfg(not(gnu_file_offset_bits64))] {
-        s! {
-            pub struct fpos_t {
-                __pos: off_t,
-                __state: crate::mbstate_t,
-            }
-        }
     }
 }
 
