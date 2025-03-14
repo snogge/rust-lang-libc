@@ -106,12 +106,16 @@ jobs:
         with:
           key: ${{ matrix.target }}
 
+      - name: Dump env before
+        run: env | grep -E '^(RUST|CARGO|ARCH)' | sort
       - name: Add matrix env variables to the environment
         if: matrix.env
         run: |
           echo '${{ toJson(matrix.env) }}' |
             jq -r 'to_entries | map("\(.key)=\(.value|tostring)") | .[]' >>$GITHUB_ENV
         shell: bash
+      - name: Dump env after
+        run: env | grep -E '^(RUST|CARGO|ARCH)' | sort
 
       - name: Run natively
         if: "!matrix.docker"
