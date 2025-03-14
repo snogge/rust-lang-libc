@@ -3587,8 +3587,6 @@ fn config_gnu_bits(target: &str, cfg: &mut ctest::TestGenerator) {
                     cfg.define("_FILE_OFFSET_BITS", Some("64"));
                     cfg.cfg("gnu_file_offset_bits64", None);
                 }
-                cfg.define("_FILE_OFFSET_BITS", Some("64"));
-                cfg.cfg("gnu_file_offset_bits64", None);
             }
         }
         Err(_e) => {}

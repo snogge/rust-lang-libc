@@ -90,7 +90,6 @@ fn main() {
     match env::var("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS64") {
         Ok(val) => {
             if val == "1" {
-                set_cfg("gnu_file_offset_bits64");
                 let target_env = env::var("CARGO_CFG_TARGET_ENV").unwrap();
                 let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
                 let target_ptr_width = env::var("CARGO_CFG_TARGET_POINTER_WIDTH").unwrap();
