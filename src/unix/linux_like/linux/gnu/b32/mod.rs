@@ -203,84 +203,90 @@ s! {
         __glibc_reserved3: crate::__syscall_ulong_t,
         __glibc_reserved4: crate::__syscall_ulong_t,
     }
-}
 
-cfg_if! {
-    if #[cfg(not(gnu_time_bits64))] {
-        s! {
-            pub struct timex {
-                pub modes: c_uint,
-                pub offset: c_long,
-                pub freq: c_long,
-                pub maxerror: c_long,
-                pub esterror: c_long,
-                pub status: c_int,
-                pub constant: c_long,
-                pub precision: c_long,
-                pub tolerance: c_long,
-                pub time: crate::timeval,
-                pub tick: c_long,
-                pub ppsfreq: c_long,
-                pub jitter: c_long,
-                pub shift: c_int,
-                pub stabil: c_long,
-                pub jitcnt: c_long,
-                pub calcnt: c_long,
-                pub errcnt: c_long,
-                pub stbcnt: c_long,
-                pub tai: c_int,
-                pub __unused1: i32,
-                pub __unused2: i32,
-                pub __unused3: i32,
-                pub __unused4: i32,
-                pub __unused5: i32,
-                pub __unused6: i32,
-                pub __unused7: i32,
-                pub __unused8: i32,
-                pub __unused9: i32,
-                pub __unused10: i32,
-                pub __unused11: i32,
-            }
-        }
-    } else {
-        s! {
-            pub struct timex {
-                pub modes: c_uint,
-                _pad1: c_int,
-                pub offset: c_longlong,
-                pub freq: c_longlong,
-                pub maxerror: c_longlong,
-                pub esterror: c_longlong,
-                pub status: c_int,
-                _pad2: c_int,
-                pub constant: c_longlong,
-                pub precision: c_longlong,
-                pub tolerance: c_longlong,
-                pub time: crate::timeval,
-                pub tick: c_longlong,
-                pub ppsfreq: c_longlong,
-                pub jitter: c_longlong,
-                pub shift: c_int,
-                _pad3: c_int,
-                pub stabil: c_longlong,
-                pub jitcnt: c_longlong,
-                pub calcnt: c_longlong,
-                pub errcnt: c_longlong,
-                pub stbcnt: c_longlong,
-                pub tai: c_int,
-                pub __unused1: i32,
-                pub __unused2: i32,
-                pub __unused3: i32,
-                pub __unused4: i32,
-                pub __unused5: i32,
-                pub __unused6: i32,
-                pub __unused7: i32,
-                pub __unused8: i32,
-                pub __unused9: i32,
-                pub __unused10: i32,
-                pub __unused11: i32,
-            }
-        }
+    pub struct timex {
+        pub modes: c_uint,
+        #[cfg(gnu_time_bits64)]
+        _pad1: c_int,
+        #[cfg(gnu_time_bits64)]
+        pub offset: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub offset: c_long,
+        #[cfg(gnu_time_bits64)]
+        pub freq: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub freq: c_long,
+        #[cfg(gnu_time_bits64)]
+        pub maxerror: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub maxerror: c_long,
+        #[cfg(gnu_time_bits64)]
+        pub esterror: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub esterror: c_long,
+        pub status: c_int,
+        #[cfg(gnu_time_bits64)]
+        _pad2: c_int,
+        #[cfg(gnu_time_bits64)]
+        pub constant: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub constant: c_long,
+        #[cfg(gnu_time_bits64)]
+        pub precision: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub precision: c_long,
+        #[cfg(gnu_time_bits64)]
+        pub tolerance: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub tolerance: c_long,
+        pub time: crate::timeval,
+        #[cfg(gnu_time_bits64)]
+        pub tick: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub tick: c_long,
+        #[cfg(gnu_time_bits64)]
+        pub ppsfreq: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub ppsfreq: c_long,
+        #[cfg(gnu_time_bits64)]
+        pub jitter: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub jitter: c_long,
+        pub shift: c_int,
+        #[cfg(gnu_time_bits64)]
+        _pad3: c_int,
+        #[cfg(gnu_time_bits64)]
+        pub stabil: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub stabil: c_long,
+        #[cfg(gnu_time_bits64)]
+        pub jitcnt: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub jitcnt: c_long,
+        #[cfg(gnu_time_bits64)]
+        pub calcnt: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub calcnt: c_long,
+        #[cfg(gnu_time_bits64)]
+        pub errcnt: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub errcnt: c_long,
+        #[cfg(gnu_time_bits64)]
+        pub stbcnt: c_longlong,
+        #[cfg(not(gnu_time_bits64))]
+        pub stbcnt: c_long,
+        pub tai: c_int,
+        pub __unused1: i32,
+        pub __unused2: i32,
+        pub __unused3: i32,
+        pub __unused4: i32,
+        pub __unused5: i32,
+        pub __unused6: i32,
+        pub __unused7: i32,
+        pub __unused8: i32,
+        pub __unused9: i32,
+        pub __unused10: i32,
+        pub __unused11: i32,
     }
 }
 
