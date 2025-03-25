@@ -3575,19 +3575,33 @@ fn test_vxworks(target: &str) {
 }
 
 fn config_gnu_bits(target: &str, cfg: &mut ctest::TestGenerator) {
-    match env::var("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS") {
-        Ok(val) if val == "64" => {
-            if target.contains("gnu")
-                && target.contains("linux")
-                && !target.ends_with("x32")
-                && !target.contains("riscv32")
-                && env::var("CARGO_CFG_TARGET_POINTER_WIDTH").unwrap() == "32"
-            {
-                cfg.define("_FILE_OFFSET_BITS", Some("64"));
-                cfg.cfg("gnu_file_offset_bits64", None);
+    let pointer_width = env::var("CARGO_CFG_TARGET_POINTER_WIDTH").unwrap_or_default();
+    let relevant_platform = target.contains("gnu")
+        && target.contains("linux")
+        && !target.ends_with("x32")
+        && !target.contains("riscv32")
+        && pointer_width == "32";
+    if relevant_platform {
+        match env::var("RUST_LIBC_UNSTABLE_GNU_TIME_BITS") {
+            Ok(val) if val == "64" => {
+                if relevant_platform {
+                    cfg.define("_FILE_OFFSET_BITS", Some("64"));
+                    cfg.define("_TIME_BITS", Some("64"));
+                    cfg.cfg("gnu_file_offset_bits64", None);
+                    cfg.cfg("linux_time_bits64", None);
+                    cfg.cfg("gnu_time_bits64", None);
+                }
             }
+            _ => match env::var("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS") {
+                Ok(val) if val == "64" => {
+                    if relevant_platform {
+                        cfg.define("_FILE_OFFSET_BITS", Some("64"));
+                        cfg.cfg("gnu_file_offset_bits64", None);
+                    }
+                }
+                _ => {}
+            },
         }
-        _ => {}
     }
 }
 
