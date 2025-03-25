@@ -8,7 +8,7 @@ s! {
         #[cfg(not(gnu_time_bits64))]
         pub st_dev: c_ulong,
         #[cfg(gnu_time_bits64)]
-        pub st_dev: dev_t,
+        pub st_dev: crate::dev_t,
 
         #[cfg(not(gnu_time_bits64))]
         st_pad1: [c_long; 3],
@@ -23,7 +23,7 @@ s! {
         #[cfg(not(gnu_time_bits64))]
         pub st_rdev: c_ulong,
         #[cfg(gnu_time_bits64)]
-        pub st_rdev: dev_t,
+        pub st_rdev: crate::dev_t,
 
         #[cfg(any(gnu_time_bits64, not(gnu_file_offset_bits64)))]
         st_pad2: [c_long; 2],
@@ -40,13 +40,18 @@ s! {
         #[cfg(gnu_time_bits64)]
         pub st_blocks: crate::blkcnt_t,
 
-
         pub st_atime: crate::time_t,
         pub st_atime_nsec: c_long,
+        #[cfg(gnu_time_bits64)]
+        _atime_pad: c_int,
         pub st_mtime: crate::time_t,
         pub st_mtime_nsec: c_long,
+        #[cfg(gnu_time_bits64)]
+        _mtime_pad: c_int,
         pub st_ctime: crate::time_t,
         pub st_ctime_nsec: c_long,
+        #[cfg(gnu_time_bits64)]
+        _ctime_pad: c_int,
 
         #[cfg(not(gnu_time_bits64))]
         pub st_blksize: crate::blksize_t,
