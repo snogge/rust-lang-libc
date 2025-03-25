@@ -204,7 +204,43 @@ s! {
 }
 
 cfg_if! {
-    if #[cfg(gnu_time_bits64)] {
+    if #[cfg(not(gnu_time_bits64))] {
+        s! {
+            pub struct timex {
+                pub modes: c_uint,
+                pub offset: c_long,
+                pub freq: c_long,
+                pub maxerror: c_long,
+                pub esterror: c_long,
+                pub status: c_int,
+                pub constant: c_long,
+                pub precision: c_long,
+                pub tolerance: c_long,
+                pub time: crate::timeval,
+                pub tick: c_long,
+                pub ppsfreq: c_long,
+                pub jitter: c_long,
+                pub shift: c_int,
+                pub stabil: c_long,
+                pub jitcnt: c_long,
+                pub calcnt: c_long,
+                pub errcnt: c_long,
+                pub stbcnt: c_long,
+                pub tai: c_int,
+                pub __unused1: i32,
+                pub __unused2: i32,
+                pub __unused3: i32,
+                pub __unused4: i32,
+                pub __unused5: i32,
+                pub __unused6: i32,
+                pub __unused7: i32,
+                pub __unused8: i32,
+                pub __unused9: i32,
+                pub __unused10: i32,
+                pub __unused11: i32,
+            }
+        }
+    } else {
         s! {
             pub struct timex {
                 pub modes: c_uint,
@@ -229,46 +265,6 @@ cfg_if! {
                 pub calcnt: c_longlong,
                 pub errcnt: c_longlong,
                 pub stbcnt: c_longlong,
-                pub tai: c_int,
-                pub __unused1: i32,
-                pub __unused2: i32,
-                pub __unused3: i32,
-                pub __unused4: i32,
-                pub __unused5: i32,
-                pub __unused6: i32,
-                pub __unused7: i32,
-                pub __unused8: i32,
-                pub __unused9: i32,
-                pub __unused10: i32,
-                pub __unused11: i32,
-            }
-        }
-    }
-}
-
-cfg_if! {
-    if #[cfg(not(gnu_time_bits64))] {
-        s! {
-            pub struct timex {
-                pub modes: c_uint,
-                pub offset: c_long,
-                pub freq: c_long,
-                pub maxerror: c_long,
-                pub esterror: c_long,
-                pub status: c_int,
-                pub constant: c_long,
-                pub precision: c_long,
-                pub tolerance: c_long,
-                pub time: crate::timeval,
-                pub tick: c_long,
-                pub ppsfreq: c_long,
-                pub jitter: c_long,
-                pub shift: c_int,
-                pub stabil: c_long,
-                pub jitcnt: c_long,
-                pub calcnt: c_long,
-                pub errcnt: c_long,
-                pub stbcnt: c_long,
                 pub tai: c_int,
                 pub __unused1: i32,
                 pub __unused2: i32,
