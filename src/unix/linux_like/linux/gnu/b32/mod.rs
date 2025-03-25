@@ -247,7 +247,7 @@ cfg_if! {
 }
 
 cfg_if! {
-    if #[cfg(gnu_time_bits64)] {
+    if #[cfg(not(gnu_time_bits64))] {
         s! {
             pub struct timex {
                 pub modes: c_uint,
