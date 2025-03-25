@@ -5,8 +5,12 @@ pub type wchar_t = i32;
 
 s! {
     pub struct stat {
+        #[cfg(not(gnu_time_bits64))]
         pub st_dev: c_ulong,
+        #[cfg(gnu_time_bits64)]
+        pub st_dev: dev_t,
 
+        #[cfg(not(gnu_time_bits64))]
         st_pad1: [c_long; 3],
 
         pub st_ino: crate::ino_t,
@@ -16,17 +20,26 @@ s! {
         pub st_uid: crate::uid_t,
         pub st_gid: crate::gid_t,
 
+        #[cfg(not(gnu_time_bits64))]
         pub st_rdev: c_ulong,
+        #[cfg(gnu_time_bits64)]
+        pub st_rdev: dev_t,
 
-        #[cfg(not(gnu_file_offset_bits64))]
+        #[cfg(any(gnu_time_bits64, not(gnu_file_offset_bits64)))]
         st_pad2: [c_long; 2],
-        #[cfg(gnu_file_offset_bits64)]
+        #[cfg(all(not(gnu_time_bits64), gnu_file_offset_bits64))]
         st_pad2: [c_long; 3],
 
         pub st_size: off_t,
 
         #[cfg(not(gnu_file_offset_bits64))]
         st_pad3: c_long,
+
+        #[cfg(gnu_time_bits64)]
+        pub st_blksize: crate::blksize_t,
+        #[cfg(gnu_time_bits64)]
+        pub st_blocks: crate::blkcnt_t,
+
 
         pub st_atime: crate::time_t,
         pub st_atime_nsec: c_long,
@@ -35,10 +48,13 @@ s! {
         pub st_ctime: crate::time_t,
         pub st_ctime_nsec: c_long,
 
+        #[cfg(not(gnu_time_bits64))]
         pub st_blksize: crate::blksize_t,
-        #[cfg(gnu_file_offset_bits64)]
+        #[cfg(all(not(gnu_time_bits64), gnu_file_offset_bits64))]
         st_pad4: c_long,
+        #[cfg(not(gnu_time_bits64))]
         pub st_blocks: crate::blkcnt_t,
+        #[cfg(not(gnu_time_bits64))]
         st_pad5: [c_long; 14],
     }
 
