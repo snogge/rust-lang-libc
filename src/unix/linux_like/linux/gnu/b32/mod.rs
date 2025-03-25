@@ -243,7 +243,11 @@ cfg_if! {
                 pub __unused11: i32,
             }
         }
-    } else {
+    }
+}
+
+cfg_if! {
+    if #[cfg(gnu_time_bits64)] {
         s! {
             pub struct timex {
                 pub modes: c_uint,
