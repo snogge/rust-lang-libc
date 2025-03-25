@@ -6419,6 +6419,7 @@ extern "C" {
         sigmask: *const crate::sigset_t,
     ) -> c_int;
     pub fn dup3(oldfd: c_int, newfd: c_int, flags: c_int) -> c_int;
+    #[cfg_attr(gnu_time_bits64, link_name = "__sigtimedwait64")]
     pub fn sigtimedwait(
         set: *const sigset_t,
         info: *mut siginfo_t,
