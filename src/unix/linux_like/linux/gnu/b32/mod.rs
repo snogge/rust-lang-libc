@@ -79,11 +79,12 @@ cfg_if! {
             pub struct stat {
                 pub st_dev: crate::dev_t,
 
+                #[cfg(not(gnu_time_bits64))]
                 __pad1: c_uint,
 
-                #[cfg(not(gnu_file_offset_bits64))]
+                #[cfg(any(gnu_time_bits64, not(gnu_file_offset_bits64)))]
                 pub st_ino: crate::ino_t,
-                #[cfg(all(gnu_file_offset_bits64))]
+                #[cfg(all(not(gnu_time_bits64), gnu_file_offset_bits64))]
                 __st_ino: __ino_t,
 
                 pub st_mode: crate::mode_t,
@@ -93,6 +94,7 @@ cfg_if! {
 
                 pub st_rdev: crate::dev_t,
 
+                #[cfg(not(gnu_time_bits64))]
                 __pad2: c_uint,
 
                 pub st_size: off_t,
@@ -111,7 +113,7 @@ cfg_if! {
                 __glibc_reserved4: c_long,
                 #[cfg(not(gnu_file_offset_bits64))]
                 __glibc_reserved5: c_long,
-                #[cfg(gnu_file_offset_bits64)]
+                #[cfg(all(not(gnu_time_bits64), gnu_file_offset_bits64))]
                 pub st_ino: crate::ino_t,
             }
         }
