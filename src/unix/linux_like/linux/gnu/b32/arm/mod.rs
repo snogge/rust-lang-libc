@@ -78,10 +78,16 @@ s! {
         pub st_blocks: crate::blkcnt64_t,
         pub st_atime: crate::time_t,
         pub st_atime_nsec: c_long,
+        #[cfg(gnu_time_bits64)]
+        _atime_pad: c_int,
         pub st_mtime: crate::time_t,
         pub st_mtime_nsec: c_long,
+        #[cfg(gnu_time_bits64)]
+        _mtime_pad: c_int,
         pub st_ctime: crate::time_t,
         pub st_ctime_nsec: c_long,
+        #[cfg(gnu_time_bits64)]
+        _ctime_pad: c_int,
         #[cfg(not(gnu_time_bits64))]
         pub st_ino: crate::ino64_t,
     }
