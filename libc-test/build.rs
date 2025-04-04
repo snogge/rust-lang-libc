@@ -3602,6 +3602,9 @@ fn config_gnu_bits(target: &str, cfg: &mut ctest::TestGenerator) {
                 cfg.cfg("gnu_file_offset_bits64", None);
             }
         }
+        Ok(val) if val != "32" => {
+            panic!("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS may only be set to '32' or '64'")
+        }
         _ => {}
     }
 }

@@ -102,6 +102,9 @@ fn main() {
                 set_cfg("gnu_file_offset_bits64");
             }
         }
+        Ok(val) if val != "32" => {
+            panic!("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS may only be set to '32' or '64'")
+        }
         _ => {}
     }
 
