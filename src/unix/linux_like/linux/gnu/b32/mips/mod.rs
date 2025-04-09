@@ -212,8 +212,18 @@ s! {
 
     pub struct msqid_ds {
         pub msg_perm: crate::ipc_perm,
+        #[cfg(all(not(gnu_time_bits64), target_endian = "big"))]
+        __glibc_reserved1: c_ulong,
         pub msg_stime: crate::time_t,
+        #[cfg(all(not(gnu_time_bits64), target_endian = "little"))]
+        __glibc_reserved1: c_ulong,
+        #[cfg(all(not(gnu_time_bits64), target_endian = "big"))]
+        __glibc_reserved2: c_ulong,
         pub msg_rtime: crate::time_t,
+        #[cfg(all(not(gnu_time_bits64), target_endian = "little"))]
+        __glibc_reserved2: c_ulong,
+        #[cfg(all(not(gnu_time_bits64), target_endian = "big"))]
+        __glibc_reserved3: c_ulong,
         pub msg_ctime: crate::time_t,
         #[cfg(target_endian = "little")]
         __glibc_reserved3: c_ulong,
