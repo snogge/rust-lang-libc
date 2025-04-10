@@ -25,7 +25,7 @@ s! {
         #[cfg(gnu_time_bits64)]
         pub st_rdev: crate::dev_t,
 
-        #[cfg(any(gnu_time_bits64, not(gnu_file_offset_bits64)))]
+        #[cfg(not(gnu_file_offset_bits64))]
         st_pad2: [c_long; 2],
         #[cfg(all(not(gnu_time_bits64), gnu_file_offset_bits64))]
         st_pad2: [c_long; 3],
