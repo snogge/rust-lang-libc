@@ -3625,8 +3625,8 @@ fn config_gnu_bits(target: &str, cfg: &mut ctest::TestGenerator) {
         && !target.contains("riscv32")
         && pointer_width == "32"
     {
-        let filebits = env::var("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS").unwrap_or("32");
-        let timebits = env::var("RUST_LIBC_UNSTABLE_GNU_TIME_BITS").unwrap_or("32");
+        let filebits = env::var("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS").unwrap_or("64");
+        let timebits = env::var("RUST_LIBC_UNSTABLE_GNU_TIME_BITS").unwrap_or("64");
 
         if !["32", "64"].contains(&filebits) || !["32", "64"].contains(&timebits) {
             panic!("Invalid value for RUST_LIBC_UNSTABLE_GNU_TIME_BITS or RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS, must be 32, 64 or unset");

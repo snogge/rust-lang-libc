@@ -108,8 +108,9 @@ fn main() {
         && target_arch != "riscv32"
         && target_arch != "x86_64"
     {
-        let filebits = env::var("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS").unwrap_or("32");
-        let timebits = env::var("RUST_LIBC_UNSTABLE_GNU_TIME_BITS").unwrap_or("32");
+        let filebits = env::var("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS").unwrap_or("64");
+        // If TIME_BITS is unset, default to whatever FILE_OFFSET_BITS is
+        let timebits = env::var("RUST_LIBC_UNSTABLE_GNU_TIME_BITS").unwrap_or(filebits);
 
         if !["32", "64"].contains(&filebits) || !["32", "64"].contains(&timebits) {
             panic!("Invalid value for RUST_LIBC_UNSTABLE_GNU_TIME_BITS or RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS, must be 32, 64 or unset");
