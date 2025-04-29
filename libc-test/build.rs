@@ -3560,7 +3560,7 @@ fn config_gnu_bits(target: &str, cfg: &mut ctest::TestGenerator) {
         && pointer_width == "32"
     {
         let filebits =
-            env::var("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS").unwrap_or("32".to_string());
+            env::var("RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS").unwrap_or("64".to_string());
         let timebits =
             env::var("RUST_LIBC_UNSTABLE_GNU_TIME_BITS").unwrap_or_else(|_| filebits.clone());
 

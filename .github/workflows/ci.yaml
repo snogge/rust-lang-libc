@@ -107,15 +107,16 @@ jobs:
           - target: i686-unknown-linux-gnu
             docker: true
             os: ubuntu-24.04
-            artifact-tag: offset-bits64
+            artifact-tag: offset-bits32
             env:
-              RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS: 64
+              RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS: 32
+              RUST_LIBC_UNSTABLE_GNU_TIME_BITS: 32
           - target: i686-unknown-linux-gnu
             docker: true
             os: ubuntu-24.04
-            artifact-tag: time-bits64
+            artifact-tag: time-bits32
             env:
-              RUST_LIBC_UNSTABLE_GNU_TIME_BITS: 64
+              RUST_LIBC_UNSTABLE_GNU_TIME_BITS: 32
           - target: x86_64-unknown-linux-gnu
             docker: true
             os: ubuntu-24.04
@@ -214,6 +215,7 @@ jobs:
           - target: arm-unknown-linux-gnueabihf
             env:
               RUST_LIBC_UNSTABLE_GNU_FILE_OFFSET_BITS: 64
+              RUST_LIBC_UNSTABLE_GNU_TIME_BITS: 64
             artifact-tag: offset-bits64
           - target: arm-unknown-linux-gnueabihf
             env:
