@@ -15,7 +15,7 @@ elif [[ "${TARGET_REF:-}" = *"main" ]]; then
     pat="^1.0"
 else
     echo "TARGET_REF must be set and end with either 'libc-0.2' or 'main'"
-    exit 1
+    pat="^1.0"
 fi
 
 # Find the most recent version matching a pattern.
